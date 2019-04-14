@@ -1,0 +1,46 @@
+<div class="modal-header">
+  <ul class="breadcrumbs">
+    <li>Edit Name</li>
+  </ul>
+</div>
+<div class="grid-x collapse feed-plan-setup-modal-content-row">
+  <form name="profileForm">
+    <div class="small-12 cell">
+      <p>Update your name.</p>
+    </div>
+    <div class="grid-x collapse">
+      <div class="cell">
+        <table class="fp-table">
+          <tbody>
+            <tr>
+              <th>
+                <label for="storage-description">FIRST NAME</label>
+              </th>
+              <td>
+                <input type="text" id="firstName" name="firstName" class="radius" autofocus [(ngModel)]="firstName"
+                  required>
+              </td>
+            </tr>
+            <tr>
+              <th>
+                <label for="storage-description">LAST NAME</label>
+              </th>
+              <td>
+                <input type="text" id="lastName" name="lastName" class="radius" autofocus [(ngModel)]="lastName"
+                  required>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </form>
+  <hr class="primary bottom">
+  <div class="cell modal-footer medium-margin-top-1">
+    <button class="button radius" (click)="close()">CANCEL</button>
+    <button (click)="save()" class="success button radius float-right"
+      [disabled]="firstName.invalid && lastName.invalid" [ngClass]="{ 'hollow': !(firstName && lastName) }">
+      SAVE
+    </button>
+  </div>
+</div>

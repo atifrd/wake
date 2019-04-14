@@ -1,0 +1,125 @@
+<div class="modal-header">
+  <ul class="breadcrumbs">
+    <li>{{ monthAndYear }}</li>
+    <li>{{ feedType.name }} {{ feedType.feedDescription ? '(' + feedType.feedDescription + ')' : '' }} Availability</li>
+  </ul>
+</div>
+<div class="row collapse feed-plan-setup-modal-content-row growth-rate">
+  <div class="small-12 columns">
+    <p>Determine the available grazable forage for this month.</p>
+  </div>
+  <div class="row collapse">
+    <div class="columns">
+      <form [formGroup]="forageForm">
+        <table class="fp-table">
+          <tbody>
+            <tr>
+              <th>
+                <label>AREA</label>
+              </th>
+              <td>
+                <div class="input-group">
+                  <input type="number" class="input-group-field" placeholder="" min="0" formControlName="hectare"
+                    required>
+                  <span class="input-group-label"><small>ha</small></span>
+                </div>
+              </td>
+              <td></td>
+            </tr>
+            <tr>
+              <th><label>DAIRY FARM REGION (NEAREST TOWN)</label></th>
+              <td colspan="2">
+                <div class="info-field">
+                  {{ farm.farmValue.location }}
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <th class="with-next"></th>
+              <td class="with-next" colspan="2">
+                <p *ngIf="hasLocationGrowthRates">Select the month’s average daily growth rate for your selected
+                  location (Poor to Exceptional), based on how conditions expected for this coming month compare with
+                  long term trends for that month, or select "Other" to enter your own daily growth rate.</p>
+                <p *ngIf="!hasLocationGrowthRates">Growth rates not known for {{ feedType.name }} for
+                  {{farm.farmValue.location}}.<br /> Enter the growth rate of the grazable forage for your selected
+                  location based on expected conditions.</p>
+              </td>
+            </tr>
+            <tr>
+              <th>
+                <label>DAILY GROWTH RATE</label>
+                <a (click)="openLearnMoreModal(helpdailygrowthrates)" tabindex="-1" class="more-info-button button info tiny radius"
+                  tooltip="Press to learn more about daily growth rates" tooltip-append-to-body="true">LEARN MORE</a>
+              </th>
+              <td *ngIf="hasLocationGrowthRates">
+                <select formControlName="selectedGrowthRate">
+                  <option [ngValue]="growthRate" *ngFor="let growthRate of growthRates">
+                    {{growthRate.text}}
+                  </option>
+                </select>
+              </td>
+              <td>
+                <div class="input-group" *ngIf="growthRates.length === 1 || selectedGrowthRate.text === 'Other'">
+                  <input type="number" class="input-group-field" formControlName="otherGrowthRate" min="0">
+                  <span class="input-group-label" tooltip="kilograms of dry matter per hectare"><small>kg
+                      DM/ha</small></span>
+                </div>
+              </td>
+              <td *ngIf="!hasLocationGrowthRates">
+              </td>
+            </tr>
+            <tr>
+              <th>
+                <label>GROWN THIS MONTH</label>
+              </th>
+              <td colspan="2">
+                <div class="info-field">
+                  {{grownThisMonth || 0 | number:'1.0-1' }} <span tooltip="tonnes of dry matter" class="has-tip">t
+                    DM</span>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <th>
+                <label>UTILISATION</label>
+                <a (click)="openLearnMoreModal(helputilisation)" tabindex="-1" class="more-info-button button info tiny radius"
+                  tooltip="Press to learn more about utilisation" tooltip-append-to-body="true">LEARN MORE</a>
+              </th>
+              <td colspan="2">
+                <input formControlName="utilisation" type="radio" value="55" id="utilisation-low" required><label
+                  for="utilisation-low">Low</label>
+                <input formControlName="utilisation" type="radio" value="70" id="utilisation-moderate"><label
+                  for="utilisation-moderate">Moderate</label>
+                <input formControlName="utilisation" type="radio" value="85" id="utilisation-high"><label
+                  for="utilisation-high">High</label>
+              </td>
+            </tr>
+            <tr>
+              <th>
+                <label>AVAILABLE GRAZABLE FORAGE THIS MONTH</label>
+              </th>
+              <td colspan="2">
+                <div class="info-field">
+                  {{availableThisMonth || 0 | number:'1.0-1' }} <span tooltip="tonnes of dry matter" class="has-tip">t
+                    DM</span>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </form>
+    </div>
+  </div>
+  <hr class="primary bottom">
+  <div class="grid-x medium-margin-top-1">
+    <div class="small-12 cell">
+      <button class="button radius float-right" (click)="close()">DONE</button>
+    </div>
+  </div>
+</div>
+<ng-template #helpdailygrowthrates>
+  <app-help-daily-growth-rates></app-help-daily-growth-rates>
+</ng-template>
+<ng-template #helputilisation>
+    <app-help-utilisation></app-help-utilisation> 
+</ng-template>

@@ -1,0 +1,307 @@
+<div class="grid-x feed-plan-section-description">
+  <div class="cell medium-cell-block-container">
+    <p>Click the blue 'ADD FEED' button to add the feeds you indend to use. Scroll down to enter all fields.
+      You can remove a feed by clicking the red 'REMOVE FEED' button.
+    </p>
+  </div>
+  <div class="cell">
+    <button class="button small radius" (click)="openModal(addFeed)">ADD FEED</button>
+  </div>
+</div>
+<tabset vertical="true" class="feed-types tabbable" *ngIf="feedplan.feedplanValue && feedplan.feedplanValue.scenario && feedplan.feedplanValue.scenario.feedTypes">
+  <tab *ngFor="let tab of feedplan.feedplanValue.scenario.feedTypes;index as $index;" active="tab && tab.active"
+    (select)="changeTab(tab)">
+    <ng-template tabHeading>
+      <div class="fa fa-check" *ngIf="tab.valid"></div>
+      <div class="fa fa-exclamation" *ngIf="!tab.valid"></div>
+      <span>{{ tab.name }}</span>
+      <small>{{ tab.feedDescription }}</small>
+    </ng-template>
+    <div class="table-header-background"><span></span></div>
+    <div class="form-wrap" *ngIf="feedTypeForm">
+      <form [formGroup]="feedTypeForm">
+        <table class="fp-table">
+          <thead>
+            <tr>
+              <th>
+                <span>
+                  {{ tab.name }}
+                </span>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th>
+                <label>FEED DESCRIPTION</label>
+              </th>
+              <td colspan="2">
+                <input type="text" formControlName="feedDescription" [(ngModel)]="tab.feedDescription">
+                <p>Give each feed a descriptive name, for example: "ASW wheat", "home-grown lucerne hay".</p>
+              </td>
+            </tr>
+            <tr>
+              <th>
+                <label>FEED FOR STOCK</label>
+              </th>
+              <td colspan="2" class="text-left">
+                <div *ngIf="feedplan.feedplanValue.scenario.cows.milkers">
+                  <input id="feed-for-milkers-{{ $index }}" type="checkbox" name="feed-for-milkers-{{ $index }}"
+                    class="checkbox-custom"  formControlName="feedForMilkers"
+                    [(ngModel)]="tab.cows.milkers"
+                    model-options="{allowInvalid: true}" [required]="!tab.cows.dry && !tab.cows.transition"
+                    [disabled]="!tab.cows.dry && !tab.cows.transition">
+                  <label for="feed-for-milkers-{{ $index }}" class="checkbox-custom-label">Milkers</label>
+                </div>
+                <div *ngIf="feedplan.feedplanValue.scenario.cows.dry">
+                  <input id="feed-for-dry-{{ $index }}" type="checkbox" name="feed-for-dry-{{ $index }}"
+                    class="checkbox-custom" formControlName="feedForDry"
+                    [(ngModel)]="tab.cows.dry"
+                    model-options="{allowInvalid: true}" [required]="!tab.cows.milkers && !tab.cows.transition"
+                    [disabled]="!tab.cows.milkers && !tab.cows.transition">
+                  <label for="feed-for-dry-{{ $index }}" class="checkbox-custom-label">Early Dry Cows</label>
+                </div>
+                <div *ngIf="feedplan.feedplanValue.scenario.cows.transition && tab.category != 'Pastures'">
+                  <input id="feed-for-transition-{{ $index }}" type="checkbox" class="checkbox-custom"
+                    name="feed-for-transition-{{ $index }}" 
+                    [(ngModel)]="tab.cows.transition"
+                    formControlName="feedForTransition" model-options="{allowInvalid: true}"
+                    [required]="!tab.cows.milkers && !tab.cows.dry" [disabled]="!tab.cows.milkers && !tab.cows.dry">
+                  <label for="feed-for-transition-{{ $index }}" class="checkbox-custom-label">Transition Cows</label>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <th>
+                <label>FEED SOURCE</label>
+              </th>
+              <td>
+                <select formControlName="feedingArea" [(ngModel)]="tab.feedingArea" required>
+                  <option [value]="feedingArea" *ngFor="let feedingArea of feedingAreas">{{feedingArea}}</option>
+                </select>
+              </td>
+              <td></td>
+            </tr>
+            <tr>
+              <th class="with-next">
+                <label *ngIf="tab.category !== 'Pastures' && tab.category !== 'Other grazed forages'">
+                  MARKET PRICE
+                </label>
+                <label *ngIf="tab.category === 'Pastures' || tab.category === 'Other grazed forages'">
+                  GROW COST
+                </label>
+                <a (click)="openModal(helpcosts)" class="more-info-button button info tiny radius"
+                  tooltip="Press to learn more about costs" tooltip-append-to-body="true">LEARN MORE</a>
+              </th>
+              <td>
+                <div class="input-group">
+                  <span class="input-group-label"><small>$</small></span>
+                  <input type="number" class="input-group-field" placeholder="" 
+                    [(ngModel)]="tab.marketPrice"
+                    formControlName="marketPrice"
+                     min="0" step="0.01" max="5000" required>
+                  <span class="input-group-label" tooltip="per tonne dry matter"                    
+                    *ngIf="tab.category === 'Pastures' || tab.category === 'Other grazed forages'"
+                    tooltip-append-to-body="true"><small>/tn DM</small></span>
+                  <span class="input-group-label" tooltip="per tonne"
+                    *ngIf="tab.category != 'Pastures' && tab.category != 'Other grazed forages'"
+                    tooltip-append-to-body="true"><small>/tn</small></span>
+                </div>
+              </td>
+              <td *ngIf="tab.category !== 'Pastures' && tab.category !== 'Other grazed forages'">
+                <input type="radio" formControlName="asFedOrDM" value="asFed"
+                [(ngModel)]="tab.asFedOrDM"
+                  name="asFedOrDM" required>
+                <label for="asFedOrDM" class="checkbox-custom-label">As-Fed</label>
+                <input type="radio" formControlName="asFedOrDM" value="dm" name="asFedOrDM"
+                [(ngModel)]="tab.asFedOrDM"
+                  required>
+                <label for="asFedOrDM" class="checkbox-custom-label">DM</label>
+                <!-- <select
+                  [(ngModel)]="tab.asFedOrDM"
+                  required>
+                  <option value="asFed">As-fed</option>
+                  <option value="dm">Dry matter</option>
+                </select> -->
+              </td>
+              <td *ngIf="tab.category === 'Pastures' || tab.category === 'Other grazed forages'">
+
+              </td>
+            </tr>
+            <tr>
+              <th class="with-next"></th>
+              <td>
+                <div style="line-height: 1.75rem; font-size: 1rem;">
+                  ${{ tab.cost.costDM | number : '1.2-2' }}<dfn tooltip="per tonne of dry matter"
+                    tooltip-append-to-body="true">/kg DM</dfn><br>
+                </div>
+              </td>
+              <td></td>
+            </tr>
+            <tr>
+              <th class="with-next"></th>
+              <td>
+                <div style="line-height: 1.75rem; font-size: 1rem;">
+                  {{ tab.cost.costME | number : '1.2-2' }}<dfn tooltip="per megajoule of metabolised energy"
+                    tooltip-append-to-body="true"> cents/MJ ME</dfn><br>
+                </div>
+              </td>
+              <td></td>
+            </tr>
+            <tr>
+              <th></th>
+              <td>
+                <div style="line-height: 1.75rem; font-size: 1rem;">
+                  ${{ tab.cost.costCP | number : '1.2-2' }}<dfn tooltip="per kilogram of crude protein"
+                    tooltip-append-to-body="true">/kg CP</dfn>
+                </div>
+              </td>
+              <td></td>
+            </tr>
+            <tr>
+              <th class="with-next">
+                <label>FEED SPECIFICATIONS</label>
+              </th>
+              <td colspan="2">
+                <p>Press EDIT FEED SPECIFICATIONS to modify the specifications below to best reflect your feed's
+                  characteristics.</p>
+                <button (click)="openModal(editFeedtypeDetails , 'small')" class="button tiny primary radius">EDIT FEED
+                  SPECIFICATIONS</button>
+              </td>
+            </tr>
+            <tr>
+              <th class="with-next">
+                <label>DRY MATTER</label>
+              </th>
+              <td colspan="2">
+                <div style="font-size: 1rem;">
+                  {{ tab.nutrition.dm | number : '1.0-1' }}%
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <th class="with-next">
+                <label>ENERGY</label>
+                <a (click)="openModal(helpenergy)" class="more-info-button button info tiny radius"
+                  tooltip="Press to learn more about energy" tooltip-append-to-body="true">LEARN MORE</a>
+              </th>
+              <td colspan="2">
+                <div style="font-size: 1rem;">
+                  {{ tab.nutrition.me | number : '1.0-1' }} <dfn
+                    tooltip="megajoules of metabolisable energy per kilogram of dry matter"
+                    tooltip-append-to-body="true">MJ ME/kg DM</dfn><br>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <th class="with-next">
+                <label>CRUDE PROTEIN</label>
+                <a (click)="openModal(helpcrudeprotein)" class="more-info-button button info tiny radius"
+                  tooltip="Press to learn more about crude protein" tooltip-append-to-body="true">LEARN MORE</a>
+              </th>
+              <td colspan="2">
+                <div style="font-size: 1rem;">
+                  {{ tab.nutrition.cp | number : '1.0-1' }} <dfn tooltip="grams per kilogram"
+                    tooltip-append-to-body="true">% DM</dfn><br>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <th class="with-next">
+                <label>NDF</label>
+                <a (click)="openModal(helpndf)" class="more-info-button button info tiny radius"
+                  tooltip="Press to learn more about NDF" tooltip-append-to-body="true">LEARN MORE</a>
+              </th>
+              <td colspan="2">
+                <div style="font-size: 1rem;">
+                  {{ tab.nutrition.ndf | number : '1.0-1' }} <dfn tooltip="grams per kilogram"
+                    tooltip-append-to-body="true">% DM</dfn><br>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <th></th>
+              <td colspan="2">
+                <button (click)="removeFeedType($index)" class="delete-button button small radius alert"
+                  id="remove-feed-type-button">REMOVE FEED</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </form>
+    </div>
+  </tab>
+</tabset>
+<hr class="primary bottom">
+<div class="fp-footer">
+    <div class="grid-x medium-margin-top-1">
+      <div class="cell small-12">
+        <button class="button radius " (click)="back()"><i class="fa fa-chevron-left"></i> BACK</button>
+        <button class="button radius medium-margin-left-1" (click)="cancel()"
+          tooltip="Close the feed plan. No changes will be saved." tooltip-append-to-body="true">CANCEL</button>
+        <button class="button success radius float-right" *ngIf="feedplan.feedplanValue" (click)="next()"
+          [ngClass]="{ 'hollow': feedplan.feedplanValue.scenario.valid[1] == false }">
+          NEXT <i class="fa fa-chevron-right"></i>
+        </button>
+        <button class="save-feed-plan-button button success radius float-right" (click)="saveAndClose()"
+          tooltip="Save your progress and close the feed plan. You can return to this point at any time to continue from where you left off."
+          tooltip-append-to-body="true">SAVE AND CLOSE</button>
+      </div>
+    </div>
+  
+</div>
+<ng-template #addFeed>
+  <div>
+    <div class="modal-header">
+      <ul class="breadcrumbs">
+        <li>Add Feed</li>
+      </ul>
+    </div>
+    <div class="grid-y medium-grid-frame feed-plan-setup-modal-content-row add-feed-type">
+      <div class="cell">
+        <p>Select a feed to add to the feed plan.</p>
+      </div>
+      <div class="cell medium-auto medium-cell-block-container full-height-row">
+        <div class="grid-x grid-padding-x">
+          <div class="small-6 cell medium-cell-block-y">
+            <ul>
+              <li *ngFor="let category of feedCategories">
+                <a class="feed-category" [ngClass]="{ 'selected': feedCategory === category }"
+                  (click)="feedCategorySelected(category)">
+                  {{ category }}
+                </a>
+              </li>
+            </ul>
+          </div>
+          <div class="small-6 cell medium-cell-block-y">
+            <ul>
+              <li *ngFor="let feed of feedTypes | feedByCategory : feedCategory">
+                <a (click)="feedTypeSelected(feed)">{{ feed.name }}</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <hr class="primary bottom">
+      <div class="cell modal-footer">
+        <button class="button radius float-right medium-margin-1" (click)="close()">CANCEL</button>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #helpcosts>
+  <app-help-costs></app-help-costs>
+</ng-template>
+<ng-template #helpndf>
+  <app-help-ndf></app-help-ndf>
+</ng-template>
+<ng-template #helpenergy>
+  <app-help-energy></app-help-energy>
+</ng-template>
+<ng-template #helpcrudeprotein>
+  <app-help-crude-protein></app-help-crude-protein>
+</ng-template>
+<ng-template #editFeedtypeDetails>
+  <app-edit-feedtype-details></app-edit-feedtype-details>
+</ng-template>

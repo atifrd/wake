@@ -1,0 +1,52 @@
+<div class="modal-header">
+  <ul class="breadcrumbs">
+    <li>Add {{selectedRoleTitle}}</li>
+  </ul>
+</div>
+<div class="grid-x feed-plan-setup-modal-content-row">
+  <div class="small-12 cell">
+    <p>{{selectedRoleDescription}}</p>
+  </div>
+  <div class="cell">
+    <form name="inviteForm" (ngSubmit)="inviteForm.form.valid && save(inviteForm)" #inviteForm="ngForm">
+      <table class="fp-table">
+        <tbody>
+          <tr>
+            <th>
+              <label for="first-name">FIRST NAME</label>
+            </th>
+            <td>
+              <input type="text" [(ngModel)]="invitation.firstName" name="firstName" required />
+            </td>
+          </tr>
+          <tr>
+            <th>
+              <label for="last-name">LAST NAME</label>
+            </th>
+            <td>
+              <input type="text" [(ngModel)]="invitation.lastName" name="lastName" required />
+            </td>
+          </tr>
+          <tr>
+            <th>
+              <label for="email">EMAIL</label>
+            </th>
+            <td>
+              <input type="email" [(ngModel)]="invitation.email" name="email" required email />
+              <p>An email will be sent to this user with details about how to sign in and access their account.</p>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <hr class="primary bottom">
+      <div class="cell modal-footer medium-margin-top-1">
+        <button class="button radius" (click)="cancel()">CANCEL</button>
+        <button class="button success radius float-right" type="button" (click)="save()"
+          [ngClass]="{ 'hollow': !inviteForm.form.valid }" [disabled]="!inviteForm.form.valid">
+          SEND INVITATION
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

@@ -1,0 +1,36 @@
+<div class="grid-x" *ngIf="farm.farmValue">
+  <div class="small-12 cell">
+    <h1>Farm Details</h1>
+    <p>Manage the farm's details.</p>
+    <div class="callout radius bordered secondary">
+      <h2>Farm Details</h2>
+      <div class="grid-x">
+        <div class="medium-6 cell">
+          <dl>
+            <dt><small>FARM NAME</small></dt>
+            <dd>{{ farm.farmValue.farmName }}</dd>
+            <dt><small>FARM ADDRESS</small></dt>
+            <dd>{{ farm.farmValue.address }}</dd>
+            <dt><small>DAIRY FARM REGION</small></dt>
+            <dd>{{ farm.farmValue.location }}</dd>
+          </dl>
+        </div>
+        <div class="medium-6 cell">
+          <dl>
+            <dt><small>OWNER</small></dt>
+            <dd>{{ farm.farmValue.ownerName }}</dd>
+            <dt><small>MANAGER</small></dt>
+            <dd>{{ farm.farmValue.managerName }}</dd>
+          </dl>
+        </div>
+        <div class="cell">
+          <button class="button radius" (click)="editFarmDetails(editfarmdetails)">EDIT FARM DETAILS</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #editfarmdetails>
+  <app-edit-farm-details></app-edit-farm-details>
+</ng-template>

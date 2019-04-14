@@ -1,0 +1,19 @@
+<div class="stocktake-discrepancy" ng-if="vm.task.name !== 'setup' && vm.storageFacility.lastStocktake.unitWeight > 0">
+    <div class="fa fa-exclamation" ng-show="vm.storageFacility.metrics.hasStocktakeDiscrepancy"></div>
+    <div class="fa fa-check" ng-show="!vm.storageFacility.metrics.hasStocktakeDiscrepancy"></div>
+    <p>
+      <span ng-if="vm.storageFacility.metrics.hasStocktakeDiscrepancy">
+        Actual feed usage if off track. There is a discrepency of more than 10% between
+        the current feed on hand and the projected feed on hand. Investigate possible causes.
+        <!-- <br>
+        The projected feed on hand before this stocktake was:<br>
+        {{ vm.storageFacility.metrics.feedLevelDiscrepancyAsFed | number: 1 }} tonnes as fed
+        of {{ vm.storageFacility.metrics.feedLevelDiscrepancyAsFed | number: 1 }} tonnes as
+        fed (which is more than 10%). -->
+      </span>
+      <span ng-if="!vm.storageFacility.metrics.hasStocktakeDiscrepancy">Actual feed usage is on track.</span>
+      <a href="#" ng-click="vm.helpFeedDiscrepancy()" tabindex="-1" class="more-info-button button info tiny radius" tooltip="Press to learn more about possible reasons for off track feed usage" tooltip-append-to-body="true">LEARN MORE</a>
+    </p>
+  
+  </div>
+  

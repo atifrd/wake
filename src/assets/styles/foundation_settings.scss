@@ -1,0 +1,61 @@
+// 1.Global
+//-----------------
+$global-prototype-breakpoints : true;
+
+// 4. Base Typography
+// ------------------
+
+$header-styles: (
+  small: (
+    'h1': ('font-size': 20),
+    'h3': ('font-size': 17),
+    'h5': ('font-size': 15)
+  ),
+  medium: (
+    'h1': ('font-size': 31),
+    'h3': ('font-size': 27),
+    'h5': ('font-size': 18)
+  ),
+);
+
+//---------top bar
+//$topbar-padding: 0.5rem 9rem;
+$topbar-background: $menu-background;
+$topbar-submenu-background: $menu-background;
+$topbar-unstack-breakpoint: medium;
+
+// 20. Forms
+// ---------
+$form-label-color: $label-color;
+
+// 23. Menu
+// --------
+$menu-margin: 0;
+$menu-items-padding: 0.5rem 1rem 0.5rem 0;
+$menu-simple-margin: 0;
+
+// 47. Reveal
+// ----------
+$reveal-width: 950px;
+
+// 50. Table
+// ---------
+$table-background: $transparant-color;
+$table-head-background: $table-header-bgcolor;
+// 53. Title Bar
+// -------------
+$titlebar-background: $menu-background;
+$titlebar-padding: 1.5rem;
+$titlebar-icon-spacing: 0.5rem;
+
+// 54. Tooltip
+// -----------
+$tooltip-radius: 14%  !default;
+$tooltip-max-width: 20rem;
+$tooltip-background-color: $tootltip-color;
+// 56. Xy Grid
+// -----------
+$grid-container: unset;
+$grid-container-padding: (small: $container-padding-small,medium: $container-padding-medium , large : $container-padding-large);
+
+

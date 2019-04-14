@@ -1,0 +1,14 @@
+<section>
+  <form>
+    <div class="row">
+      <div class="columns small-12 medium-8 medium-offset-2 large-6 large-offset-3">
+        <h1>Notifications</h1>
+        <div class="panel">
+          <p *ngIf="!complete">Unsubscribing...</p>
+          <p *ngIf="complete">{{ message }}</p>
+          <p *ngIf="complete">Go to <a ui-sref="account.notifications()">manage your notifications</a> or <a ui-sref="home()">home</a>.</p>
+        </div>
+      </div>
+    </div>
+  </form>
+</section>

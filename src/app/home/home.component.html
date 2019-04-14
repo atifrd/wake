@@ -1,0 +1,219 @@
+<div class="jumbo" *ngIf="!isAuthenticated">
+  <div class="jumbo-content">
+    <div class="grid-container">
+      <div class="grid-x">
+        <div class="cell">
+          <h1>Manage your herd's feed requirements&mdash;rain, hail or drought</h1>
+          <button class="button large radius" routerLink="/register">REGISTER NOW</button>
+          <p>
+            Already have an account? <a routerLink="/signin">Sign in here</a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<section *ngIf="!isAuthenticated">
+  <div class="grid-container">
+    <div class="grid-x">
+      <div class="cell">
+        <div class="callout radius bordered panel blurb">
+          <b>Dairy Feed Tools</b> is a complete feed management toolset for dairy farmers and managers. Feed planning,
+          cost and resource management backed by Australian feed and pasture data to most accurately reflect the needs
+          of
+          your herd.
+        </div>
+      </div>
+    </div>
+    <div class="grid-x features">
+      <div class="cell medium-4">
+        <i>Designed by people in the know</i>
+        <ul>
+          <li>Designed with dairy farmers and nutrition advisors
+          <li>Large feed library, comprehensive nutritional specifications
+          <li>Easy to setup and update
+        </ul>
+      </div>
+      <div class="cell medium-4">
+        <i>Answers your critical questions</i>
+        <ul>
+          <li>Which feeds represent best value?
+          <li>How much am I likely to spend?
+          <li>How do I calculate margin over feed cost?
+        </ul>
+      </div>
+      <div class="cell medium-4">
+        <i>Provides you with powerful tools</i>
+        <ul>
+          <li>Print, save and share reports
+          <li>Generates a feed budget and a feeding plan
+          <li>Run scenarios to explore impacts of change
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="feed-plan-home medium-margin-top-2" *ngIf="isAuthenticated && farm.farmValue">
+  <div class="grid-container">
+    <div class="grid-x">
+      <div class="cell small-12">
+        <h1>{{farm.farmValue.farmName}}</h1>
+      </div>
+    </div>
+    <!-- <div class="row" ng-show="vm.multipleFarms">
+  <div class="columns small-3">
+    <button ng-click="vm.chooseFarm()" class="postfix">SWTICH FARMS</button>
+  </div>
+</div> -->
+    <div class="grid-x grid-margin-x">
+      <div class="cell small-12">
+        <div class="callout radius bordered panel feature">
+          <h2>Hello {{account.sessionValue.user.firstName}}!</h2>
+          <p>
+            <span *ngIf="!hasFeedplan || !hasInventory">Welcome to Dairy Feed Tools, a suite of powerful tools to
+              manage dairy feed requirements. </span>
+            <span *ngIf="hasFeedplan || hasInventory">Looks like you're using the full power of Dairy Feed Tools.
+              Well
+              done! </span>
+            <span *ngIf="!hasFeedplan && !hasInventory">Start by <strong>creating a feed plan</strong> to manage the
+              feed requirements of your herd or <strong>setting up your feed inventory</strong> so you can track feed
+              usage. </span>
+            <span *ngIf="!hasFeedplan && hasInventory">Try <strong>creating a feed plan</strong> to manage the feed
+              requirements of your herd. </span>
+            <span *ngIf="hasFeedplan && !hasInventory">Have you thought about <strong>setting up your feed
+                inventory</strong> so you can track feed usage?</span>
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="grid-x" *ngIf="loadingFeedplan; else feedplanLoaded">
+      <p>Loading Feedplan...</p>
+    </div>
+    <div class="grid-x grid-margin-x" *ngIf="!loadingFeedplan">
+      <div class="cell medium-6">
+        <div class="callout radius bordered secondary" *ngIf="isAuthorisedForRole('feed-planning')">
+          <div class="grid-x">
+            <div class="cell small-12 home-option" *ngIf="hasFeedplan === false">
+              <h2>Create a Feed Plan</h2>
+              <div class="status  cell small-12">
+                <div>
+                  <p>
+                    The feed plan tool can help you to manage your farm's feed requirements. Create a plan that will
+                    help
+                    you forcast your needs.
+                  </p>
+                </div>
+              </div>
+              <a routerLink="/farms/{{farm.farmValue.id}}/feed-plan" class="button radius">START</a>
+            </div>
+            <div class="cell small-12 home-option"
+              *ngIf="hasFeedplan && feedplan.feedplanValue.scenario && feedplan.feedplanValue.scenario.valid[0] && feedplan.feedplanValue.scenario.valid[1] && feedplan.feedplanValue.scenario.valid[2]">
+              <h2>Feed Plan</h2>
+              <div class="status  cell small-12">
+                <div>
+                  <div class="fa fa-check ng-scope"></div>
+                  <p>
+                    The feed plan is complete and ready to be implemented.
+                  </p>
+                </div>
+              </div>
+              <a routerLink="/farms/{{farm.farmValue.id}}/feed-plan" class="button radius">MANAGE FEED PLAN</a>
+            </div>
+            <div class="cell small-12 home-option"
+              *ngIf="hasFeedplan && (!feedplan.feedplanValue.scenario || !feedplan.feedplanValue.scenario.valid[0] || !feedplan.feedplanValue.scenario.valid[1] || !feedplan.feedplanValue.scenario.valid[2])">
+              <h2>Feed Plan</h2>
+              <div class="status  cell small-12">
+                <div>
+                  <div class="fa fa-exclamation ng-scope"></div>
+                  <p>
+                    The feed plan requires some more information before it is ready to be implemented.
+                  </p>
+                </div>
+              </div>
+              <a routerLink="/farms/{{farm.farmValue.id}}/feed-plan" class="button radius">MANAGE FEED PLAN</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="cell medium-6">
+        <div class="callout radius bordered secondary" *ngIf="isAuthorisedForRole('feed-supply')">
+          <div class="grid-x">
+            <div class="cell small-12 home-option" *ngIf="hasInventory === false">
+              <h2>Track Feed Inventory</h2>
+              <div class="status  cell small-12">
+                <div>
+                  <p>
+                    The feed inventory tool can help you manage your farm's feed inventory. Add your feeds and receive
+                    notifications when storage levels are low.
+                    Forecast your usage and new stock requirements.
+                  </p>
+                </div>
+              </div>
+              <a routerLink="/farms/{{farm.farmValue.id}}/inventory" class="button hidden-feature radius">START</a>
+            </div>
+            <div class="cell small-12 home-option" *ngIf="hasInventory && !loadingInventory">
+              <h2>Feed Inventory</h2>
+              <div class="status  cell small-12">
+                <div>
+                  <div class="fa fa-check ng-scope"
+                    *ngIf="feedInventoryStocktakeWarnings === 0 && feedInventoryRunOutWarnings === 0"></div>
+                  <div class="fa fa-exclamation ng-scope"
+                    *ngIf="feedInventoryStocktakeWarnings > 0 || feedInventoryRunOutWarnings > 0"></div>
+                  <p>
+                    <span *ngIf="feedInventoryStocktakeWarnings > 0">{{ feedInventoryStocktakeWarnings }} storage
+                      {{ feedInventoryStocktakeWarnings === 1 ? 'facility requires' : 'facilities require' }} a
+                      stocktake.</span>
+                    <span *ngIf="feedInventoryRunOutWarnings > 0">{{ feedInventoryRunOutWarnings }} storage
+                      {{ feedInventoryRunOutWarnings === 1 ? 'facility requires' : 'facilities require' }} feed
+                      replenishment as soon as possible.</span>
+                    <span *ngIf="feedInventoryStocktakeWarnings === 0">All storage facility stocktakes are up to
+                      date.</span>
+                    <span *ngIf="feedInventoryRunOutWarnings === 0">All storage facilities have sufficient feed
+                      levels.</span>
+                  </p>
+                </div>
+              </div>
+              <a routerLink="/farms/{{farm.farmValue.id}}/inventory" class="button hidden-feature radius">MANAGE FEED
+                INVENTORY</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="grid-x hidden-feature">
+      <div class="cell small-12">
+        <h2>
+          Notifications
+        </h2>
+      </div>
+    </div>
+    <div class="grid-x grid-padding-x hidden-feature">
+      <div class="cell small-8">
+        <p>
+          Dairy Feed Tools monitors your farm's feed inventory in the background, notifying you when critical events
+          occur
+          (like low feed inventory). Manage the notifications displayed as well as the emails you receive.
+        </p>
+      </div>
+      <div class="cell small-4">
+        <a routerLink="/account/notifications" class="button small expanded radius">MANAGE MY NOTIFICATIONS</a>
+      </div>
+    </div>
+    <div class="grid-x" *ngIf="isAuthorisedForRole('administrator')">
+      <div class="cell small-12">
+        <h2>Manage Users</h2>
+      </div>
+    </div>
+    <div class="grid-x grid-padding-x" *ngIf="isAuthorisedForRole('administrator')">
+      <div class="cell small-8">
+        <p>
+          Dairy Feed Tools enables you to share access to your farm with diet planning consultants and feed suppliers to
+          keep your business running smoothly. Manage who can access your Dairy Feed Tools farm and what they can do.
+        </p>
+      </div>
+      <div class="cell small-4">
+        <a routerLink="/farms/{{farm.farmValue.id}}/users" class="button small expanded radius">MANAGE USERS</a>
+      </div>
+    </div>
+  </div>
+</section>

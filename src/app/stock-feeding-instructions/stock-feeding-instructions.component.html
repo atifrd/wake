@@ -1,0 +1,87 @@
+<div class="fp-report stock-feeding-instructions">
+  <div class="grid-container">
+    <div class="grid-x">
+      <div class="small-12 cell">
+        <!-- <h2 *ngIf="!editName">{{feedInstructionsName}} <i (click)="editName = true" *ngIf="!editName" class="fa fa-pencil"></i></h2> -->
+        <h2 *ngIf="!editName">{{feedInstructionsName}} <button class="button tiny radius" (click)="editName = true"
+            *ngIf="!editName" style="margin-left: 1rem;">EDIT TITLE</button></h2>
+        <div class="input-group" *ngIf="editName">
+          <input class="input-group-field edit-feed-plan-name" [(ngModel)]="feedInstructionsName">
+          <span class="input-group-label medium-padding-0">
+            <button (click)="renameFeedPlan()"
+              class="button expanded success medium-padding-right-3 medium-padding-left-3 medium-margin-0">SAVE</button>
+          </span>
+        </div>
+      </div>
+      <div class="small-12 cell">
+        <table>
+          <thead>
+            <tr>
+              <th>
+                Feed
+              </th>
+              <th>
+                Qty <br />Animal/Day
+              </th>
+              <th>
+                Qty <br />Total/Day
+              </th>
+              <th>
+                Instructions
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let feed of feedplan.feedplanValue.scenario.feedTypes; index as $index">
+
+              <!-- *ngIf="feedplan.feedplanValue.scenario.stockDetails[month].diet[$index][cowType].consumed > 0" -->
+              <td class="feed">
+                <div>
+                  {{ feed.name }} <span *ngIf="feed.feedDescription"> ({{ feed.feedDescription }})</span> -
+                  {{feed.feedingArea}}
+                </div>
+              </td>
+              <td class="amount-animal">
+                <div>
+                  {{feedplan.feedplanValue.scenario.stockDetails[month].diet[$index][cowType].consumed + feedplan.feedplanValue.scenario.stockDetails[month].diet[$index][cowType].consumed*(feedplan.feedplanValue.scenario.stockDetails[month].diet[$index][cowType].wastage/100) | number:'1.0-0' }}
+                  kg {{ feed.asFedOrDM == 'dm' ? 'DM' : 'As Fed' }}
+                </div>
+              </td>
+              <td class="amount-total">
+                <div>
+                  {{(feedplan.feedplanValue.scenario.stockDetails[month].diet[$index][cowType].consumed + feedplan.feedplanValue.scenario.stockDetails[month].diet[$index][cowType].consumed*(feedplan.feedplanValue.scenario.stockDetails[month].diet[$index][cowType].wastage/100)) * feedplan.feedplanValue.scenario.stockDetails[month].numberOfAnimals[cowType] }}
+                  kg {{ feed.asFedOrDM == 'dm' ? 'DM' : 'As Fed' }}
+                </div>
+              </td>
+              <td class="instructions">
+                <div>
+                  {{feedplan.feedplanValue.scenario.stockDetails[month].diet[$index][cowType].comment}}
+                  <button class="button tiny radius float-right"
+                    (click)="editInstructions($index , stockfeedinginstructionsedit)" *ngIf="!editName">
+                    <i class="fa fa-pencil"></i>
+                  </button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+<hr class="primary bottom">
+<div class="fp-footer">
+  <div class="grid-container grid-x medium-margin-top-1 medium-margin-bottom-1">
+    <div class="cell small-12">
+      <a class="button radius" (clicK)="close()" tooltip="Close the feed plan budget report"
+        tooltip-append-to-body="true">CLOSE</a>
+      <button class="button radius float-right" (click)="window.print()">
+        PRINT
+      </button>
+    </div>
+  </div>
+</div>
+<ng-template #stockfeedinginstructionsedit>
+  <app-stock-feeding-instructions-edit [comment]=""></app-stock-feeding-instructions-edit>
+</ng-template>
+<!-- <hr class="primary bottom"> -->

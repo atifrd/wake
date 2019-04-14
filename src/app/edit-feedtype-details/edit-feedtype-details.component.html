@@ -1,0 +1,102 @@
+<div class="modal-header">
+  <ul class="breadcrumbs">
+    <li>feedTypeName</li>
+    <li>Feed Specifications</li>
+  </ul>
+</div>
+
+<div class="grid-x collapse feed-plan-setup-modal-content-row">
+  <div class="small-12 cell">
+    <p>Edit the feed's specifications to best reflect your feed's characteristics.</p>
+  </div>
+  <div class="grid-x collapse">
+    <div class="cell small-12">
+      <table class="fp-table">
+        <tbody>
+          <tr>
+            <th>
+              <label>DRY MATTER</label>
+            </th>
+            <td>
+              <div class="input-group">
+                <input type="number" class="input-group-field" placeholder="" [(ngModel)]="dm" min="0" max="100"
+                  step="0.1" required>
+                <span class="input-group-label">
+                  <small>%</small>
+                </span>
+              </div>
+              <p>The dry matter contents of different types of feeds vary widely. It is important that this value is
+                accurate.</p>
+            </td>
+          </tr>
+          <tr>
+            <th>
+              <label>ENERGY</label>
+              <a (click)="openModal(helpenergy)" class="more-info-button button info tiny radius"
+                tooltip="Press to learn more about energy" tooltip-append-to-body="true">LEARN MORE</a>
+            </th>
+            <td>
+              <div class="input-group">
+                <input type="number" class="input-group-field" placeholder="" [(ngModel)]="me" min="0" step="0.1"
+                  required>
+                <span class="input-group-label" tooltip="megajoules of metabolisable energy per kilogram of dry matter"
+                  tooltip-append-to-body="true">
+                  <small>MJ ME/kg DM</small>
+                </span>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <th>
+              <label>CRUDE PROTEIN</label>
+              <a (click)="openModal(helpcrudeprotein)" class="more-info-button button info tiny radius"
+                tooltip="Press to learn more about crude protein" tooltip-append-to-body="true">LEARN MORE</a>
+            </th>
+            <td>
+              <div class="input-group">
+                <input type="number" class="input-group-field" placeholder="" [(ngModel)]="cp" min="0" step="0.1"
+                  required>
+                <span class="input-group-label" tooltip="percent of Dry Matter" tooltip-append-to-body="true">
+                  <small>%DM</small>
+                </span>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <th>
+              <label>NDF</label>
+              <a (click)="openModal(helpndf)" class="more-info-button button info tiny radius"
+                tooltip="Press to learn more about NDF" tooltip-append-to-body="true">LEARN MORE</a>
+            </th>
+            <td>
+              <div class="input-group">
+                <input type="number" class="input-group-field" placeholder="" [(ngModel)]="ndf" min="0" step="0.1"
+                  required>
+                <span class="input-group-label" tooltip="percent of Dry Matter" tooltip-append-to-body="true">
+                  <small class="has-tip">% DM</small>
+                </span>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <hr class="primary bottom">
+  <div class="grid-x medium-margin-top-1 medium-margin-bottom-1">
+    <div class="cell small-12">
+      <button class="button radius" (click)="cancel()">CANCEL</button>
+      <button class="button radius float-right" (click)="save()">UPDATE</button>
+    </div>
+  </div>
+</div>
+
+<ng-template #helpndf>
+  <app-help-ndf></app-help-ndf>
+</ng-template>
+<ng-template #helpenergy>
+  <app-help-energy></app-help-energy>
+</ng-template>
+<ng-template #helpcrudeprotein>
+  <app-help-crude-protein></app-help-crude-protein>
+</ng-template>

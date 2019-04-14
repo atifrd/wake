@@ -1,0 +1,36 @@
+<div class="modal-header">
+	<ul class="breadcrumbs">
+		<li>View stock feeding instructions</li>
+	</ul>
+</div>
+<div class="grid-container">
+	<div class="grid-x grid-margin-x view-feed-instructions">
+		<div class="cell small-12">
+				<p>View and update the specific instructions for each type of feed for a chosen animal type and month.</p>
+		</div>		
+		<div class="cell small-6">
+			<label>CHOOSE ANIMAL TYPE</label>
+			<select [(ngModel)]="cowType" style="text-transform:capitalize;">
+				<option *ngIf="feedplan.feedplanValue.scenario.cows.milkers">milkers</option>
+				<option *ngIf="feedplan.feedplanValue.scenario.cows.dry">dry</option>
+				<option *ngIf="feedplan.feedplanValue.scenario.cows.transition">transition</option>
+			</select>
+		</div>
+		<div class="cell small-6">
+			<label>CHOOSE MONTH</label>
+			<select [(ngModel)]="month">
+				<option *ngFor="let stock of feedplan.feedplanValue.scenario.stockDetails; index as $index"
+					value="{{ $index }}">
+					{{ stock.month }}</option>
+			</select>
+		</div>
+		<br />
+		<br />
+		<hr class="primary bottom">
+		<div class="medium-12 cell modal-footer medium-margin-top-1">
+			<button class="button radius float-right" [ngClass]="{ disabled: !cowType || !month }"
+				(click)="view()">VIEW</button>
+			<button class="button radius" (click)="close()">CANCEL</button>
+		</div>
+	</div>
+</div>

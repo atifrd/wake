@@ -1,0 +1,284 @@
+<div class="modal-header">
+  <ul class="breadcrumbs">
+    <li>{{ feedplan.feedplanValue.scenario.stockDetails[month].month }}</li>
+    <li>{{ cow == 'milkers' ? 'Milkers' : cow == 'dry' ? 'Early Dry Cows' : 'Transition Cows' }} Diet</li>
+  </ul>
+  <div class="rumen8-powered">
+    <span>
+      Powered by Rumen8
+    </span>
+  </div>
+</div>
+<div *ngIf="sortedFeedTypes">
+  <div class="grid-y grid-margin-x medium-grid-frame feed-plan-setup-modal-content-row cow-diet">
+    <div class="cell">
+      <p>Balance the diet to meet daily metabolisable energy and metabolisable protein requirements within the
+        animal’s
+        feed intake limit.
+        Diets fed will also need to be balanced for minerals. Note the two scroll bars. Use these to view all feeds
+        and
+        diet parameters.
+      </p>
+    </div>
+    <div class="cell medium-auto medium-cell-block-container full-height-row">
+      <div class="grid-x cow-diet-form">
+        <div class="cell small-8 medium-cell-block-y">
+          <table class="fp-table">
+            <tbody>
+              <tr *ngFor="let feed of sortedFeedTypes">
+                <th>
+                  <span>{{ feed.name }}</span>
+                  <small>{{ feed.feedDescription }}</small>
+                </th>
+                <td class="consumed-column">
+                  <label>CONSUMED ({{feed.asFedOrDM === 'dm' ? 'DM' : 'As Fed'}})</label>
+                  <div class="input-group">
+                    <input type="number" class="input-group-field" min="0" step="0.1"
+                      [(ngModel)]="feedplan.feedplanValue.scenario.stockDetails[month].diet[feed.index][cow].consumed"
+                      (change)="updateOnChange()">
+                    <span class="input-group-label" tooltip="kilograms per head per day"
+                      tooltip-append-to-body="true"><small>kg/hd/day</small></span>
+                  </div>
+                </td>
+                <td class="wastage-column"
+                  *ngIf="feed.category !== 'Pastures' && feed.category !== 'Other grazed forages'">
+                  <label>WASTAGE</label>
+                  <div class="input-group">
+                    <input type="number" class="input-group-field" min="0" max="100" step="1"
+                      [(ngModel)]="feedplan.feedplanValue.scenario.stockDetails[month].diet[feed.index][cow].wastage"
+                      (change)="updateOnChange()">
+                    <span class="input-group-label"><small>%</small></span>
+                  </div>
+                </td>
+                <td class="safe-qty-column"
+                  *ngIf="feed.category !== 'Pastures' && feed.category !== 'Other grazed forages'">
+                  <label>SAFE QTY</label>
+                  <div class="fa fa-check"
+                    *ngIf="feedplan.feedplanValue.scenario.stockDetails[month].diet[feed.index][cow].calc.rateExceeded == false"
+                    tooltip="The consumed amount is within safe levels" tooltip-append-to-body="true"></div>
+                  <div class="fa fa-exclamation"
+                    *ngIf="feedplan.feedplanValue.scenario.stockDetails[month].diet[feed.index][cow].calc.rateExceeded == true"
+                    tooltip="The consumed amount exceeds safe levels. {{feedplan.feedplanValue.scenario.stockDetails[month].diet[feed.index][cow].calc.warning }}"
+                    tooltip-append-to-body="true"></div>
+                </td>
+                <td class="surplus-deficit-column"
+                  *ngIf="feed.category === 'Pastures' && feed.category !== 'Other grazed forages'">
+                  <label>SURPLUS/DEFICIT</label>
+                  <span>{{feedplan.feedplanValue.scenario.stockDetails[month].diet[feed.index][cow].calc.surplusDeficit | number:'1.0-1'}}
+                    <span tooltip="kilograms per head per day" class="has-tip"
+                      tooltip-append-to-body="true">kg/hd/day</span></span>
+                  <button
+                    *ngIf="feedplan.feedplanValue.scenario.stockDetails[month].diet[feed.index][cow].calc.rateExceeded == true"
+                    class="button tiny radius warning" (click)="forageModal(editForageAvailability ,feed)">
+                    EDIT AVAILABILITY</button>
+                </td>
+                <td class="surplus-deficit-icon-column"
+                  *ngIf="feed.category === 'Pastures' && feed.category !== 'Other grazed forages'">
+                  <div class="fa fa-check"
+                    *ngIf="feedplan.feedplanValue.scenario.stockDetails[month].diet[feed.index][cow].calc.rateExceeded == false"
+                    tooltip="The amount fed is available" tooltip-append-to-body="true"></div>
+                  <div class="fa fa-exclamation"
+                    *ngIf="feedplan.feedplanValue.scenario.stockDetails[month].diet[feed.index][cow].calc.rateExceeded == true"
+                    tooltip="The amount fed exceeds the quantity available" tooltip-append-to-body="true">
+
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td colspan="6">
+
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="cell small-4 medium-cell-block-y">
+          <small>METABOLISABLE ENERGY % req't</small>
+          <ng-container *ngTemplateOutlet="progressbar;context:{ 
+            value : feedplan.feedplanValue.scenario.stockDetails[month].dietNutrition[cow].energyRatio,
+            bgMaxLimit : 110,
+            bgMinLimit : 95,
+            widthLimit : 120
+          }">
+          </ng-container>
+
+          <small>METABOLISABLE PROTEIN % req't</small>
+          <!--<small> {{feedplan.feedplanValue.scenario.stockDetails[month].dietNutrition[cow].proteinSupplied | number:0}} of {{feedplan.feedplanValue.scenario.stockDetails[month].dietNutrition[cow].proteinRequired | number:0}}</small>-->
+          <ng-container *ngTemplateOutlet="progressbar;context:{ 
+            value : feedplan.feedplanValue.scenario.stockDetails[month].dietNutrition[cow].proteinRatio,
+            bgMaxLimit : 180,
+            bgMinLimit : 95,
+            widthLimit : 120 }">
+          </ng-container>
+
+          <small>FEED INTAKE % appetite limit </small>
+          <!--<small> {{feedplan.feedplanValue.scenario.stockDetails[month].dietNutrition[cow].appetiteSupplied | number:0}} of {{feedplan.feedplanValue.scenario.stockDetails[month].dietNutrition[cow].appetiteRequired | number:0}}</small>-->
+          <ng-container *ngIf="cow === 'milkers'">
+            <ng-container *ngTemplateOutlet="progressbar;context:{ 
+            value : feedplan.feedplanValue.scenario.stockDetails[month].dietNutrition[cow].appetiteRatio,
+            bgMaxLimit : 115,
+            bgMinLimit : 85,
+            widthLimit : 120 }">
+            </ng-container>
+          </ng-container>
+          <ng-container *ngIf="cow != 'milkers'">
+            <ng-container *ngTemplateOutlet="progressbar;context:{ 
+              value : feedplan.feedplanValue.scenario.stockDetails[month].dietNutrition[cow].appetiteRatio,
+              bgMaxLimit : 120,
+              bgMinLimit : 80,
+              widthLimit : 120 }">
+            </ng-container>
+          </ng-container>
+          <hr>
+          <div class="diet-warning">
+            <div class="fa fa-check"
+              *ngIf="feedplan.feedplanValue.scenario.stockDetails[month].dietNutrition[cow].ndfValid"
+              tooltip="The NDF level is OK"></div>
+            <div class="fa fa-exclamation"
+              *ngIf="!feedplan.feedplanValue.scenario.stockDetails[month].dietNutrition[cow].ndfValid"
+              tooltip="NDF content is too low. There is a high risk of ruminal acidosis. Required: >30%"
+              tooltip-append-to-body="true"></div>
+            <span>
+              {{feedplan.feedplanValue.scenario.stockDetails[month].dietNutrition[cow].ndfRatio*100 || 0 | number:'1.0-1'}}%
+            </span>
+            <small>NDF LEVEL</small>
+          </div>
+          <div class="diet-warning">
+            <div class="fa fa-check"
+              *ngIf="feedplan.feedplanValue.scenario.stockDetails[month].dietNutrition[cow].starchValid"
+              tooltip="The starch level is OK"></div>
+            <div class="fa fa-exclamation"
+              *ngIf="!feedplan.feedplanValue.scenario.stockDetails[month].dietNutrition[cow].starchValid"
+              tooltip="Starch level is too high. There is a high risk of ruminal acidosis. Required: <25%"
+              tooltip-append-to-body="true"></div>
+            <span>
+              {{feedplan.feedplanValue.scenario.stockDetails[month].dietNutrition[cow].starchRatio*100 || 0 | number:'1.0-1'}}%
+            </span>
+            <small>STARCH LEVEL</small>
+          </div>
+          <div class="diet-warning">
+            <div class="fa fa-check"
+              *ngIf="feedplan.feedplanValue.scenario.stockDetails[month].dietNutrition[cow].forageConcentrateValid"
+              tooltip="The ratio is OK"></div>
+            <div class="fa fa-exclamation"
+              *ngIf="!feedplan.feedplanValue.scenario.stockDetails[month].dietNutrition[cow].forageConcentrateValid"
+              tooltip="Forage to concentrate ratio is too low. There is a high risk of ruminal acidosis. Required: >40%"
+              tooltip-append-to-body="true"></div>
+            <span>
+              {{feedplan.feedplanValue.scenario.stockDetails[month].dietNutrition[cow].forageConcentrateRatio.forage || 0 | number:'1.0-1'}}%
+              forage
+            </span>
+            <small>FORAGE: CONC. RATIO</small>
+          </div>
+          <hr>
+          <dl>
+            <dt><small>ME</small></dt>
+            <dd>
+              {{ feedplan.feedplanValue.scenario.stockDetails[month].dietNutrition[cow].energyAmount/feedplan.feedplanValue.scenario.stockDetails[month].dietNutrition[cow].dmAmount || 0 | number:'1.0-1' }}
+              MJ/kg DM</dd>
+            <dt><small>CP</small></dt>
+            <dd>
+              {{ ((feedplan.feedplanValue.scenario.stockDetails[month].dietNutrition[cow].proteinAmount/1000)/feedplan.feedplanValue.scenario.stockDetails[month].dietNutrition[cow].dmAmount)*100 | number:'1.0-1' }}
+              %DM</dd>
+          </dl>
+          <hr>
+          <dl>
+            <dt><small>MILK YIELD</small></dt>
+            <dd>{{feedplan.feedplanValue.scenario.stockDetails[month].averageMilkYield}} L/cow/day</dd>
+            <dt><small>FEED INTAKE</small></dt>
+            <dd>{{feedplan.feedplanValue.scenario.stockDetails[month].dietNutrition[cow].dmAmount | number:'1.0-1'}}
+              kgDM/cow/day
+            </dd>
+            <dt><small>FEED EFFICIENCY</small></dt>
+            <dd>{{ feedplan.feedplanValue.scenario.stockDetails[month].dietCost[cow].fce || 0 | number:'1.2-2' }} L/kg
+              DM</dd>
+          </dl>
+          <hr>
+          <dl>
+            <dt><small>MILK PRICE</small></dt>
+            <dd *ngIf="feedplan.feedplanValue.scenario.stockDetails[month].milkPrice">
+              ${{ (feedplan.feedplanValue.scenario.stockDetails[month].centsLitre/100) | number:'1.2-2' }}/L</dd>
+            <dd *ngIf="!feedplan.feedplanValue.scenario.stockDetails[month].milkPrice">
+              ${{ feedplan.feedplanValue.scenario.stockDetails[month].milkProteinPrice | number:'1.2-2' }}/kg protein
+            </dd>
+            <dd *ngIf="!feedplan.feedplanValue.scenario.stockDetails[month].milkPrice">
+              ${{ feedplan.feedplanValue.scenario.stockDetails[month].milkFatPrice | number:'1.2-2' }}/kg fat</dd>
+            <dt><small>FEED COST</small></dt>
+            <dd>
+              ${{ feedplan.feedplanValue.scenario.stockDetails[month].dietCost[cow].feedCostPerKgDm || 0 | number:'1.2-2' }}/kg
+              DM
+            </dd>
+            <dd>
+              ${{ feedplan.feedplanValue.scenario.stockDetails[month].dietCost[cow].feedCostPerDay || 0 | number:'1.2-2' }}/cow/day
+            </dd>
+            <dd>
+              {{ feedplan.feedplanValue.scenario.stockDetails[month].dietCost[cow].feedCostOfMilkIncome || 0 | number: '1.0-0' }}%
+              of
+              milk
+              income </dd>
+            <dt><small>MILK INCOME</small></dt>
+            <dd>
+              ${{ feedplan.feedplanValue.scenario.stockDetails[month].dietCost[cow].milkIncomePerDay || 0 | number:'1.2-2' }}/cow/day
+            </dd>
+            <dt><small>MARGIN OVER FEED COST</small></dt>
+            <dd>
+              ${{ feedplan.feedplanValue.scenario.stockDetails[month].dietCost[cow].marginOverFeedCostPerDay || 0 | number:'1.2-2' }}/cow/day
+            </dd>
+          </dl>
+        </div>
+      </div>
+    </div>
+    <hr class="primary bottom">
+    <div class="cell modal-footer">
+      <div class="grid-x medium-margin-top-1">
+        <div class="cell small-10">
+          <a (click)="openLearnMoreModal(helpfeedwastage)"
+            class="more-info-button tiny button info radius medium-margin-right-1"
+            tooltip="Press to learn more about feed wastage" tooltip-append-to-body="true">LEARN MORE ABOUT
+            WASTAGE</a>
+          <a (click)="openLearnMoreModal(helpcowappetite)"
+            class="more-info-button tiny button info radius medium-margin-right-1"
+            tooltip="Press to learn more about cow appetite" tooltip-append-to-body="true">LEARN MORE ABOUT
+            APPETITE</a>
+          <a (click)="openLearnMoreModal(helpbalancediet)" class="more-info-button tiny button info radius"
+            tooltip="Press to learn more about balancing the diet" tooltip-append-to-body="true">LEARN MORE ABOUT
+            DIET</a>
+        </div>
+        <div class="cell small-2">
+          <button class="button radius float-right" (click)="close()">DONE</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #progressbar let-value="value" let-bgMinLimit="bgMinLimit" let-bgMaxLimit="bgMaxLimit"
+  let-wLimit="widthLimit">
+  <div class="progress" [ngClass]="{'success': value >= bgMinLimit || value <= bgMaxLimit, 
+              'alert': value < bgMinLimit || value > bgMaxLimit}">
+    <span class="meter progress-meter" [style.width.%]="value > wLimit ? wLimit : value"></span>
+    <span class="value">{{ value || 0 | number: 0 }}%</span>
+    <span class="labels"></span>
+    <span class="ticks"></span>
+    <span class="min"></span>
+    <span class="max"></span>
+  </div>
+</ng-template>
+
+<ng-template #helpfeedwastage>
+  <app-help-feed-wastage></app-help-feed-wastage>
+</ng-template>
+
+<ng-template #helpcowappetite>
+  <app-help-cow-appetite></app-help-cow-appetite>
+</ng-template>
+
+<ng-template #helpbalancediet>
+  <app-help-balance-diet></app-help-balance-diet>
+</ng-template>
+
+<ng-template #editForageAvailability>
+  <app-edit-forage-availability [selectedMonthAndYear]="selectedTabMonth" [selectedFeedType]="selectedFeedType"
+    [selectedStockIndex]="month" >
+  </app-edit-forage-availability>
+</ng-template>

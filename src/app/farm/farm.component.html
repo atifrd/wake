@@ -1,0 +1,18 @@
+<section>
+  <div class="grid-container">
+    <div class="grid-x">
+      <div class="medium-3 cell side-nav-container">
+        <ul class="side-nav">
+          <li><a routerLink="/farms/{{this.farm.farmValue.id}}/users" routerLinkActive="active" >Users</a></li>
+          <li><a routerLink="/farms/{{this.farm.farmValue.id}}/details"  routerLinkActive="active" >Farm Details</a>
+          </li>
+          <li><a routerLink="/farms/{{this.farm.farmValue.id}}/settings"  routerLinkActive="active" >Farm Settings</a>
+          </li>
+        </ul>
+      </div>
+      <div class="medium-9 cell">
+        <router-outlet></router-outlet>
+      </div>
+    </div>
+  </div>
+</section>

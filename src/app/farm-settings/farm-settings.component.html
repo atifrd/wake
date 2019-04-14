@@ -1,0 +1,40 @@
+<div class="grid-x">
+  <div class="small-12 cell">
+    <h1>Farm Settings</h1>
+    <p>Manage the farm settings used in Dairy Feed Tools.</p>
+    <div class="callout radius bordered secondary">
+      <h2>Feed Plan</h2>
+      <div class="grid-x">
+        <div class="small-12 cell">
+          <label>FEED PLAN REVIEWS</label>
+          Review feed plan every {{ farm.settingsValue.daysSinceFeedplanUpdate }} days.<br>
+        </div>
+      </div>
+      <br>
+      <h2>Feed Inventory</h2>
+      <div class="grid-x">
+        <div class="small-12 cell">
+          <label>STOCKTAKES</label>
+          Perform a stocktake every {{ farm.settingsValue.daysSinceLastStocktake }} days.<br>
+        </div>
+      </div>
+      <br>
+      <div class="grid-x">
+        <div class="small-12 cell">
+          <label>FEED RUN OUTS</label>
+          Warn about feed running out in a storage facility {{ farm.settingsValue.daysUntilFeedRunout }} days before run
+          out.<br>
+        </div>
+      </div>
+      <br>
+      <div class="grid-x">
+        <div class="cell small-6">
+          <button class="button radius" (click)="editFarmSettings(editfarmsettings)">CHANGE FARM SETTINGS</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<ng-template #editfarmsettings>
+  <app-edit-farm-settings></app-edit-farm-settings>
+</ng-template>

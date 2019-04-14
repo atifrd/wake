@@ -1,0 +1,16 @@
+{
+    "debug.showInStatusBar": "always",
+    "telemetry.enableTelemetry": false,
+    "telemetry.enableCrashReporter": false,
+    "debug.toolBarLocation": "floating",
+    "zenMode.centerLayout": false,
+    "zenMode.hideStatusBar": false,
+    "zenMode.hideActivityBar": false,
+    "files.watcherExclude": {
+        "**/node_modules/*/**": false
+    },
+    "search.exclude": {
+        "**/bower_components": false,
+        "**/node_modules": false
+    }
+}

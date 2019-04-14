@@ -1,0 +1,60 @@
+<div class="modal-header">
+  <ul class="breadcrumbs">
+    <li>Farm Details</li>
+  </ul>
+</div>
+<div class="grid-x feed-plan-setup-modal-content-row start-feed-plan">
+  <form name="editFarmDetailsForm" novalidate>
+    <p>Edit the farm details.</p>
+    <div class="medium-12 cell callout radius bordered secondary">
+      <label>
+        FARM NAME
+        <input type="text" class="radius" name="farmName" [(ngModel)]="farm.farmValue.farmName" required />
+      </label>
+      <label>
+        FARM ADDRESS
+        <input type="text" class="radius" name="address" [(ngModel)]="farm.farmValue.address" required />
+      </label>
+      <label>
+        OWNER NAME
+        <input type="text" class="radius" name="ownerName" [(ngModel)]="farm.farmValue.ownerName" required />
+      </label>
+      <label>
+        MANAGER NAME
+        <input type="text" class="radius" name="managerName" [(ngModel)]="farm.farmValue.managerName" required />
+      </label>
+      <div class="grid-x collapse">
+        <label class="cell medium-12">DAIRY FARM REGION</label>
+        <div class="cell medium-12">
+          <div class="grid-x collapse">
+            <div class="cell small-6 region-selector">
+              <ul>
+                <li *ngFor="let region of regions">
+                  <a click-stop-propagation (click)="chooseRegion(region)"
+                    [ngClass]="{ 'selected': farm.farmValue.location === region }">{{ region }}</a>
+                </li>
+              </ul>
+            </div>
+            <div class="cell small-6 location-selector">
+              <ul>
+                <li *ngFor="let location of locationsForRegion">
+                  <a  click-stop-propagation (click)="chooseLocation(location)"
+                    [ngClass]="{ 'selected': selectedLocation === location }">{{ location.name }}</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <hr class="primary bottom">
+    <div class="medium-12 cell modal-footer medium-margin-top-1">
+      <button class="button radius" (click)="close()">CANCEL</button>
+      <button class="button success radius float-right" (click)="save()" [ngClass]="{ 'hollow': !isFormValid() }"
+        [disabled]="!isFormValid()">
+        SAVE
+      </button>
+    </div>
+  </form>
+</div>

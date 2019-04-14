@@ -1,0 +1,115 @@
+<div id="content">
+  <section class="medium-margin-0">
+    <form name="registerForm" novalidate class="grid-container" [formGroup]="registerForm" (ngSubmit)="save()">
+      <div class="grid-x">
+        <div class="cell small-12 medium-10 medium-offset-1">
+          <h1>Create Account</h1>
+          <p>Fill in the following details to create a Dairy Feed Tools account. If already have an account, <a
+              href="/signin">sign in here</a>.</p>
+          <div class="callout secondary radius bordered">
+            <span class="invalid-credentials">{{ message }}</span>
+            <div class="grid-x grid-padding-x">
+              <div class="cell small-12 large-3 medium-4">
+                <label>YOUR FARM</label>
+                <small>Please fill in your farm details.</small>
+              </div>
+              <div class="cell small-12 large-9 medium-8">
+                <label>FARM NAME
+                  <input type="text" class="radius no-margin" name="farmName" required formControlName="farmName" />
+                </label>
+                <p><small>The name of your farm.</small></p>
+                <label>FARM ADDRESS
+                  <input type="text" class="radius" name="farmAddress" required formControlName="farmAddress">
+                </label>
+                <label>MANAGER NAME
+                  <input type="text" class="radius" name="managerName" formControlName="managerName"
+                    required />
+                </label>
+                <label>OWNER NAME
+                  <input type="text" class="radius" name="ownerName" required formControlName="ownerName" />
+                </label>
+              </div>
+              <div class="cell small-12 large-3 medium-4">
+                <small>Please select the town your farm is nearest to. This will help to make your feed plans more
+                  accurate by using the selected region's pasture growth rates.</small>
+              </div>
+              <div class="cell small-12 large-9 medium-8">
+                <label>DAIRY FARM REGION (NEAREST TOWN)</label>
+                <div class="grid-x collapse">
+                  <div class="cell small-12 medium-6 region-selector">
+                    <ul>
+                      <li *ngFor="let region of regions">
+                        <a click-stop-propagation (click)="chooseRegion(region)"
+                          [ngClass]="{ 'selected': registration.region === region }">
+                          {{ region }}
+                        </a>
+                      </li>
+                    </ul>
+                  </div>
+                  <div class="cell small-12 medium-6 location-selector" [ngClass]="{'invalid-location':registration.location==null || registration.location.length==0}">
+                    <ul>
+                      <li *ngFor="let location of locationsForRegion">
+                        <a click-stop-propagation (click)="chooseLocation(location)"
+                          [ngClass]="{ 'selected': selectedLocation === location }">
+                          {{ location.name }}
+                        </a>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+              <div class="cell small-12 large-3 medium-4">
+                <label>YOUR PERSONAL DETAILS</label>
+                <small>Please fill in some details about yourself.</small>
+              </div>
+              <div class="cell small-12 large-9 medium-8">
+                <label>FIRST NAME
+                  <input type="text" class="radius" name="firstName" required formControlName="firstName" />
+                </label>
+                <label>LAST NAME
+                  <input type="text" class="radius" name="lastName" required formControlName="lastName" />
+                </label>
+                <!-- <label>TIMEZONE
+                      <select name="timezone" class="radius" (model)="registration.timezone">
+                        <option ng-repeat="option in timezones" value="{{option.name}}">{{option.label}}</option>
+                      </select>
+                  </label> -->
+                <br>
+              </div>
+              <div class="cell small-12 large-3 medium-4">
+                <small>The following email and password will be required to sign in to Dairy Feed Tools.</small>
+              </div>
+              <div class="cell small-12 large-9 medium-8">
+                <label>EMAIL
+                  <input type="email" class="radius" name="email" required formControlName="email"  />
+                </label>
+                <label>PASSWORD
+                  <input type="password" class="radius no-margin" name="password" 
+                    required formControlName="password" />
+                  <div class="grid-x collapse password-check">
+                    <div class="cell">
+                      <div ng-password-strength="strength.password" strength="strength.value" goal="50"
+                        inner-class="meter" class="password-bar"></div>
+                      <small>PASSWORD STRENGTH
+                        {{ strength.password.length > 0 ? '(' + strength.desc + ')' : '' }}</small>
+                    </div>
+                  </div>
+                </label>
+              </div>
+            </div>
+          </div>
+          <div class="grid-x">
+            <div class="cell">
+              <button type="submit" class="button success radius float-right"
+                [ngClass]="{ 'hollow': registerForm.invalid }" [disabled]="registerForm.invalid || registering">
+                <span *ngIf="!registering">CREATE ACCOUNT</span>
+                <span *ngIf="registering">PLEASE WAIT...</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </section>
+</div>
+<footer ng-include="'app/layout/footer.html'"></footer>

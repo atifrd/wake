@@ -1,0 +1,28 @@
+<div id="feed-plan-setup">
+  <div class="fake-top-bar">
+    <div class="grid-container">
+      <div class="grid-x">
+        <div class="large-12 cell">
+          My Feed Plan
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="progress-steps">
+    <div class="grid-container">
+      <div class="grid-x">
+        <div class="large-12 cell">
+          <ul class="breadcrumbs">
+            <li class="current" *ngIf="route.url.value[0].path === 'budget'">
+              {{ feedplan.feedplanValue.scenario.name }}
+              - Budget Report</li>
+            <li class="current" *ngIf="route.url.value[0].path !== 'budget'">
+              {{ feedplan.feedplanValue.scenario.stockDetails[month].month + ' ' + cowType }} - Stock Feeding
+              Instructions</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+  <router-outlet></router-outlet>
+</div>

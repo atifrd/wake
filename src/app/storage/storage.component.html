@@ -1,0 +1,31 @@
+<div id="storage-setup">
+  <div class="fake-top-bar">
+    <div class="grid-container">
+      <div class="grid-x">
+        <div class="large-12 cell">
+          Inventory
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="progress-steps">
+    <div class="grid-container">
+      <div class="grid-x">
+        <div class="large-12 cell">
+          <ul class="breadcrumbs">
+            <li class="current">{{inventory.storageFacilityValue.name}}</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+  <router-outlet></router-outlet>
+  <hr class="primary bottom">
+  <div class="fp-footer">
+    <div class="grid-container grid-x medium-margin-top-1 medium-margin-bottom-1">
+      <div class="cell small-12">
+        <button class="button radius float-right" (click)="close()" tooltip-append-to-body="true">CLOSE</button>
+      </div>
+    </div>
+  </div>
+</div>

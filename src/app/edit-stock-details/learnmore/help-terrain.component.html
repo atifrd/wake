@@ -1,0 +1,54 @@
+<div class="modal-header">
+  <ul class="breadcrumbs">
+    <li>Help</li>
+    <li>Terrain</li>
+  </ul>
+</div>
+<div class="grid-x feed-plan-setup-modal-content-row collapse">
+  <div class="small-12 cell full-height-row">
+    <p>Accurate average distance walked and terrain are important because they affect cows' daily energy requirements.
+    </p>
+    <p><small><b>Example:</b> Daily energy requirements for a 600 kg cow</small></p>
+    <table>
+      <thead>
+        <tr>
+          <th class="text-center">Terrain Type</th>
+          <th>Energy required</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="text-center">
+            <img style="width: 180px;" src="/assets/images/help-terrain-steep.png" alt="Steep terrain" />
+          </td>
+          <td>
+            4.5 MJ ME per km
+          </td>
+        </tr>
+        <tr>
+          <td class="text-center">
+            <img style="width: 180px;" src="/assets/images/help-terrain-undulating.png" alt="Undulating terrain" />
+          </td>
+          <td>
+            3 MJ ME per km
+          </td>
+        </tr>
+        <tr>
+          <td class="text-center">
+            <img style="width: 180px;" src="/assets/images/help-terrain-flat.png" alt="Flat terrain" />
+          </td>
+          <td>
+            2 MJ ME per km
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <p class="text-right">
+      <small><b>Source:</b> Feeding Dairy Cows’ manual, 2015</small>
+    </p>
+  </div>
+  <hr class="primary bottom">
+  <div class="cell small-12 modal-footer medium-margin-top-1">
+    <button class="button radius float-right" (click)="close()">CLOSE</button>
+  </div>
+</div>

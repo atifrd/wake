@@ -1,0 +1,115 @@
+{
+    // Use IntelliSense to find out which attributes exist for C# debugging
+    // Use hover for the description of the existing attributes
+    // For further information visit https://github.com/OmniSharp/omnisharp-vscode/blob/master/debugger-launchjson.md
+    "version": "0.2.0",
+    "compounds": [
+        {
+            "name": "Build And Run FA",
+            "configurations": [
+                "Build fa",
+                "Just .NET Core (web)"
+            ]
+        },
+        {
+            "name": "Just Run",
+            "configurations": [
+                "Just .NET Core (web)",
+                "Launch Chrome"
+            ]
+        }
+    ],
+    "configurations": [
+        {
+            "name": "Build fa",
+            "type": "chrome",
+            "request": "launch",
+            "preLaunchTask": "build-fa",
+            "url": "http://localhost:8460/fa/index.html",
+            "webRoot": "${workspaceFolder}"
+        },
+        {
+            "name": "Serve",
+            "type": "chrome",
+            "request": "launch",
+            "trace": true,
+            "preLaunchTask": null,
+            "port": 9222,
+            "url": "http://localhost:4200/index.html",
+            "webRoot": "${workspaceFolder}",
+            "sourceMapPathOverrides": {
+                "webpack:///./*": "${workspaceFolder}/*",
+                "webpack:///src/*": "${workspaceFolder}/*",
+                "webpack:///*": "*",
+                "webpack:///./~/*": "${workspaceFolder}/node_modules/*",
+                "meteor://💻app/*": "${workspaceFolder}/*"
+            }
+        },
+        {
+            "name": "Serve Admin",
+            "type": "chrome",
+            "request": "launch",
+            "trace": true,
+            "preLaunchTask": null,
+            "port": 9222,
+            "url": "http://localhost:4300",
+            "webRoot": "${workspaceFolder}",
+            "sourceMapPathOverrides": {
+                "webpack:///./*": "${workspaceFolder}/*",
+                "webpack:///src/*": "${workspaceFolder}/*",
+                "webpack:///*": "*",
+                "webpack:///./~/*": "${workspaceFolder}/node_modules/*",
+                "meteor://💻app/*": "${workspaceFolder}/*"
+            }
+        },
+        {
+            "name": "Serve EN",
+            "type": "chrome",
+            "request": "launch",
+            "preLaunchTask": null,
+            "url": "http://localhost:4200/en/index.html",
+            "webRoot": "${workspaceFolder}"
+        },
+        {
+            "name": "Launch Chrome",
+            "type": "chrome",
+            "request": "launch",
+            "preLaunchTask": null,
+            "url": "http://localhost:8460/fa/index.html",
+            "webRoot": "${workspaceFolder}/wwwroot/fa"
+        },
+        {
+            "name": "Just .NET Core (web)",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build-dotnet",
+            // If you have changed target frameworks, make sure to update the program path.
+            "program": "${workspaceFolder}/bin/Debug/netcoreapp2.2/LeeoeProject.dll",
+            "cwd": "${workspaceFolder}",
+            "stopAtEntry": false,
+            "internalConsoleOptions": "openOnSessionStart",
+            "launchBrowser": {
+                "enabled": false,
+                "args": "${auto-detect-url}",
+                "windows": {
+                    "command": "cmd.exe",
+                    "args": "/C start \"\" \"C:/Program Files (x86)/Google/Chrome/Application/chrome.exe\" ${auto-detect-url}"
+                    //"args": "/C start ${auto-detect-url}"
+                },
+                "osx": {
+                    "command": "open"
+                },
+                "linux": {
+                    "command": "xdg-open"
+                }
+            },
+            "env": {
+                "ASPNETCORE_ENVIRONMENT": "Development",
+                "ASPNETCORE_URLS": "http://localhost:8460/"
+            },
+            "sourceFileMap": {
+                "/Views": "${workspaceFolder}/fa/index.html"
+            }
+        }
+    ]
+}

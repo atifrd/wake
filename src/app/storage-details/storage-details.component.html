@@ -1,0 +1,371 @@
+<section id="storage-details" class="grid-container" *ngIf="inventory.storageFacilityValue">
+  <div class="">
+    <div class="grid-x">
+      <div class="small-12 cell">
+        <p>Manage and track the stock inventory in this storage facility.</p>
+      </div>
+    </div>
+    <div class="grid-x">
+      <div class="cell small-12">
+        <div class="callout secondary radius bordered">
+          <div class="list-item">
+            <div class="grid-x">
+              <div class="cell small-6 inventory-status">
+                <h2>Summary</h2>
+                <small>PROJECTED FEED ON HAND</small>
+                <p>
+                  {{ inventory.storageFacilityValue.lastStocktake.feed.name }}<br>
+                  {{ inventory.storageFacilityValue.metrics.currentWeightDm | number: '1.0-0' }} tonnes DM<br>
+                  {{ inventory.storageFacilityValue.metrics.currentWeightAsFed | number: '1.0-0' }} tonnes as
+                  fed<br>
+                  ({{ inventory.storageFacilityValue.metrics.currentFeedLevelPercentage | number: '1.0-0' }}%
+                  capacity)
+                </p>
+                <div class="grid-x">
+                  <div class="cell small-12 inventory-steps with-status">
+                    <div class="fa fa-exclamation" *ngIf="inventory.storageFacilityValue.metrics.runoutWarning">
+                    </div>
+                    <div class="fa fa-check" *ngIf="!inventory.storageFacilityValue.metrics.runoutWarning"></div>
+                    <small>RUNS OUT</small>
+                    <p ng-if="inventory.storageFacilityValue.metrics.dailyTotalUsageRate > 0">
+                      {{ inventory.storageFacilityValue.metrics.runoutDaysDescription }}
+                      ({{ inventory.storageFacilityValue.metrics.runoutDate | date:'d MMM yyyy' }})
+                      <strong *ngIf="inventory.storageFacilityValue.metrics.runoutWarning"><br>Replenish as soon as
+                        possible</strong>
+                    </p>
+                    <p ng-if="inventory.storageFacilityValue.metrics.dailyTotalUsageRate == 0">
+                      Feed not in use
+                    </p>
+                  </div>
+                  <div class="cell small-12 inventory-steps with-status">
+                    <div class="fa fa-exclamation" *ngIf="inventory.storageFacilityValue.metrics.nextStocktakeWarning">
+                    </div>
+                    <div class="fa fa-check" *ngIf="!inventory.storageFacilityValue.metrics.nextStocktakeWarning">
+                    </div>
+                    <small>NEXT SCHEDULED STOCKTAKE</small>
+                    <p>{{ inventory.storageFacilityValue.metrics.nextStocktakeDate | date:'d MMM yyyy' }}
+                      <strong *ngIf="inventory.storageFacilityValue.metrics.nextStocktakeWarning"><br>Stocktake is
+                        overdue</strong>
+                    </p>
+                  </div>
+                </div>
+                <p ng-if="inventory.storageFacilityValue.metrics.dailyTotalUsageRate > 0">
+                  <br>
+                  <small>
+                    The projected feed on hand takes today's usage of
+                    {{inventory.storageFacilityValue.metrics.dailyTotalUsageRate | number:'1.0-0' }}
+                    tonnes {{ inventory.storageFacilityValue.feedRates.quantifiedAs === 'dm' ? 'DM' : 'as fed' }}
+                    into
+                    account when calculating the feed level.
+                  </small>
+                </p>
+
+              </div>
+              <div class="cell small-6 text-right">
+                <img src="{{ inventory.storageFacilityValue.metrics.currentFeedLevelImage }}" class="storage-image">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="callout secondary radius bordered">
+          <div class="list-item">
+            <div class="grid-x">
+              <div class="cell small-12">
+                <h2>Feed Usage</h2>
+              </div>
+            </div>
+            <div class="grid-x">
+              <div class="cell small-4 inventory-status">
+                <div class="grid-x">
+                  <div class="cell small-12 inventory-steps">
+                    <small>DAILY USAGE (ALL STOCK)</small>
+                    <p>{{inventory.storageFacilityValue.metrics.dailyTotalUsageRate | number:'1.0-0' }} tonnes/day
+                      {{ inventory.storageFacilityValue.feedRates.quantifiedAs === 'dm' ? 'DM' : 'as fed' }}</p>
+                  </div>
+                </div>
+              </div>
+              <div class="cell small-5">
+                <div class="cell small-12 inventory-steps">
+                  <small>FEED RATE</small>
+                  <p ng-if="inventory.storageFacilityValue.metrics.dailyTotalUsageRate == 0">
+                    Feed not in use
+                  </p>
+                  <div *ngIf="inventory.storageFacilityValue.feedRates.milkers.number > 0"
+                    style="margin-bottom: 0.5rem;">
+                    {{inventory.storageFacilityValue.feedRates.milkers.number}} Milkers consuming
+                    {{inventory.storageFacilityValue.feedRates.milkers.consumed}} kg/day
+                    {{ inventory.storageFacilityValue.feedRates.quantifiedAs === 'dm' ? 'DM' : 'as fed' }}
+                    <span *ngIf="inventory.storageFacilityValue.feedRates.milkers.wastage > 0"> including
+                      {{inventory.storageFacilityValue.feedRates.milkers.wastage}}% wastage</span>
+                  </div>
+                  <div *ngIf="inventory.storageFacilityValue.feedRates.dry.number > 0" style="margin-bottom: 0.5rem;">
+                    {{inventory.storageFacilityValue.feedRates.dry.number}} Dry cows consuming
+                    {{inventory.storageFacilityValue.feedRates.dry.consumed}} kg/day
+                    {{ inventory.storageFacilityValue.feedRates.quantifiedAs === 'dm' ? 'DM' : 'as fed' }}
+                    <span *ngIf="inventory.storageFacilityValue.feedRates.dry.wastage > 0"> including
+                      {{inventory.storageFacilityValue.feedRates.dry.wastage}}% wastage</span>
+                  </div>
+                  <div *ngIf="inventory.storageFacilityValue.feedRates.transition.number > 0">
+                    {{inventory.storageFacilityValue.feedRates.transition.number}} Transition cows consuming
+                    {{inventory.storageFacilityValue.feedRates.transition.consumed}} kg/day
+                    {{ inventory.storageFacilityValue.feedRates.quantifiedAs === 'dm' ? 'DM' : 'as fed' }}
+                    <span *ngIf="inventory.storageFacilityValue.feedRates.milkers.wastage > 0"> including
+                      {{inventory.storageFacilityValue.feedRates.transition.wastage}}% wastage</span>
+                  </div>
+                </div>
+              </div>
+              <div class="cell small-3 text-right">
+                <button (click)="openModal(editFeedRate)" class="button radius">EDIT FEED USAGE</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="callout secondary radius bordered">
+          <div class="list-item">
+            <div class="grid-x">
+              <div class="cell small-12">
+                <h2>Last Stocktake</h2>
+              </div>
+            </div>
+            <div class="grid-x">
+              <div class="cell small-4 inventory-status">
+                <div class="grid-x">
+                  <div class="cell small-12 inventory-steps">
+                    <small>RECORDED</small>
+                    <p>{{ inventory.storageFacilityValue.lastStocktake.recorded | date:'d MMM yyyy' }}</p>
+                  </div>
+                  <div class="cell small-12 inventory-steps">
+                    <small>FEED</small>
+                    <p>{{inventory.storageFacilityValue.lastStocktake.feed.name }}</p>
+                  </div>
+                  <div class="cell small-12 inventory-steps">
+                    <small>MARKET VALUE</small>
+                    <p>${{ inventory.storageFacilityValue.metrics.lastStocktakeMarketValue | number: '1.0-0' }} @
+                      ${{ inventory.storageFacilityValue.lastStocktake.unitValue | number: '1.0-0' }}/tonne</p>
+                  </div>
+                  <div class="cell small-12 inventory-steps">
+                    <small>RECORDED BY</small>
+                    <p>{{ inventory.storageFacilityValue.lastStocktake.recordedBy.firstName }}
+                      {{ inventory.storageFacilityValue.lastStocktake.recordedBy.lastName }}</p>
+                  </div>
+                </div>
+              </div>
+              <div class="cell small-5">
+                <div class="cell small-12 inventory-steps">
+                  <small>FEED LEVEL</small>
+                  <p>{{ inventory.storageFacilityValue.metrics.lastStocktakeWeightDm | number: '1.0-0' }} tonnes
+                    DM<br>
+                    {{ inventory.storageFacilityValue.metrics.lastStocktakeWeightAsFed | number: '1.0-0' }} tonnes
+                    as
+                    fed<br>
+                    ({{ inventory.storageFacilityValue.metrics.lastStocktakeFeedLevelPercentage | number: '1.0-0' }}%
+                    capacity)
+                  </p>
+                </div>
+                <div class="cell small-12 inventory-steps">
+                  <small>DRY MATTER</small>
+                  <p>{{ inventory.storageFacilityValue.lastStocktake.dryMatter | number:'1.0-0' }}%</p>
+                </div>
+                <div class="cell small-12 inventory-steps"
+                  ng-if="inventory.storageFacilityValue.storageType.storageShape !== 'bales' && inventory.storageFacilityValue.storageType.storageShape !== 'bags'">
+                  <small>WET DENSITY</small>
+                  <p>{{ inventory.storageFacilityValue.lastStocktake.unitWeight | number:'1.0-0' }} kg/cubic metre
+                  </p>
+                </div>
+                <div class="cell small-12 inventory-steps"
+                  ng-if="inventory.storageFacilityValue.storageType.storageShape === 'bales'">
+                  <small>BALE WEIGHT</small>
+                  <p>{{ inventory.storageFacilityValue.lastStocktake.unitWeight | number:'1.0-0' }} kg/bale</p>
+                </div>
+                <div class="cell small-12 inventory-steps"
+                  ng-if="inventory.storageFacilityValue.storageType.storageShape === 'bags'">
+                  <small>BAG WEIGHT</small>
+                  <p>{{ inventory.storageFacilityValue.lastStocktake.unitWeight | number:'1.0-0' }} kg/bag</p>
+                </div>
+              </div>
+              <div class="cell small-3 text-right">
+                <button (click)="recordStocktake()" class="button radius">NEW STOCKTAKE</button>
+                <button (click)="openModal(showStocktakeHistory)" class="button radius">VIEW STOCKTAKE
+                  HISTORY</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="callout secondary radius bordered">
+          <div class="list-item">
+            <div class="grid-x">
+              <div class="cell small-12">
+                <h2>Last Delivery</h2>
+              </div>
+            </div>
+            <div class="grid-x">
+              <div class="cell small-9 inventory-status" *ngIf="!inventory.storageFacilityValue.lastDelivery">
+                No deliveries recorded
+              </div>
+              <div class="cell small-4 inventory-status" *ngIf="inventory.storageFacilityValue.lastDelivery">
+                <div class="grid-x">
+                  <div class="cell small-12 inventory-steps">
+                    <small>DELIVERY DATE</small>
+                    <p>{{ inventory.storageFacilityValue.lastDelivery.delivered | date: 'd MMM yyyy' }}</p>
+                  </div>
+                  <div class="cell small-12 inventory-steps">
+                    <small>FEED</small>
+                    <p>{{ inventory.storageFacilityValue.lastDelivery.productName }}</p>
+                    <p>({{ inventory.storageFacilityValue.lastDelivery.feed.name }})</p>
+                  </div>
+                  <div class="cell small-12 inventory-steps">
+                    <small>RECORDED BY</small>
+                    <p>{{ inventory.storageFacilityValue.lastDelivery.recordedBy.firstName }}
+                      {{ inventory.storageFacilityValue.lastDelivery.recordedBy.lastName }}</p>
+                  </div>
+                </div>
+              </div>
+              <div class="cell small-5 inventory-status"
+                *ngIf="inventory.storageFacilityValue.lastDelivery && inventory.storageFacilityValue.storageType">
+                <div class="grid-x">
+                  <div class="cell small-12 inventory-steps">
+                    <small>QUANTITY</small>
+                    <p *ngIf="inventory.storageFacilityValue.storageType.storageShape === 'bales'">
+                      {{ inventory.storageFacilityValue.lastDelivery.quantity }} bales @
+                      {{ inventory.storageFacilityValue.lastDelivery.unitWeight | number: '1.0-0' }} kg/bale</p>
+                    <p *ngIf="inventory.storageFacilityValue.storageType.storageShape === 'bags'">
+                      {{ inventory.storageFacilityValue.lastDelivery.quantity }} bags @
+                      {{ inventory.storageFacilityValue.lastDelivery.unitWeight | number: '1.0-0' }} kg/bag</p>
+                    <p
+                      *ngIf="inventory.storageFacilityValue.storageType.storageShape !== 'bales' && inventory.storageFacilityValue.storageType.storageShape !== 'bags'">
+                      {{ inventory.storageFacilityValue.lastDelivery.quantity }} tonnes</p>
+                  </div>
+                </div>
+              </div>
+              <div class="cell small-3 text-right">
+                <button (click)="openModal(recordDelivery)" class="button radius">NEW DELIVERY</button>
+                <button *ngIf="inventory.storageFacilityValue.lastDelivery" (click)="openModal(showDeliveryHistory)" class="button radius">VIEW DELIVERY HISTORY</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="callout secondary radius bordered">
+          <div class="list-item">
+            <div class="grid-x">
+              <div class="cell small-12">
+                <h2>Storage Facility</h2>
+              </div>
+            </div>
+            <div class="grid-x">
+              <div class="cell small-4 inventory-status">
+                <div class="grid-x">
+                  <div class="cell small-12 inventory-steps">
+                    <small>NAME</small>
+                    <p>{{ inventory.storageFacilityValue.name }}</p>
+                  </div>
+                  <div class="cell small-12 inventory-steps">
+                    <small>TYPE</small>
+                    <p>{{ inventory.storageFacilityValue.storageType.name }}</p>
+                  </div>
+                </div>
+              </div>
+              <div class="cell small-5" *ngIf="inventory.storageFacilityValue.storageType.storageShape === 'rectangle'">
+                <div class="cell small-12 inventory-steps">
+                  <small>CAPACITY</small>
+                  <p>{{ inventory.storageFacilityValue.metrics.capacity | number: '1.0-0' }} cubic metres</p>
+                </div>
+                <div class="cell small-12 inventory-steps">
+                  <small>DIMENSIONS</small>
+                  <p>Width: {{ inventory.storageFacilityValue.dimensions.width }} metres</p>
+                  <p>Height: {{ inventory.storageFacilityValue.dimensions.height }} metres</p>
+                  <p>Length: {{ inventory.storageFacilityValue.dimensions.length }} metres</p>
+                </div>
+              </div>
+              <div class="cell small-5" *ngIf="inventory.storageFacilityValue.storageType.storageShape === 'cylinder'">
+                <div class="cell small-12 inventory-steps">
+                  <small>CAPACITY</small>
+                  <p>{{ inventory.storageFacilityValue.metrics.capacity | number: '1.0-0' }} cubic metres</p>
+                </div>
+                <div class="cell small-12 inventory-steps">
+                  <small>DIMENSIONS</small>
+                  <p>Diameter: {{ inventory.storageFacilityValue.dimensions.diameter }} metres</p>
+                  <p>Height: {{ inventory.storageFacilityValue.dimensions.height }} metres</p>
+                </div>
+              </div>
+              <div class="cell small-5" *ngIf="inventory.storageFacilityValue.storageType.storageShape === 'tube'">
+                <div class="cell small-12 inventory-steps">
+                  <small>CAPACITY</small>
+                  <p>{{ inventory.storageFacilityValue.metrics.capacity | number: '1.0-0' }} cubic metres</p>
+                </div>
+                <div class="cell small-12 inventory-steps">
+                  <small>DIMENSIONS</small>
+                  <p>Diameter: {{ inventory.storageFacilityValue.dimensions.diameter }} metres</p>
+                  <p>Length: {{ inventory.storageFacilityValue.dimensions.length }} metres</p>
+                </div>
+              </div>
+              <div class="cell small-5" *ngIf="inventory.storageFacilityValue.storageType.storageShape === 'bales'">
+                <div class="cell small-12 inventory-steps">
+                  <small>CAPACITY</small>
+                  <p>{{ inventory.storageFacilityValue.metrics.capacity | number: '1.0-0' }} bales</p>
+                </div>
+              </div>
+              <div class="cell small-5"
+                *ngIf="inventory.storageFacilityValue.storageType.storageShape === 'coned cylinder'">
+                <div class="cell small-12 inventory-steps">
+                  <small>CAPACITY</small>
+                  <p>{{ inventory.storageFacilityValue.metrics.capacity | number: '1.0-0' }} cubic metres</p>
+                </div>
+                <div class="cell small-12 inventory-steps">
+                  <small>DIMENSIONS</small>
+                  <p>Diameter: {{ inventory.storageFacilityValue.dimensions.diameter }} metres</p>
+                  <p>Height: {{ inventory.storageFacilityValue.dimensions.height }} metres</p>
+                  <p>Cone Height: {{ inventory.storageFacilityValue.dimensions.coneHeight }} metres</p>
+                </div>
+              </div>
+              <div class="cell small-5" *ngIf="inventory.storageFacilityValue.storageType.storageShape === 'bags'">
+                <div class="cell small-12 inventory-steps">
+                  <small>CAPACITY</small>
+                  <p>{{ inventory.storageFacilityValue.metrics.capacity | number: '1.0-0' }} bags</p>
+                </div>
+              </div>
+
+              <div class="cell small-3 text-right">
+                <button (click)="openModal(editName)" class="button radius">EDIT NAME</button>
+                <button (click)="deleteStorageFacility()" class="button alert radius">DELETE STORAGE
+                  FACILITY</button>
+              </div>
+
+              <div class="cell small-12">
+                <p><br>
+                  <small>
+                    <span>
+                      The following farm feed inventory settings are configured:<br>
+                      <span *ngFor="let item of notificationsMessageTypes">- {{ item }}<br></span>
+                    </span>
+                    <a routerLink="farms/{{farm.farmValue.id}}/settings">Manage feed inventory settings</a>
+                  </small>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<ng-template #editFeedRate>
+  <app-storage-edit-feedrate (closeModal)="closeModal()"></app-storage-edit-feedrate>
+</ng-template>
+<ng-template #recordStocktake>
+
+</ng-template>
+<ng-template #showStocktakeHistory>
+  <app-storage-stocktake-history (closeModal)="closeModal()"></app-storage-stocktake-history>
+</ng-template>
+<ng-template #recordDelivery>
+
+</ng-template>
+<ng-template #showDeliveryHistory>
+  <app-storage-delivery-history (closeModal)="closeModal()"></app-storage-delivery-history>
+</ng-template>
+<ng-template #deleteStorageFacility>
+
+</ng-template>
+<ng-template #editName>
+  <app-storage-edit-name (closeModal)="closeModal()"></app-storage-edit-name>
+</ng-template>

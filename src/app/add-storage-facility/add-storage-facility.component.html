@@ -1,0 +1,58 @@
+<div class="modal-header">
+    <ul class="breadcrumbs">
+      <li>Storage Facility</li>
+    </ul>
+  </div>
+  <div class="row collapse feed-plan-setup-modal-content-row">
+    <div class="small-12 columns">
+      <p>Add a farm storage facility.</p>
+    </div>
+    <div class="row collapse">
+      <div class="columns">
+        <table class="fp-table">
+        <tbody>
+          <tr>
+            <th>
+              <label for="storage-description">NAME/DESCRIPTION</label>
+            </th>
+            <td>
+              <input type="text" id="storage-name" class="radius" autofocus ng-model="storageFacility.name">
+              <p>Give the storage a descriptive name, for example "Hay shed near dairy", "Silo 1", etc.</p>
+            </td>
+          </tr>
+          <tr>
+            <th>
+              <label for="storage-type">TYPE</label>
+              <!-- <a href="#" ng-click="energy()" class="more-info-button button info tiny radius" tooltip="Press to learn more about energy" tooltip-append-to-body="true">LEARN MORE</a> -->
+            </th>
+            <td>
+              <select
+                class="radius"
+                id="storage-type"
+                ng-model="storageTypeId"
+                ng-change="storageTypeSelected">
+                <option ngFor="let item of storageTypes" value={{item.id}}>
+                  {{item.name}}
+                </option>
+              </select>
+            </td>
+          </tr>
+          <tr >
+             <th>
+              <label for="storage-capacity">STORAGE CAPACITY</label>
+              </th>
+              <td>
+  
+              </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+    <hr class="primary bottom">
+    <div class="columns modal-footer">
+      <button class="small radius" ng-click="cancel()">CANCEL</button>
+      <button class="success small radius right" (click)="save()" ng-class="{disabled : storageFacility.storageFacilityName == '' || storageFacility.storageFacilityType == undefined}">SAVE</button>
+    </div>
+  </div>
+  

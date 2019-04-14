@@ -1,0 +1,7 @@
+<!-- <div 
+    *ngIf="message" 
+    [ngClass]="{ 'alert': message, 'alert-success': message.type === 'success', 'alert-danger': message.type === 'error' }">{{message.text}}
+    <button (click)="dismiss()">OK!</button>
+</div> -->
+
+<alert *ngIf="message" [type]="message.type" [dismissible]="dismissible" (onClosed)="dismiss()"><span [innerHtml]="message.text"></span></alert>

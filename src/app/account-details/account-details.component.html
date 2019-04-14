@@ -1,0 +1,53 @@
+<div class="medium-margin-0">
+  <div class="grid-x" *ngIf="account.profileValue">
+    <div class="small-12 cell">
+      <div class="grid-x">
+        <div class="cell">
+          <h1>Account Details</h1>
+          <p>Manage your account settings.</p>
+        </div>
+      </div>
+      <div class="grid-x">
+        <div class="cell">
+          <div class="callout secondary radius bordered">
+            <h2>Change Email Address</h2>
+            <p>Your current email address is <strong>{{ account.profileValue.email }}</strong></p>
+            <button class="button small radius" (click)="openModal(editEmail)">CHANGE EMAIL</button>
+          </div>
+        </div>
+        <div class="cell">
+          <div class="callout secondary radius bordered">
+            <h2>Change Password</h2>
+            <button class="button small radius" (click)="openModal(chagePassword)">CHANGE PASSWORD</button>
+            <p>Can't remember your password? <a [routerLink]="['/request-password-reset']">Go here to reset your password by email.</a></p>
+          </div>
+        </div>
+        <div class="cell">
+          <div class="callout secondary radius bordered">
+            <h2>Your Details</h2>
+            <p>
+              Name: {{ account.profileValue.firstName }} {{ account.profileValue.lastName }}
+              <!-- Timezone: {{ vm.profile.timezone }} -->
+            </p>
+            <p></p>
+            <button class="button small radius" (click)="openModal(editName)">EDIT NAME</button>
+            <!-- <button class="small radius">EDIT TIMEZONE</button> -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<ng-template #chagePassword>
+  <app-edit-password></app-edit-password>
+</ng-template>
+
+<ng-template #editName>
+  <app-edit-user-name>
+    </app-edit-user-name>
+</ng-template>
+
+<ng-template #editEmail>
+  <app-edit-email>
+    </app-edit-email>
+</ng-template>

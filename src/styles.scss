@@ -1,0 +1,31 @@
+/**
+ *  If you want to override some foundation settings, you have to change values here.
+ *  The list of settings values are listed here bower_components/foundation/scss/foundation/_settings.scss
+ */
+
+@import './assets/styles/variables.scss';
+@import './assets/styles/foundation_settings.scss';
+
+/**
+ *  The import of foundation is made manually because there is still no links of the
+ *  sass version in their bower.json...
+ */
+ // @import './legacystyles';
+
+ @import '../node_modules/foundation-sites/scss/foundation';
+ 
+/**
+ *  Do not change the position of foundation_mixins.scss file. shoud be just before foundation-everything
+ */ 
+ @import './assets/styles/foundation_mixins.scss';
+
+ @include foundation-everything($prototype: true);
+ 
+ 
+@import "../node_modules/ngx-foundation/assets/scss/main";
+
+@import './assets/styles/shared.scss';
+@import './assets/styles/main-styles.scss';
+@import './assets/styles/main-style-fix.scss';
+@import './assets/styles/edit-diet.scss';
+@import './assets/styles/foundation_custom.scss';

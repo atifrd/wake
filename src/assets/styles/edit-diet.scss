@@ -1,0 +1,152 @@
+
+// .diet .fp-table {
+//   thead tr th {
+//     width: 25%;
+//     padding: 0rem 0.5rem;
+//     > span {
+//       //width: 9rem;
+//       //text-align: right;
+//       top: 0;
+//       padding: 0.25rem 0;
+//       margin-left: 0;
+//     }
+//     &:first-child  {
+//       padding-left: 1rem;
+//       span {
+//         //width: auto;
+//         //text-align: left;
+//       }
+//     }
+//   }
+//   tbody tr {
+//     td, th {
+//       padding: 1rem 0.5rem;
+//       width: 25%;
+//     }
+//     td {
+//       line-height: 1rem;
+//     }
+//     th span {
+//       font-weight: 500;
+//       font-size: 1rem;
+//     }
+//   }
+//   th button.tiny {
+//     padding: 0.5rem 1.5rem;
+//     margin: 0;
+//     //float: right;
+//     margin-top: 0.5rem;
+//     width: auto;
+//   }
+// }
+
+// .diet {
+//   .tabs {
+//     margin-top: -0.5rem !important;
+//     dd.tab-header-header {
+//       display: none;
+//     }
+//   }
+//   .tabs-content {
+//     margin: 5rem 0 0 0;
+
+//     .table-header-background {
+//       margin-top: -6.5rem;
+//       span {
+//         top: 5.4rem;
+//       }
+//     }
+//   }
+// }
+
+// .cow-diet {
+//   .cow-diet-form > .columns {
+//     padding-left: 1rem;
+//     &:first-child {
+//       background-color: #f4f6f7;
+//       padding-left: 0;
+//     }
+//     &:last-child {
+//       padding-right: 0.5rem;
+//     }
+//   }
+//   dl dt {
+//     margin-bottom: 0;
+//   }
+//   dl dd {
+//     font-size: 0.825rem;
+//   }
+//   .diet-warning {
+//     margin-bottom: 1rem;
+//     width: 33%;
+//     float: left;
+//     padding-right: 0.5rem;
+//     .fa {
+//       @extend .validation-icon;
+//       border-radius: 3px;
+//       display: block;
+//       float: left;
+//       margin-right: 0.2rem;
+//       &.fa-check {
+//         background: $success-color;
+//       }
+//     }
+//     > span {
+//       display: block;
+//       font-size: 0.75rem;
+//       height: 2.5rem;
+//     }
+//   }
+
+//   .fp-table {
+//     tbody {
+//       .fa {
+//         @extend .validation-icon;
+//         border-radius: 3px;
+//         margin-top: 0.5rem;
+//         &.fa-check {
+//           background: $success-color;
+//         }
+//       }
+//       tr th  {
+//         vertical-align: middle;
+//         padding-top: 2rem;
+//         text-align: right;
+//         span {
+//           font-size: 1rem;
+//           font-weight: 500;
+//         }
+//         &:first-child {
+//           padding-left: 0;
+//         }
+//       }
+//       tr td:last-child {
+//           padding-right: 0;
+//       }
+//       label {
+//         white-space: nowrap;
+//       }
+//       .consumed-column {
+//         width: 30%;
+//       }
+//       .surplus-deficit-column,
+//       .wastage-column {
+//         width: 30%;
+//         span {
+//           font-size: 1rem;
+//           font-weight: 500;
+//         }
+//       }
+//       .safe-qty-column,
+//       .surplus-deficit-icon-column {
+//         width: 16%;
+//       }
+//       .surplus-deficit-icon-column div {
+//         margin-top: 2rem;
+//       }
+//       .fa {
+//         cursor: help;
+//       }
+//     }
+//   }
+// }

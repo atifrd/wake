@@ -1,0 +1,58 @@
+<div class="modal-header">
+  <ul class="breadcrumbs">
+    <li>Stocktake History - {{ inventory.storageFacilityValue.name }}</li>
+  </ul>
+</div>
+<div class="gird-container collapse feed-plan-setup-modal-content-row start-feed-plan">
+  <div class="grid-x collapse">
+    <div class="cell">
+      <table>
+        <thead>
+          <tr>
+            <th>Date Recorded</th>
+            <th>
+              <span *ngIf="inventory.storageFacilityValue.storageType.levelMeasurementMethod === 'bags'">Bags</span>
+              <span *ngIf="inventory.storageFacilityValue.storageType.levelMeasurementMethod === 'bales'">Bales</span>
+              <span *ngIf="inventory.storageFacilityValue.storageType.levelMeasurementMethod === 'from back'">Metres from back</span>
+              <span *ngIf="inventory.storageFacilityValue.storageType.levelMeasurementMethod === 'from bottom'">Metres from bottom</span>
+              <span *ngIf="inventory.storageFacilityValue.storageType.levelMeasurementMethod === 'from cone bottom'">Metres from bottom</span>
+            </th>
+            <th>
+              <span *ngIf="inventory.storageFacilityValue.storageType.storageShape === 'bags'">Bag Weight</span>
+              <span *ngIf="inventory.storageFacilityValue.storageType.storageShape === 'bales'">Bale Weight</span>
+              <span *ngIf="inventory.storageFacilityValue.storageType.storageShape !== 'bags' && inventory.storageFacilityValue.storageType.storageShape !== 'bales'">Wet Density</span>
+            </th>
+            <th>Dry Matter</th>
+            <th>Market Value</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let stocktake of inventory.stocktakesValue">
+            <td>{{stocktake.recorded | date:'d MMM yyyy'}}</td>
+            <td>
+              <span *ngIf="inventory.storageFacilityValue.storageType.storageShape === 'bags'">{{stocktake.level | number: 0}} bags</span>
+              <span *ngIf="inventory.storageFacilityValue.storageType.storageShape === 'bales'">{{stocktake.level | number: 0}} bales</span>
+              <span *ngIf="inventory.storageFacilityValue.storageType.storageShape !== 'bags' && inventory.storageFacilityValue.storageType.storageShape !== 'bales'">{{stocktake.level | number: '1.0-0'}} metres</span>
+            </td>
+            <td>
+              <span *ngIf="inventory.storageFacilityValue.storageType.storageShape === 'bags'">{{stocktake.unitWeight | number: 0}} kg/bag</span>
+              <span *ngIf="inventory.storageFacilityValue.storageType.storageShape === 'bales'">{{stocktake.unitWeight | number: 0}} kg/bale</span>
+              <span *ngIf="inventory.storageFacilityValue.storageType.storageShape !== 'bags' && inventory.storageFacilityValue.storageType.storageShape !== 'bales'">{{stocktake.unitWeight | number: '1.0-0'}} kg/cubic metre</span>
+            </td>
+            <td>
+              {{ stocktake.dryMatter | number: '1.0-0' }}%
+            </td>
+            <td>
+              ${{ stocktake.unitValue | number: '1.0-0' }}/tonne
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <hr class="primary bottom">
+  <div class="medium-12 cell medium-margin-top-1 modal-footer">
+    <button class="button radius" (click)="close()">CLOSE</button>
+  </div>
+</div>
+  

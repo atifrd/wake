@@ -1,0 +1,79 @@
+<div class="grid-container">
+  <section id="inventory-manager-home" class="medium-margin-top-2">
+    <div class="grid-x">
+      <div class="cell small-12">
+        <h1>Inventory</h1>
+        <p>Keep track of your stock inventory and gain insight into your feed usage.</p>
+        <button *ngIf="isAuthorisedForRole('administrator')" (click)="openModal(addstoragefacility)"
+          class="button small radius">ADD STORAGE FACILITY</button>
+      </div>
+    </div>
+    <div class="grid-x">
+      <div class="cell small-12" *ngIf="hasStorageFacilities">
+        <div class="callout secondary radius bordered">
+          <div *ngFor="let storage of inventory.storageFacilitiesValue" class="list-item">
+            <div class="grid-x">
+              <div class="cell small-12">
+                <h2>{{storage.name}}</h2>
+              </div>
+            </div>
+            <div class="grid-x">
+              <div class="cell small-4 inventory-status">
+                <div class="grid-x">
+                  <div class="cell small-12 inventory-steps">
+                    <p>{{ storage.lastStocktake.feed.name }}</p>
+                    <p>{{ storage.metrics.currentWeightDm | number: '1.1-1' }} tonnes DM</p>
+                    <p>{{ storage.metrics.currentWeightAsFed | number: '1.1-1' }} tonnes as fed</p>
+                    <p>({{ storage.metrics.currentFeedLevelPercentage | number: '1.0-0' }}% of capacity)</p>
+                  </div>
+                  <div class="cell small-12 inventory-steps with-status">
+                    <div class="fa fa-exclamation" *ngIf="storage.metrics.runoutWarning"></div>
+                    <div class="fa fa-check" *ngIf="!storage.metrics.runoutWarning"></div>
+                    <small>RUNS OUT</small>
+                    <p *ngIf="storage.metrics.dailyTotalUsageRate > 0">
+                      {{ storage.metrics.runoutDaysDescription }} ({{ storage.metrics.runoutDate | date:'d MMM yyyy' }})
+                      <strong *ngIf="storage.metrics.runoutWarning"><br>Replenish as soon as possible</strong>
+                    </p>
+                    <p *ngIf="storage.metrics.dailyTotalUsageRate == 0">
+                      Feed not in use
+                    </p>
+                  </div>
+                  <div class="cell small-12 inventory-steps with-status">
+                    <div class="fa fa-exclamation" *ngIf="storage.metrics.nextStocktakeWarning"></div>
+                    <div class="fa fa-check" *ngIf="!storage.metrics.nextStocktakeWarning"></div>
+                    <small>NEXT STOCKTAKE</small>
+                    <p>{{ storage.metrics.nextStocktakeDate | date:'d MMM yyyy' }}
+                      <strong *ngIf="storage.metrics.nextStocktakeWarning"><br>Stocktake is overdue</strong>
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div class="cell small-5">
+                <img [src]="storage.metrics.currentFeedLevelImage" class="storage-image">
+              </div>
+              <div class="cell small-3 text-right">
+                <!-- <button (click)="recordStocktake(farmId, storage.id)" class="small radius">NEW STOCKTAKE</button> -->
+                <button *ngIf="isAuthorisedOnlyForRole('feed-supply')" (click)="recordDelivery(storage.id)"
+                  class="button radius">NEW DELIVERY
+                </button>
+                <button *ngIf="isAuthorisedForRole('administrator')" (click)="manageStorageDetails(storage.id)"
+                  class="button  radius">MANAGE
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="cell small-12" *ngIf="!hasStorageFacilities">
+        <p>
+          There's no inventory to manage because you haven't setup any storage facilities yet.<br />
+          Get started by pressing on <em>add storage facility</em>.
+        </p>
+      </div>
+    </div>
+  </section>
+</div>
+<ng-template #addstoragefacility>
+  <app-add-storage-facility [startTask]="task">
+  </app-add-storage-facility>
+</ng-template>

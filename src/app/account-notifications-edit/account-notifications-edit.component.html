@@ -1,0 +1,83 @@
+<div class="modal-header">
+  <ul class="breadcrumbs">
+    <li>Notifications {{this.paramFromParent}}</li>
+  </ul>
+</div>
+<div class="grid-x collapse feed-plan-setup-modal-content-row start-feed-plan">
+  <form name="notificationForm" (ngSubmit)="notificationForm.form.valid && save()" #notificationForm="ngForm"
+    novalidate>
+    <p>Manage the email notifications you recieve from Dairy Feed Tools.</p>
+    <div class="callout radius bordered secondary">
+      <h2>Feed Plan</h2>
+      <div class="grid-x" style="border-top: 1px solid #ddd;padding-top: 0.5rem;">
+        <div class="cell small-4">
+          <label>FEED PLAN REVIEWS</label>
+          <small>Regular reviewing of the feed plan enables better forecasting of feed requirements for your
+            herd.</small>
+        </div>
+        <div class="cell small-7 small-offset-1">
+          <div>
+            <input id="notifyFeedplan" class="checkbox-custom" name="notifyFeedplan" type="checkbox"
+              [(ngModel)]="profile.notifyFeedplan">
+            <label for="notifyFeedplan" class="checkbox-custom-label">Send me an email when it is time to review feed
+              plans</label>
+          </div>
+        </div>
+      </div>
+      <br>
+      <h2>Feed Inventory</h2>
+      <div class="grid-x" style="border-top: 1px solid #ddd;padding-top: 0.5rem;">
+        <div class="cell small-4">
+          <label>STOCKTAKES</label>
+          <small>Regular performing stocktakes ensures that the projected feed on hand is accurate.</small>
+        </div>
+        <div class="cell small-7 small-offset-1">
+          <div>
+            <input id="notifyStocktake" class="checkbox-custom" name="notifyStocktake" type="checkbox"
+              [(ngModel)]="profile.notifyStocktake">
+            <label for="notifyStocktake" class="checkbox-custom-label">Send me an email when it is time to perform
+              stocktakes</label>
+          </div>
+        </div>
+      </div>
+      <br>
+      <div class="grid-x" style="border-top: 1px solid #ddd;padding-top: 0.5rem;">
+        <div class="cell small-4">
+          <label>FEED RUN OUTS</label>
+          <small>Warnings when a feed is about to run out.</small>
+        </div>
+        <div class="cell small-7 small-offset-1">
+          <div>
+            <input id="notifyFeedRunout" class="checkbox-custom" name="notifyFeedRunout" type="checkbox"
+              [(ngModel)]="profile.notifyFeedRunout">
+            <label for="notifyFeedRunout" class="checkbox-custom-label">Send me an email when a feed is about to run
+              out</label>
+          </div>
+        </div>
+      </div>
+      <br>
+      <div class="grid-x collapse" style="border-top: 1px solid #ddd;padding-top: 0.5rem;">
+        <div class="cell small-4">
+          <label>FEED DELIVERIES</label>
+          <small>Notify when a feed delivery is made, so that a stocktake can be performed.</small>
+        </div>
+        <div class="cell small-7 small-offset-1">
+          <div>
+            <input id="notifyDeliveries" class="checkbox-custom" name="notifyDeliveries" type="checkbox"
+              [(ngModel)]="profile.notifyDeliveries">
+            <label for="notifyDeliveries" class="checkbox-custom-label">Send me an email when a feed delivery is
+              made</label>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+  <hr class="primary bottom">
+  <div class="medium-12 cell modal-footer medium-margin-top-1">
+    <button class="button radius" (click)="cancel()">CANCEL</button>
+    <button class="button success radius float-right" (click)="save()" [ngClass]="{ 'hollow': !notificationForm.form.valid }"
+      type="submit" [disabled]="!notificationForm.form.valid">
+      SAVE
+    </button>
+  </div>
+</div>

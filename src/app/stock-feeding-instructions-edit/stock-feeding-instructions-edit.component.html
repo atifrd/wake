@@ -1,0 +1,22 @@
+<div class="modal-header">
+  <ul class="breadcrumbs">
+    <li>Update stock feeding instructions</li>
+  </ul>
+</div>
+<div class="grid-container">
+  <div class="grid-x collapse feed-plan-setup-modal-content-row view-feed-instructions">
+    <p>Provide important details about the feed type or method to measure or feed out.</p>
+    <div>
+      <dl>
+        <dt>Instructions</dt>
+        <dd><textarea rows="4" [(ngModel)]="comment"> </textarea></dd>
+      </dl>
+    </div>
+    <br />
+    <hr class="primary bottom">
+    <div class="medium-12 cell modal-footer medium-margin-top-1">
+      <button class="button success radius float-right" (click)="save()">SAVE</button>
+      <button class="button radius float-left" (click)="close()">CANCEL</button>
+    </div>
+  </div>
+</div>

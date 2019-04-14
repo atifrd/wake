@@ -1,0 +1,32 @@
+//-------------New Custom Variable--------------
+$topbar-link-color : #fff;
+$menu-background : #1668D4;
+
+//----------------OLD Settings-----------------
+// Top bar
+$primary-color: #3381e9;
+$alert-color: #f04124;
+$success-color: #3fce00;
+$warning-color: #ffa200;
+$info-color: #89B6C1;
+$table-header-bgcolor: rgb(248, 248, 248);
+$label-color: #333;
+$transparant-color: transparent;
+$tootltip-color: rgb(94, 4, 105);
+
+$input-border-radius: 6px;
+
+// We use these to set the meter colors
+$progress-meter-color: #fff;
+$progress-meter-secondary-color: #ffa200;
+$progress-meter-success-color: #3fce00;
+$progress-meter-alert-color: #ff0000;
+
+$input-font-size: 1rem;
+
+$header-font-family: "Open Sans", "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
+$header-font-weight: 600;
+
+$container-padding-large : 24rem;
+$container-padding-medium : 8rem;
+$container-padding-small : 2rem;

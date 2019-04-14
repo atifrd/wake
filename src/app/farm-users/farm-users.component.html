@@ -1,0 +1,49 @@
+<div class="grid-x storage-facilities">
+  <div class="small-12 cell">
+    <h1>Users</h1>
+    <p>Manage the farm's user access. These users have access to the farm details, feed plan or feed inventory depending
+      on the access level granted to them.</p>
+
+    <button class="button radius" (click)="inviteUser(inviteFarmAdmin)"
+      tooltip="Add a user who can edit farm details, manage the feed plan and manage feed inventory">ADD FARM
+      ADMINISTRATOR</button>&nbsp;
+    <button class="button radius" (click)="inviteUser(inviteFarmNutritionist)"
+      tooltip="Add a user who can manage the farm feed plan">ADD DIET CONSULTANT</button>&nbsp;
+    <button class="button radius" (click)="inviteUser(inviteFarmSupplier)"
+      tooltip="Add a user who can access feed inventory to record delivery details only">ADD FEED
+      SUPPLIER</button>&nbsp;
+
+    <div *ngIf="farm.usersValue" class="callout radius bordered secondary">
+      <table *ngIf="farm.usersValue.length > 0">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Access Level</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let user of farm.usersValue">
+            <!-- <td>{{user}}</td>
+            <td><button (click)="logUser(user)">Log User</button></td> -->
+            <td>{{ user.firstName }} {{user.lastName}}</td>
+            <td>{{ getUserRole(user.role) }}</td>
+            <td class="text-right">
+              <button class="button small radius alert" *ngIf="farm.usersValue.length > 1"
+                (click)="removeFarmUser(user)">REMOVE</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+<ng-template #inviteFarmAdmin>
+  <app-user-invitation [selectedRole]="'administrator'"></app-user-invitation>
+</ng-template>
+<ng-template #inviteFarmNutritionist>
+  <app-user-invitation  [selectedRole]="'feed-planning'"></app-user-invitation>
+</ng-template>
+<ng-template #inviteFarmSupplier>
+  <app-user-invitation [selectedRole]="'feed-supply'"></app-user-invitation>
+</ng-template>

@@ -1,0 +1,98 @@
+.fp-report {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-flex: 1;
+    -webkit-flex-grow: 1;
+    -ms-flex-positive: 1;
+    flex-grow: 1;
+    width: 100%;
+    position: relative;
+    min-height: 1px;
+    overflow-y: auto;
+    padding-top: 2rem;
+  
+    > .grid-x > .cell {
+      padding: 0 1.5rem 0 2.4rem;
+    }
+    .budget-table {
+      margin-bottom: 3rem;
+      overflow: auto;
+      margin-left: 12rem;
+      .headcol {
+          position:absolute;
+          top:auto;
+          border-right: 0px none black;
+          height: 5rem;
+          background-color: #F5F5F5;
+          border-left: 1px solid #ddd;
+          border-bottom: 1px solid #ddd;
+          vertical-align: middle;
+          &.headcol-1a {
+            left: 2.4rem;
+            width: 8rem;
+          }
+          &.headcol-1b {
+            left: 10.4rem;
+            width: 4rem;
+          }
+          &.headcol-2 {
+            left:2.4rem;
+            width: 12rem;
+          }
+          &.headcol-empty {
+            background-color: #fff;
+            border-left: none;
+          }
+          &.headcol-top {
+            border-top: 1px solid #ddd;
+          }
+          &.headcol-right {
+            border-right: 3px solid #ddd;
+          }
+      }
+      .empty-cell {
+  
+      }
+      .totals {
+        font-weight: 700;
+      }
+    }
+    table {
+      border-collapse: collapse;
+      thead tr th,
+      tbody tr td {
+        height: 5rem;
+        padding: 1rem 0.5rem;
+        border-right: 1px solid #ddd;
+        border-bottom: 1px solid #ddd;
+        vertical-align: top;
+        &:last-child {
+          border-right: none;
+        }
+      }
+    }
+    .chart {
+      margin-bottom: 4rem;
+    }
+  }
+  h1.report-name {
+    font-size: rem-calc(26);
+    line-height: 4rem;
+  }
+  @media print {
+    @page {
+      size: landscape;
+    }
+    .charts {
+      display: none;
+    }
+    .budget-table {
+      overflow: visible;
+      .headcol {
+        position: relative;
+      }
+    }
+  }
+  

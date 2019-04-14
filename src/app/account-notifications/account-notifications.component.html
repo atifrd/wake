@@ -1,0 +1,50 @@
+<div class="medium-margin-0">
+  <div class="grid-x">
+    <div class="small-12 cell">
+      <h1>Notifications</h1>
+      <p>Manage the email notifications you recieve from Dairy Feed Tools</p>
+      <div class="callout secondary radius bordered" *ngIf="account.profileValue">
+        <h2>Feed Plan</h2>
+        <div class="grid-x">
+          <div class="small-12 cell">
+            <label>FEED PLAN REVIEWS</label>
+            <span *ngIf="!account.profileValue.notifyFeedplan">Do not send an email when it is time to review the feed plan.</span>
+            <span *ngIf="account.profileValue.notifyFeedplan">Send an email when it is time to review the feed plan.</span>
+          </div>
+        </div>
+        <br>
+        <h2>Feed Inventory</h2>
+        <div class="grid-x">
+          <div class="small-12 cell">
+            <label>STOCKTAKES</label>
+            <span *ngIf="!account.profileValue.notifyStocktake">Do not send an email when it is time to perform a stocktake.</span>
+            <span *ngIf="account.profileValue.notifyStocktake">Send an email when it is time to perform a stocktake.</span>
+          </div>
+        </div>
+        <br>
+        <div class="grid-x">
+          <div class="small-12 cell">
+            <label>FEED RUN OUTS</label>
+            <span *ngIf="!account.profileValue.notifyFeedRunout">Do not send an email when feed is about to run out.</span>
+            <span *ngIf="account.profileValue.notifyFeedRunout">Send an email when feed is about to run out.</span>
+          </div>
+        </div>
+        <br>
+        <div class="grid-x">
+          <div class="small-12 cell">
+            <label>FEED DELIVERIES</label>
+            <span *ngIf="!account.profileValue.notifyDeliveries">Do not send an email when feed is delivered to a storage
+              facility.</span>
+            <span *ngIf="account.profileValue.notifyDeliveries">Send an email when feed is delivered to a storage facility.</span>
+          </div>
+        </div>
+        <br>
+        <div class="grid-x">
+          <div class="cell small-6">
+            <button class="button small radius" (click)="editNotificationDetails()">CHANGE NOTIFICATIONS</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

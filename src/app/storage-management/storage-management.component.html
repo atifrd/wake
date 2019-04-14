@@ -1,0 +1,761 @@
+<div class="modal-header">
+  <ul class="breadcrumbs">
+    <li>{{task.stepTitle}}</li>
+  </ul>
+</div>
+<div class="row collapse feed-plan-setup-modal-content-row add-feed-type" id="inventory-wizard">
+  <div class="columns small-12">
+    <p>{{task.stepInstruction}}</p>
+  </div>
+  <div class="small-12 columns" *ngIf="inventory.storageFacilityValue">
+      <div class="panel">
+          <div class="row">
+            <div class="small-7 columns" *ngIf="task.step === 'setDetails'">
+              <form name="setDetailsForm">
+                <label for="storage-type">STORAGE TYPE
+                <select
+                class="radius no-margin"
+                id="storage-type"
+                [(ngModel)]="task.storageTypeId"
+                (change)="storageTypeSelected()"
+                autofocus
+                required>
+                <option ng-repeat="item in storageTypes" value={{item.id}}>
+                  {{item.name}}
+                  </option>
+                </select>
+                </label>
+                <p><small>Select the storage type that most closely describes your storage facility.</small></p>
+                <label for="storage-name">NAME/DESCRIPTION
+                <input type="text" id="storage-name" class="radius no-margin" [(ngModel)]="inventory.storageFacilityValue.name" required></label>
+                <p><small>Enter the name of the storage facility or give the storage facility a descriptive name, for example "Hay shed near dairy", "Silo 1", etc.</small></p>
+              </form>
+            </div>
+            <div class="small-7 columns" *ngIf="task.step === 'setCapacity' && inventory.storageFacilityValue.storageType.storageShape === 'rectangle'">
+              <form name="setCapacityrectangleForm">
+                <label for="storage-size-diameter">WIDTH</label>
+                <div class="row collapse">
+                  <div class="small-3 columns">
+                    <input type="number" class="has-postfix" min="1" [(ngModel)]="inventory.storageFacilityValue.dimensions.width" required />
+                  </div>
+                  <div class="small-2 end columns">
+                    <span class="postfix"><small>metres</small></span>
+                  </div>
+                </div>
+                <label for="storage-size-diameter">HEIGHT</label>
+                <div class="row collapse">
+                  <div class="small-3 columns">
+                    <input type="number" class="has-postfix" min="1" [(ngModel)]="inventory.storageFacilityValue.dimensions.height" required />
+                  </div>
+                  <div class="small-2 end columns">
+                    <span class="postfix"><small>metres</small></span>
+                  </div>
+                </div>
+                <label for="storage-size-diameter">LENGTH</label>
+                <div class="row collapse">
+                  <div class="small-3 columns">
+                    <input type="number" class="has-postfix" min="1" [(ngModel)]="inventory.storageFacilityValue.dimensions.length" required />
+                  </div>
+                  <div class="small-2 end columns">
+                    <span class="postfix"><small>metres</small></span>
+                  </div>
+                </div>
+                <br>
+                <a href="#" (click)="helpCapacity()" tabindex="-1" class="more-info-button button info tiny radius" tooltip="Press to learn more about determining storage facility capacity">LEARN MORE ABOUT STORAGE CAPACITY</a>
+              </form>
+            </div>
+            <div class="small-7 columns" *ngIf="task.step === 'setCapacity' && inventory.storageFacilityValue.storageType.storageShape === 'cylinder'">
+              <form name="setCapacitycylinderForm">
+                <label for="storage-size-diameter">DIAMETER</label>
+                <div class="row collapse">
+                  <div class="small-3 columns">
+                    <input type="number" class="has-postfix" min="1" [(ngModel)]="inventory.storageFacilityValue.dimensions.diameter" required />
+                  </div>
+                  <div class="small-2 end columns">
+                    <span class="postfix"><small>metres</small></span>
+                  </div>
+                </div>
+                <label for="storage-size-bales">HEIGHT</label>
+                <div class="row collapse">
+                  <div class="small-3 columns">
+                    <input type="number" class="has-postfix no-margin" min="1" [(ngModel)]="inventory.storageFacilityValue.dimensions.height" required />
+                  </div>
+                  <div class="small-2 end columns">
+                    <span class="postfix"><small>metres</small></span>
+                  </div>
+                </div>
+                <br>
+                <a href="#" (click)="helpCapacity()" tabindex="-1" class="more-info-button button info tiny radius" tooltip="Press to learn more about determining storage facility capacity">LEARN MORE ABOUT STORAGE CAPACITY</a>
+              </form>
+            </div>
+            <div class="small-7 columns" *ngIf="task.step === 'setCapacity' && inventory.storageFacilityValue.storageType.storageShape === 'tube'">
+              <form name="setCapacitytubeForm">
+                <label for="storage-size-diameter">DIAMETER</label>
+                <div class="row collapse">
+                  <div class="small-3 columns">
+                    <input type="number" class="has-postfix" min="1" [(ngModel)]="inventory.storageFacilityValue.dimensions.diameter" required />
+                  </div>
+                  <div class="small-2 end columns">
+                    <span class="postfix"><small>metres</small></span>
+                  </div>
+                </div>
+                <label for="storage-size-bales">LENGTH</label>
+                <div class="row collapse">
+                  <div class="small-3 columns">
+                    <input type="number" class="has-postfix no-margin" min="1" [(ngModel)]="inventory.storageFacilityValue.dimensions.length" required />
+                  </div>
+                  <div class="small-2 end columns">
+                    <span class="postfix"><small>metres</small></span>
+                  </div>
+                </div>
+                <br>
+                <a href="#" (click)="helpCapacity()" tabindex="-1" class="more-info-button button info tiny radius" tooltip="Press to learn more about determining storage facility capacity">LEARN MORE ABOUT STORAGE CAPACITY</a>
+              </form>
+            </div>
+            <div class="small-7 columns" *ngIf="task.step === 'setCapacity' && inventory.storageFacilityValue.storageType.storageShape === 'bales'">
+              <form name="setCapacitybalesForm">
+                <label for="storage-size-bales">STORAGE CAPACITY</label>
+                <div class="row collapse">
+                  <div class="small-3 columns">
+                    <input type="number" class="has-postfix no-margin" autofocus placeholder="" min="1" [(ngModel)]="inventory.storageFacilityValue.dimensions.bales" required>
+                  </div>
+                  <div class="small-2 end columns">
+                    <span class="postfix"><small>bales</small></span>
+                  </div>
+                </div>
+                <p><small>The maximum number of bales the facility can hold.</small></p>
+                <br>
+                <a href="#" (click)="helpCapacity()" tabindex="-1" class="more-info-button button info tiny radius" tooltip="Press to learn more about determining storage facility capacity">LEARN MORE ABOUT STORAGE CAPACITY</a>
+              </form>
+            </div>
+            <div class="small-7 columns" *ngIf="task.step === 'setCapacity' && inventory.storageFacilityValue.storageType.storageShape === 'coned cylinder'">
+              <form name="setCapacityconedcylinderForm">
+                <label for="storage-size-bales">DIAMETER</label>
+                <div class="row collapse">
+                  <div class="small-3 columns">
+                    <input type="number" class="has-postfix no-margin" autofocus min="1" [(ngModel)]="inventory.storageFacilityValue.dimensions.diameter" required>
+                  </div>
+                  <div class="small-2 end columns">
+                    <span class="postfix"><small>metres</small></span>
+                  </div>
+                </div>
+                <label for="storage-size-bales">TOTAL HEIGHT</label>
+                <div class="row collapse">
+                  <div class="small-3 columns">
+                    <input type="number" class="has-postfix no-margin" placeholder="" min="1" [(ngModel)]="inventory.storageFacilityValue.dimensions.height" required>
+                  </div>
+                  <div class="small-2 end columns">
+                    <span class="postfix"><small>metres</small></span>
+                  </div>
+                </div>
+                <p><small>The entire height of the silo, including the height of the cone.</small></p>
+                <label for="storage-size-bales">CONE HEIGHT</label>
+                <div class="row collapse">
+                  <div class="small-3 columns">
+                    <input type="number" class="has-postfix no-margin" placeholder="" min="1" [(ngModel)]="inventory.storageFacilityValue.dimensions.coneHeight" required>
+                  </div>
+                  <div class="small-2 end columns">
+                    <span class="postfix"><small>metres</small></span>
+                  </div>
+                </div>
+                <p><small>The height of the cone only.</small></p>
+                <br>
+                <a href="#" (click)="helpCapacity()" tabindex="-1" class="more-info-button button info tiny radius" tooltip="Press to learn more about determining storage facility capacity">LEARN MORE ABOUT STORAGE CAPACITY</a>
+              </form>
+            </div>
+            <div class="small-7 columns" *ngIf="task.step === 'setCapacity' && inventory.storageFacilityValue.storageType.storageShape === 'bags'">
+              <form name="setCapacitybagsForm">
+                <label for="storage-size-bales">STORAGE CAPACITY</label>
+                <div class="row collapse">
+                  <div class="small-3 columns">
+                    <input type="number" class="has-postfix no-margin" autofocus placeholder="" min="1" [(ngModel)]="inventory.storageFacilityValue.dimensions.bags" required>
+                  </div>
+                  <div class="small-2 end columns">
+                    <span class="postfix"><small>bags</small></span>
+                  </div>
+                </div>
+                <p><small>The maximum number of bags the facility can hold.</small></p>
+                <br>
+                <a href="#" (click)="helpCapacity()" tabindex="-1" class="more-info-button button info tiny radius" tooltip="Press to learn more about determining storage facility capacity">LEARN MORE ABOUT STORAGE CAPACITY</a>
+              </form>
+            </div>
+            <div class="small-7 columns" *ngIf="task.step === 'setFeedType'">
+              <form name="setFeedTypeForm">
+                <label for="storage-size-capacity">SELECT STORED FEED</label>
+                <div ng-include="'app/storage-management/feed-picker.html'"></div>
+              </form>
+            </div>
+            <div class="small-7 columns" *ngIf="task.step === 'setLevel' && inventory.storageFacilityValue.storageType.levelMeasurementMethod === 'from back'">
+              <form name="setLevelfrombackForm">
+                <div class="row collapse">
+                  <div class="small-6 columns">
+                    <label for="storage-size-bales">METRES FROM BACK</label>
+                    <div class="row collapse">
+                      <div class="small-7 columns">
+                        <input type="number" class="has-postfix no-margin" placeholder="" min="0" step="1" ng-max="inventory.storageFacilityValue.dimensions.length" [(ngModel)]="inventory.storageFacilityValue.lastStocktake.level" required>
+                      </div>
+                      <div class="small-5 columns">
+                        <span class="postfix"><small>metres</small></span>
+                      </div>
+                    </div>
+                    <p><small>Measure the level from the back of the facility. <strong>The facility is {{ inventory.storageFacilityValue.dimensions.length | number: '1.0-0' }} metres in length.</strong></small>
+                      <a href="#" (click)="helpFeedLevel()" tabindex="-1" class="more-info-button button info tiny radius" tooltip="Press to learn more about determining the feed level in the storage facility">LEARN MORE</a>
+                    </p>
+                    <label for="storage-size-bales">DRY MATTER</label>
+                    <div class="row collapse">
+                      <div class="small-7 columns">
+                        <input type="number" class="has-postfix no-margin" placeholder="" min="0" max="100" step="1" [(ngModel)]="inventory.storageFacilityValue.lastStocktake.dryMatter" required>
+                      </div>
+                      <div class="small-5 columns">
+                        <span class="postfix"><small>%</small></span>
+                      </div>
+                    </div>
+                    <br>
+                    <label for="storage-size-bales">WET DENSITY</label>
+                    <div class="row collapse">
+                      <div class="small-7 columns">
+                        <input type="number" class="has-postfix no-margin" placeholder="" min="0" [(ngModel)]="inventory.storageFacilityValue.lastStocktake.unitWeight" required>
+                      </div>
+                      <div class="small-5 columns">
+                        <span class="postfix"><small>kg/cubic metre</small></span>
+                      </div>
+                    </div>
+                    <p>
+                      <small>The wet density of the feed currently in storage. <strong *ngIf="task.wetDensities.hasValues">The recommended value should be between {{ task.wetDensities.min }} and {{ task.wetDensities.max }}.</strong></small>
+                      <a href="#" (click)="helpWetDensity()" tabindex="-1" class="more-info-button button info tiny radius" tooltip="Press to learn more about wet density">LEARN MORE</a>
+                    </p>
+                    <label for="storage-size-bales">CURRENT MARKET VALUE</label>
+                    <div class="row collapse">
+                      <div class="small-2 end columns">
+                        <span class="prefix"><small>$</small></span>
+                      </div>
+                      <div class="small-5 columns">
+                        <input type="number" class="has-prefix has-postfix no-margin" placeholder="" min="0" [(ngModel)]="inventory.storageFacilityValue.lastStocktake.unitValue" required>
+                      </div>
+                      <div class="small-5 columns">
+                        <span class="postfix"><small>/tonne</small></span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="small-6 columns">
+                    <div ng-include="'app/storage-management/discrepancy-info.html'"></div>
+                  </div>
+                </div>
+              </form>
+            </div>
+            <div class="small-7 columns" *ngIf="task.step === 'setLevel' && inventory.storageFacilityValue.storageType.levelMeasurementMethod === 'bags'">
+              <form name="setLevelbagsForm">
+                <div class="row collapse">
+                  <div class="small-6 columns">
+                    <label for="storage-size-bales">NUMBER OF BAGS</label>
+                    <div class="row collapse">
+                      <div class="small-7 columns">
+                        <input type="number" class="has-postfix no-margin" placeholder="" min="0" step="1" ng-max="inventory.storageFacilityValue.dimensions.bags" [(ngModel)]="inventory.storageFacilityValue.lastStocktake.level" required>
+                      </div>
+                      <div class="small-5 end columns">
+                        <span class="postfix"><small>bags</small></span>
+                      </div>
+                    </div>
+                    <p><small>Count the number of bags in the facility. <strong>The facility has a capacity of {{ inventory.storageFacilityValue.dimensions.bags | number: '1.0-0' }} bags.</strong></small></p>
+                    <label for="storage-size-bales">DRY MATTER</label>
+                    <div class="row collapse">
+                      <div class="small-7 columns">
+                        <input type="number" class="has-postfix no-margin" placeholder="" min="0" max="100" step="1" [(ngModel)]="inventory.storageFacilityValue.lastStocktake.dryMatter" required>
+                      </div>
+                      <div class="small-5 columns">
+                        <span class="postfix"><small>%</small></span>
+                      </div>
+                    </div>
+                    <br>
+                    <label for="storage-size-bales">BAG WEIGHT</label>
+                    <div class="row collapse">
+                      <div class="small-7 columns">
+                        <input type="number" class="has-postfix no-margin" placeholder="" min="0" [(ngModel)]="inventory.storageFacilityValue.lastStocktake.unitWeight" required>
+                      </div>
+                      <div class="small-5 columns">
+                        <span class="postfix"><small>kg/bag</small></span>
+                      </div>
+                    </div>
+                    <p><small>The average weight of each bag.</small></p>
+                    <label for="storage-size-bales">CURRENT MARKET VALUE</label>
+                    <div class="row collapse">
+                      <div class="small-2 end columns">
+                        <span class="prefix"><small>$</small></span>
+                      </div>
+                      <div class="small-5 columns">
+                        <input type="number" class="has-prefix has-postfix no-margin" placeholder="" min="0" [(ngModel)]="inventory.storageFacilityValue.lastStocktake.unitValue" required>
+                      </div>
+                      <div class="small-5 columns">
+                        <span class="postfix"><small>/tonne</small></span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="small-6 columns">
+                    <div ng-include="'app/storage-management/discrepancy-info.html'"></div>
+                  </div>
+                </div>
+              </form>
+            </div>
+            <div class="small-7 columns" *ngIf="task.step === 'setLevel' && inventory.storageFacilityValue.storageType.levelMeasurementMethod === 'from bottom'">
+              <form name="setLevelfrombottomForm">
+                <div class="row collapse">
+                  <div class="small-6 columns">
+                    <label for="storage-size-bales">METRES FROM BOTTOM</label>
+                    <div class="row collapse">
+                      <div class="small-7 columns">
+                        <input type="number" class="has-postfix no-margin" placeholder="" min="0" step="1" ng-max="inventory.storageFacilityValue.dimensions.height" [(ngModel)]="inventory.storageFacilityValue.lastStocktake.level" required>
+                      </div>
+                      <div class="small-5 columns">
+                        <span class="postfix"><small>metres</small></span>
+                      </div>
+                    </div>
+                    <p><small>Measure the level from the bottom of the facility. <strong>The facility is {{ inventory.storageFacilityValue.dimensions.height | number: '1.0-0' }} metres in height.</strong></small>
+                      <a href="#" (click)="helpFeedLevel()" tabindex="-1" class="more-info-button button info tiny radius" tooltip="Press to learn more about determining the feed level in the storage facility">LEARN MORE</a>
+                    </p>
+                    <label for="storage-size-bales">DRY MATTER</label>
+                    <div class="row collapse">
+                      <div class="small-7 columns">
+                        <input type="number" class="has-postfix no-margin" placeholder="" min="0" max="100" step="1" [(ngModel)]="inventory.storageFacilityValue.lastStocktake.dryMatter" required>
+                      </div>
+                      <div class="small-5 columns">
+                        <span class="postfix"><small>%</small></span>
+                      </div>
+                    </div>
+                    <label for="storage-size-bales">WET DENSITY</label>
+                    <div class="row collapse">
+                      <div class="small-7 columns">
+                        <input type="number" class="has-postfix no-margin" placeholder="" min="0" [(ngModel)]="inventory.storageFacilityValue.lastStocktake.unitWeight" required>
+                      </div>
+                      <div class="small-5 columns">
+                        <span class="postfix"><small>kg/cubic metre</small></span>
+                      </div>
+                    </div>
+                    <p>
+                      <small>The wet density of the feed currently in storage. <strong *ngIf="task.wetDensities.hasValues">The recommended value should be between {{ task.wetDensities.min }} and {{ task.wetDensities.max }}.</strong></small>
+                      <a href="#" (click)="helpWetDensity()" tabindex="-1" class="more-info-button button info tiny radius" tooltip="Press to learn more about wet density">LEARN MORE</a>
+                    </p>
+                    <label for="storage-size-bales">CURRENT MARKET VALUE</label>
+                    <div class="row collapse">
+                      <div class="small-2 end columns">
+                        <span class="prefix"><small>$</small></span>
+                      </div>
+                      <div class="small-5 columns">
+                        <input type="number" class="has-prefix has-postfix no-margin" placeholder="" min="0" [(ngModel)]="inventory.storageFacilityValue.lastStocktake.unitValue" required>
+                      </div>
+                      <div class="small-5 columns">
+                        <span class="postfix"><small>/tonne</small></span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="small-6 columns">
+                    <div ng-include="'app/storage-management/discrepancy-info.html'"></div>
+                  </div>
+                </div>
+              </form>
+            </div>
+            <div class="small-7 columns" *ngIf="task.step === 'setLevel' && inventory.storageFacilityValue.storageType.levelMeasurementMethod === 'bales'">
+              <form name="setLevelbalesForm">
+                <div class="row collapse">
+                  <div class="small-6 columns">
+                    <label for="storage-size-bales">NUMBER OF BALES</label>
+                    <div class="row collapse">
+                      <div class="small-7 columns">
+                        <input type="number" class="has-postfix no-margin" placeholder="" min="0" step="1" ng-max="inventory.storageFacilityValue.dimensions.bales" [(ngModel)]="inventory.storageFacilityValue.lastStocktake.level" required>
+                      </div>
+                      <div class="small-5 columns">
+                        <span class="postfix"><small>bales</small></span>
+                      </div>
+                    </div>
+                    <p><small>Count the number of bales in the facility. <strong>The facility has a capacity of {{ inventory.storageFacilityValue.dimensions.bales | number: '1.0-0' }} bales.</strong></small></p>
+                    <label for="storage-size-bales">DRY MATTER</label>
+                    <div class="row collapse">
+                      <div class="small-7 columns">
+                        <input type="number" class="has-postfix no-margin" placeholder="" min="0" max="100" step="1" [(ngModel)]="inventory.storageFacilityValue.lastStocktake.dryMatter" required>
+                      </div>
+                      <div class="small-5 columns">
+                        <span class="postfix"><small>%</small></span>
+                      </div>
+                    </div>
+                    <br>
+                    <label for="storage-size-bales">BALE WEIGHT</label>
+                    <div class="row collapse">
+                      <div class="small-7 columns">
+                        <input type="number" class="has-postfix no-margin" placeholder="" min="0" [(ngModel)]="inventory.storageFacilityValue.lastStocktake.unitWeight" required>
+                      </div>
+                      <div class="small-5 columns">
+                        <span class="postfix"><small>kg/bale</small></span>
+                      </div>
+                    </div>
+                    <p><a href="#" (click)="helpFeedLevel()" tabindex="-1" class="more-info-button button info tiny radius" tooltip="Press to learn more about determining bale weight">LEARN MORE</a></p>
+                    <label for="storage-size-bales">CURRENT MARKET VALUE</label>
+                    <div class="row collapse">
+                      <div class="small-2 columns">
+                        <span class="prefix"><small>$</small></span>
+                      </div>
+                      <div class="small-5 columns">
+                        <input type="number" class="has-prefix has-postfix no-margin" placeholder="" min="0" [(ngModel)]="inventory.storageFacilityValue.lastStocktake.unitValue" required>
+                      </div>
+                      <div class="small-5 columns">
+                        <span class="postfix"><small>/tonne</small></span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="small-6 columns">
+                    <div ng-include="'app/storage-management/discrepancy-info.html'"></div>
+                  </div>
+                </div>
+              </form>
+            </div>
+            <div class="small-7 columns" *ngIf="task.step === 'setLevel' && inventory.storageFacilityValue.storageType.levelMeasurementMethod === 'from cone bottom'">
+              <form name="setLevelfromconebottomForm">
+                <div class="row collapse">
+                  <div class="small-6 columns">
+                    <label for="storage-size-bales">METRES FROM BOTTOM</label>
+                    <div class="row collapse">
+                      <div class="small-7 columns">
+                        <input type="number" class="has-postfix no-margin" placeholder="" min="0" step="0.5" ng-max="inventory.storageFacilityValue.dimensions.height" [(ngModel)]="inventory.storageFacilityValue.lastStocktake.level" required>
+                      </div>
+                      <div class="small-5 columns">
+                        <span class="postfix"><small>metres</small></span>
+                      </div>
+                    </div>
+                    <p><small>Measure the level from the base of the cone. <strong>The facility has a total height of {{ inventory.storageFacilityValue.dimensions.height | number: '1.0-0' }} metres (of which the cone is {{ inventory.storageFacilityValue.dimensions.coneHeight }} metres in height).</strong></small>
+                      <a href="#" (click)="helpFeedLevel()" tabindex="-1" class="more-info-button button info tiny radius" tooltip="Press to learn more about determining the feed level in the storage facility">LEARN MORE</a>
+                    </p>
+                    <label for="storage-size-bales">DRY MATTER</label>
+                    <div class="row collapse">
+                      <div class="small-7 columns">
+                        <input type="number" class="has-postfix no-margin" placeholder="" min="0" max="100" step="1" [(ngModel)]="inventory.storageFacilityValue.lastStocktake.dryMatter" required>
+                      </div>
+                      <div class="small-5 columns">
+                        <span class="postfix"><small>%</small></span>
+                      </div>
+                    </div>
+                    <br>
+                    <label for="storage-size-bales">WET DENSITY</label>
+                    <div class="row collapse">
+                      <div class="small-7 columns">
+                        <input type="number" class="has-postfix no-margin" placeholder="" min="0" [(ngModel)]="inventory.storageFacilityValue.lastStocktake.unitWeight" required>
+                      </div>
+                      <div class="small-5 columns">
+                        <span class="postfix"><small>kg/cubic metre</small></span>
+                      </div>
+                    </div>
+                    <p>
+                      <small>The wet density of the feed currently in storage. <strong *ngIf="task.wetDensities.hasValues">The recommended value should be between {{ task.wetDensities.min }} and {{ task.wetDensities.max }}.</strong></small>
+                      <a href="#" (click)="helpWetDensity()" tabindex="-1" class="more-info-button button info tiny radius" tooltip="Press to learn more about wet density">LEARN MORE</a>
+                    </p>
+                    <label for="storage-size-bales">CURRENT MARKET VALUE</label>
+                    <div class="row collapse">
+                      <div class="small-2 columns">
+                        <span class="prefix"><small>$</small></span>
+                      </div>
+                      <div class="small-5 columns">
+                        <input type="number" class="has-prefix has-postfix no-margin" placeholder="" min="0" [(ngModel)]="inventory.storageFacilityValue.lastStocktake.unitValue" required>
+                      </div>
+                      <div class="small-5 columns">
+                        <span class="postfix"><small>/tonne</small></span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="small-6 columns">
+                    <div ng-include="'app/storage-management/discrepancy-info.html'"></div>
+                  </div>
+                </div>
+              </form>
+            </div>
+            <div class="small-7 columns" *ngIf="task.step === 'setFeedRate'">
+              <form name="setFeedRateForm">
+                <div class="row collapse">
+                  <div class="columns small-5 end">
+                    <label for="storage-type">CONSUMED QUANTITY
+                    <select
+                    class="radius no-margin"
+                    id="feed-quantified-as"
+                    [(ngModel)]="inventory.storageFacilityValue.feedRates.quantifiedAs"
+                    (change)="feedTypesQuantifiedAsSelected()"
+                    autofocus
+                    required>
+                      <option ng-repeat="item in feedTypesQuantifiedValues" value={{item.value}}>
+                      {{item.label}}
+                      </option>
+                    </select>
+                    </label>
+                    <p><small>Select how consumed amount is measured</small></p>
+                  </div>
+                </div>
+                <div class="row collapse">
+                  <div class="columns small-12">
+                    <label>MILKERS</label>
+                  </div>
+                </div>
+                <div class="row collapse feed-rate-cow">
+                  <div class="columns small-4 feed-rate-row">
+                    <label>NUMBER</label>
+                    <div class="row collapse">
+                      <div class="small-7 columns">
+                        <input type="number" class="has-postfix no-margin" placeholder="" min="0" step="1" [(ngModel)]="inventory.storageFacilityValue.feedRates.milkers.number" required>
+                      </div>
+                      <div class="small-5 columns">
+                        <span class="postfix"><small>cows</small></span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="columns small-5 feed-rate-row">
+                    <label>CONSUMED ({{ task.feedRateQuantifiedAs.label }})</label>
+                    <div class="row collapse">
+                      <div class="small-6 columns">
+                        <input type="number" class="has-postfix no-margin" placeholder="" min="0" step="0.1" [(ngModel)]="inventory.storageFacilityValue.feedRates.milkers.consumed" required>
+                      </div>
+                      <div class="small-6 columns">
+                        <span class="postfix"><small>kg/head</small></span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="columns small-3 feed-rate-row">
+                    <label>WASTAGE</label>
+                    <div class="row collapse">
+                      <div class="small-8 columns">
+                        <input type="number" class="has-postfix no-margin" placeholder="" min="0" max="100" step="0.1" [(ngModel)]="inventory.storageFacilityValue.feedRates.milkers.wastage" required>
+                      </div>
+                      <div class="small-4 columns">
+                        <span class="postfix"><small>%</small></span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row collapse">
+                  <div class="columns small-12">
+                    <label>DRY COWS</label>
+                  </div>
+                </div>
+                <div class="row collapse feed-rate-cow">
+                  <div class="columns small-4 feed-rate-row">
+                    <label>NUMBER</label>
+                    <div class="row collapse">
+                      <div class="small-7 columns">
+                        <input type="number" class="has-postfix no-margin" placeholder="" min="0" step="1" [(ngModel)]="inventory.storageFacilityValue.feedRates.dry.number" required>
+                      </div>
+                      <div class="small-5 columns">
+                        <span class="postfix"><small>cows</small></span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="columns small-5 feed-rate-row">
+                    <label>CONSUMED ({{ task.feedRateQuantifiedAs.label }})</label>
+                    <div class="row collapse">
+                      <div class="small-6 columns">
+                        <input type="number" class="has-postfix no-margin" placeholder="" min="0" step="0.1" [(ngModel)]="inventory.storageFacilityValue.feedRates.dry.consumed" required>
+                      </div>
+                      <div class="small-6 columns">
+                        <span class="postfix"><small>kg/head</small></span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="columns small-3 feed-rate-row">
+                    <label>WASTAGE</label>
+                    <div class="row collapse">
+                      <div class="small-8 columns">
+                        <input type="number" class="has-postfix no-margin" placeholder="" min="0" max="100" step="0.1" [(ngModel)]="inventory.storageFacilityValue.feedRates.dry.wastage" required>
+                      </div>
+                      <div class="small-4 columns">
+                        <span class="postfix"><small>%</small></span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row collapse">
+                  <div class="columns small-12">
+                    <label>TRANSITION COWS</label>
+                  </div>
+                </div>
+                <div class="row collapse feed-rate-cow">
+                  <div class="columns small-4 feed-rate-row">
+                    <label>NUMBER</label>
+                    <div class="row collapse">
+                      <div class="small-7 columns">
+                        <input type="number" class="has-postfix no-margin" placeholder="" min="0" step="1" [(ngModel)]="inventory.storageFacilityValue.feedRates.transition.number" required>
+                      </div>
+                      <div class="small-5 columns">
+                        <span class="postfix"><small>cows</small></span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="columns small-5 feed-rate-row">
+                    <label>CONSUMED ({{ task.feedRateQuantifiedAs.label }})</label>
+                    <div class="row collapse">
+                      <div class="small-6 columns">
+                        <input type="number" class="has-postfix no-margin" placeholder="" min="0" step="0.1" [(ngModel)]="inventory.storageFacilityValue.feedRates.transition.consumed" required>
+                      </div>
+                      <div class="small-6 columns">
+                        <span class="postfix"><small>kg/head</small></span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="columns small-3 feed-rate-row">
+                    <label>WASTAGE</label>
+                    <div class="row collapse">
+                      <div class="small-8 columns">
+                        <input type="number" class="has-postfix no-margin" placeholder="" min="0" max="100" step="0.1" [(ngModel)]="inventory.storageFacilityValue.feedRates.transition.wastage" required>
+                      </div>
+                      <div class="small-4 columns">
+                        <span class="postfix"><small>%</small></span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+            <div class="small-7 columns" *ngIf="task.step === 'setDelivery'">
+              <form name="setDeliveryForm">
+                <label for="storage-size-bales">PRODUCT NAME
+                <input type="text" class="no-margin radius" [(ngModel)]="inventory.storageFacilityValue.lastDelivery.productName" required>
+                </label>
+                <p><small>The name of the product being delivered.</small></p>
+                <div *ngIf="inventory.storageFacilityValue.storageType.storageShape === 'bags'">
+                  <label for="storage-size-bales">BAGS</label>
+                  <div class="row collapse">
+                    <div class="small-3 columns">
+                      <input type="number" class="has-postfix no-margin" placeholder="" min="1" [(ngModel)]="inventory.storageFacilityValue.lastDelivery.quantity" required>
+                    </div>
+                    <div class="small-2 end columns">
+                      <span class="postfix"><small>bags</small></span>
+                    </div>
+                  </div>
+                  <label for="storage-size-bales">BAG WEIGHT</label>
+                  <div class="row collapse">
+                    <div class="small-3 columns">
+                      <input type="number" class="has-postfix no-margin" placeholder="" min="1" [(ngModel)]="inventory.storageFacilityValue.lastDelivery.unitWeight" required>
+                    </div>
+                    <div class="small-2 end columns">
+                      <span class="postfix"><small> kg/bag</small></span>
+                    </div>
+                  </div>
+                </div>
+                <div *ngIf="inventory.storageFacilityValue.storageType.storageShape === 'bales'">
+                  <label for="storage-size-bales">BALES</label>
+                  <div class="row collapse">
+                    <div class="small-3 columns">
+                      <input type="number" class="has-postfix no-margin" placeholder="" min="1" [(ngModel)]="inventory.storageFacilityValue.lastDelivery.quantity" required>
+                    </div>
+                    <div class="small-2 end columns">
+                      <span class="postfix"><small>bales</small></span>
+                    </div>
+                  </div>
+                  <br>
+                  <label for="storage-size-bales">BALE WEIGHT</label>
+                  <div class="row collapse">
+                    <div class="small-3 columns">
+                      <input type="number" class="has-postfix no-margin" placeholder="" min="1" [(ngModel)]="inventory.storageFacilityValue.lastDelivery.unitWeight" required>
+                    </div>
+                    <div class="small-2 end columns">
+                      <span class="postfix"><small> kg/bale</small></span>
+                    </div>
+                  </div>
+                </div>
+                <div *ngIf="inventory.storageFacilityValue.storageType.storageShape !== 'bags' && inventory.storageFacilityValue.storageType.storageShape !== 'bales'">
+                  <label for="storage-size-bales">WEIGHT</label>
+                  <div class="row collapse">
+                    <div class="small-3 columns">
+                      <input type="number" class="has-postfix no-margin" placeholder="" min="1" [(ngModel)]="inventory.storageFacilityValue.lastDelivery.quantity" required>
+                    </div>
+                    <div class="small-2 end columns">
+                      <span class="postfix"><small>tonnes</small></span>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+            <div class="small-5 columns">
+              <label>STORAGE FACILITY</label>
+              <div class="storage-image">
+                <span class="not-selected" *ngIf="!task.storageTypeId">No storage type selected</span>
+                <img *ngIf="task.storageTypeId !== null" [src]="task.storageImage">
+                <div class="row">
+                  <div class="columns small-12">
+                    <strong>{{ inventory.storageFacilityValue.name }}</strong>
+                  </div>
+                </div>
+                <!-- <div class="row metric" *ngIf="task.step === 'setCapacity' || task.step === 'setFeedType' || task.step === 'setLevel' || task.step === 'setFeedRate'">
+                  <div class="columns small-5">
+                    <label>Capacity</label>
+                  </div>
+                  <div class="columns small-7">
+                    {{ inventory.storageFacilityValue.metrics.capacity | number: '1.0-0' }} {{ inventory.storageFacilityValue.storageType.capacityUnitType }}
+                  </div>
+                </div> -->
+                <div class="row metric" *ngIf="task.step === 'setFeedType' || task.step === 'setLevel' || task.step === 'setFeedRate'">
+                  <div class="columns small-5">
+                    <label>Stored feed</label>
+                  </div>
+                  <div class="columns small-7">
+                    {{ inventory.storageFacilityValue.lastStocktake.feed.name }}
+                  </div>
+                </div>
+                <div class="row metric" *ngIf="task.step === 'setLevel' || task.step === 'setFeedRate'">
+                  <div class="columns small-5">
+                    <label>Feed on hand</label>
+                  </div>
+                  <div class="columns small-7">
+                    {{ inventory.storageFacilityValue.metrics.lastStocktakeWeightDm | number: '1.0-0' }} tonnes DM<br>
+                    {{ inventory.storageFacilityValue.metrics.lastStocktakeWeightAsFed | number: '1.0-0' }} tonnes as fed<br>
+                    ({{ inventory.storageFacilityValue.metrics.lastStocktakeFeedLevelPercentage | number: '1.0-0' }}% of capacity)
+                  </div>
+                </div>
+                <div class="row metric" *ngIf="task.step === 'setFeedRate'">
+                  <div class="columns small-5">
+                    <label>Feed usage</label>
+                  </div>
+                  <div class="columns small-7">
+                    <span *ngIf="inventory.storageFacilityValue.metrics.dailyTotalUsageRate > 0">
+                      {{ inventory.storageFacilityValue.metrics.dailyTotalUsageRate | number: '1.0-0' }} tonnes/day<br>
+                    </span>
+                    <span *ngIf="inventory.storageFacilityValue.metrics.dailyTotalUsageRate == 0">
+                      Feed not in use
+                    </span>
+                  </div>
+                </div>
+                <div class="row metric" *ngIf="task.step === 'setFeedRate' && inventory.storageFacilityValue.metrics.dailyTotalUsageRate > 0">
+                  <div class="columns small-5">
+                    <label>Runs Out</label>
+                  </div>
+                  <div class="columns small-7">
+                    <div class="fa fa-exclamation" *ngIf="inventory.storageFacilityValue.metrics.runoutWarning"></div>
+                    <div class="fa fa-check" *ngIf="!inventory.storageFacilityValue.metrics.runoutWarning"></div>
+
+                      {{ inventory.storageFacilityValue.metrics.runoutDaysDescription }} ({{ inventory.storageFacilityValue.metrics.runoutDate | date:'d MMM yyyy' }})
+                      <strong *ngIf="inventory.storageFacilityValue.metrics.runoutWarning"><br>Replenish as soon as possible</strong>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+      </div>
+</div>
+<hr class="primary bottom">
+<div class="columns small-12 modal-footer">
+  <button class="small radius" (click)="goBack()" *ngIf="!isFirstStep()">
+    <i class="fa fa-chevron-left"></i>
+    BACK</button>
+  <button class="small radius" (click)="close()">CANCEL</button>
+  <button
+    class="small success radius right"
+    (click)="goToNextStep()"
+    *ngIf="!isLastStep()"
+    ng-class="{ 'button-outline': !isStepValid() }"
+    ng-disabled="!isStepValid()">
+      NEXT
+      <i class="fa fa-chevron-right"></i>
+  </button>
+  <button
+    class="small success radius right"
+    (click)="save()"
+    *ngIf="isLastStep()"
+    ng-class="{ 'button-outline': !isStepValid() }"
+    ng-disabled="!isStepValid()">
+      SAVE
+  </button>
+</div>
+</div>

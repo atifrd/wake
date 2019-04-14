@@ -1,0 +1,43 @@
+<div class="modal-header">
+  <ul class="breadcrumbs">
+    <li>Change Email</li>
+  </ul>
+</div>
+<div class="grid-x collapse feed-plan-setup-modal-content-row">
+  <div class="small-12 cell">
+    <p>Fill in the details to change your email address.</p>
+  </div>
+  <div class="cell">
+    <form name="editEmailForm" novalidate [formGroup]="editEmailForm" (ngSubmit)="save()">
+      <span style="color: red;">{{error}}</span>
+      <table class="fp-table">
+        <tbody>
+          <tr>
+            <th>
+              <label for="first-name">NEW EMAIL ADDRESS</label>
+            </th>
+            <td>
+              <input type="email" formControlName="email" name="email" required />
+            </td>
+          </tr>
+          <tr>
+            <th>
+              <label for="last-name">PASSWORD</label>
+            </th>
+            <td>
+              <input type="password" formControlName="password" name="password" required />
+              <p>We need your password for security purposes.</p>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </form>
+  </div>
+  <hr class="primary bottom">
+  <div class="cell modal-footer  medium-margin-top-1">
+    <button class="button radius" (click)="close()">CANCEL</button>
+    <button type="submit" class="button success radius float-right" [ngClass]="{'hollow':editEmailForm.invalid}" [disabled]="editEmailForm.invalid">
+      UPDATE EMAIL
+    </button>
+  </div>
+</div>

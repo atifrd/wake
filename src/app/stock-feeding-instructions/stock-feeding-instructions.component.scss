@@ -1,0 +1,101 @@
+.stock-feeding-instructions {
+    .feed {
+      width: 30%;
+      vertical-align: top;
+      font-weight: 600;
+    }
+    .amount-animal {
+      width: 15%;
+      vertical-align: top;
+    }
+    .amount-total {
+      width: 15%;
+      vertical-align: top;
+    }
+    .instructions {
+      width: 40%;
+      vertical-align: top;
+    }
+    table {
+      border-collapse: collapse;
+      tbody tr td {
+        padding: 1rem 0.5rem;
+        border-right: 1px solid #ddd;
+        &:last-child {
+          border-right: none;
+        }
+      }
+    }
+  }
+  @media print {
+    @page {
+      size: landscape;
+    }
+    nav,
+    .fa,
+    hr,
+    .fp-footer,
+    .fake-top-bar,
+    .progress-steps,
+    .button,
+    button {
+      display: none;
+    }
+    #feed-plan-setup {
+      position: relative;
+      height: auto;
+      top: auto;
+      display: block !important;
+    }
+    .feed-plan-setup-content-row {
+      overflow: auto;
+    }
+    h2 {
+      font-size: 1.5rem !important;
+      font-weight: 700;
+      text-align: center;
+      margin-bottom: 1rem;
+    }
+    table {
+      border-collapse: collapse;
+      border: 1px solid black;
+      thead {
+        background: none;
+        border-bottom: 3px solid #000;
+      }
+      thead tr th,
+      tbody tr td {
+        border: 1px solid #000 !important;
+        padding: 0.5rem;
+        font-size: 1.2rem;
+        line-height: 1.7rem;
+        div {
+          page-break-inside: avoid !important;
+          break-inside: avoid !important;
+        }
+      }
+      tbody tr td {
+        vertical-align: top;
+      }
+      tbody tr {
+        page-break-inside: avoid !important;
+        break-inside: avoid !important;
+      }
+    }
+    .feed {
+      width: 30%;
+      font-weight: 600;
+    }
+    .amount-animal {
+      width: 15%;
+      white-space: nowrap;
+    }
+    .amount-total {
+      width: 15%;
+      white-space: nowrap;
+    }
+    .instructions {
+      width: 40%;
+    }
+  }
+  

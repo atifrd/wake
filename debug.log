@@ -1,0 +1,2 @@
+[0404/150126.003:ERROR:file_io_win.cc(170)] CreateFile C:\Users\Hamish\AppData\Local\Temp\karma-89838111\Crashpad\reports\ed4d0a1f-0866-4a17-ba78-91a4ea5e2dad.dmp: The system cannot find the path specified. (0x3)
+[0404/150126.018:ERROR:crash_report_exception_handler.cc(97)] PrepareNewCrashReport failed

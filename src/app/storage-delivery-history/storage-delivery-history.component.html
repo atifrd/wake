@@ -1,0 +1,46 @@
+<div class="modal-header">
+  <ul class="breadcrumbs">
+    <li>Delivery History - {{ inventory.storageFacilityValue.storageFacilityValue.name }}</li>
+  </ul>
+</div>
+<div class="row collapse feed-plan-setup-modal-content-row start-feed-plan">
+  <div class="row collapse">
+    <div class="columns">
+
+      <table>
+        <thead>
+          <tr>
+            <th>Delivered</th>
+            <th>Feed</th>
+            <th>
+              <span *ngIf="inventory.storageFacilityValue.storageType.storageShape === 'bags'">Bags</span>
+              <span *ngIf="inventory.storageFacilityValue.storageType.storageShape === 'bales'">Bales</span>
+              <span *ngIf="inventory.storageFacilityValue.storageType.storageShape !== 'bags' && inventory.storageFacilityValue.storageType.storageShape !== 'bales'">Weight</span>
+            </th>
+            <th>Recorded By</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="delivery in deliveries">
+            <td>{{delivery.delivered | date:'d MMM yyyy'}}</td>
+            <td>
+              {{ delivery.productName }} ({{ delivery.feed.name }})
+            </td>
+            <td>
+              <span *ngIf="inventory.storageFacilityValue.storageType.storageShape === 'bags'">{{delivery.quantity | number: '0.0-0'}} bags @ {{delivery.unitWeight | number: '0.0-0'}} kg/bag</span>
+              <span *ngIf="inventory.storageFacilityValue.storageType.storageShape === 'bales'">{{delivery.quantity | number: '0.0-0'}} bales @ {{delivery.unitWeight | number: '0.0-0'}} kg/bale</span>
+              <span *ngIf="inventory.storageFacilityValue.storageType.storageShape !== 'bags' && inventory.storageFacilityValue.storageType.storageShape !== 'bales'">{{delivery.quantity | number: '0.0-0'}} tonnes</span>
+            </td>
+            <td>
+              {{ delivery.recordedBy.firstName }} {{ delivery.recordedBy.lastName }}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <hr class="primary bottom">
+  <div class="medium-12 columns modal-footer">
+    <button class="small radius" (click)="close()">CLOSE</button>
+  </div>
+</div>

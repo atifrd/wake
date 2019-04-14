@@ -1,0 +1,124 @@
+
+  <div class="grid-x feed-plan-section-description">
+    <div class="cell medium-cell-block-container">
+      <p>
+        First, estimate pasture availability for each month. Then formulate diet using available feeds.
+        <button (click)="openModal(helpeditdiet)" tabindex="-1" class="more-info-button button info tiny radius"
+          tooltip="Press to learn more about formulating a diet" tooltip-append-to-body="true">LEARN MORE</button>
+      </p>
+    </div>
+  </div>
+
+<hr class="primary top">
+<tabset vertical="true" class="diet tabbable">
+  <tab *ngFor="let tab of feedplan.feedplanValue.scenario.stockDetails; index as i;" active="tab.activeDiet"
+    (click)="selectTab(i)">
+    <ng-template tabHeading>
+      <div class="edit-diet-tabs">
+        <div class="fa fa-check" *ngIf="tab.dietValidation.milkers == true
+                && tab.dietValidation.dry == true
+                && tab.dietValidation.transition == true"></div>
+        <div class="fa fa-exclamation" *ngIf="!(tab.dietValidation.milkers == true
+                && tab.dietValidation.dry == true
+                && tab.dietValidation.transition == true)"></div>
+        <span>{{ tab.date.text }}</span>
+        <small>{{ tab.date.year }}</small>
+      </div>
+    </ng-template>
+    <div class="filler"></div>
+    <div class="table-header-background"><span></span></div>
+    <div class="form-wrap">
+      <table class="fp-table diet-table">
+        <thead>
+          <tr>
+            <th>
+              <span>
+                {{ tab.date.text }} {{ tab.date.year }}
+              </span>
+            </th>
+            <th *ngIf="feedplan.feedplanValue.scenario.cows.milkers">
+              <span>Milkers
+                <button class="button tiny radius" (click)="dietModal(editDietDetails, 'editDiet', 'milkers')"
+                  [ngClass]="{ 'warning': !tab.dietValidation.milkers, success: tab.dietValidation.milkers }">
+                  FORMULATE DIET</button>
+              </span>
+            </th>
+            <th *ngIf="feedplan.feedplanValue.scenario.cows.dry">
+              <span>Early dry cows
+                <button class="button tiny radius" (click)="dietModal(editDietDetails, 'editDiet', 'dry')"
+                  [ngClass]="{ 'warning': !tab.dietValidation.dry, success: tab.dietValidation.dry }">
+                  FORMULATE DIET</button>
+              </span>
+            </th>
+            <th *ngIf="feedplan.feedplanValue.scenario.cows.transition">
+              <span>Transition cows
+                <button class="button tiny radius" (click)="dietModal(editDietDetails, 'editDiet', 'transition')"
+                  [ngClass]="{ 'warning': !tab.dietValidation.transition, success: tab.dietValidation.transition }">
+                  FORMULATE DIET</button>
+              </span>
+            </th>
+          </tr>
+        </thead>
+        <tbody *ngIf="sortedFeedTypes.length > 0">
+          <tr *ngFor="let feedType of sortedFeedTypes">
+            <th>
+              <span>
+                {{ feedType.name }}
+                <small>{{ feedType.feedDescription }}</small>
+              </span>
+              <button class="button tiny radius"
+                *ngIf="feedType.category == 'Pastures' && tab.diet[feedType.index].grazableForage"
+                (click)="forageModal(editForageAvailability, feedType)" 
+                [ngClass]="{
+                      'success': tab.diet[feedType.index].grazableForage.isValid,
+                      'warning': !tab.diet[feedType.index].grazableForage || !tab.diet[feedType.index].grazableForage.isValid
+                      }">
+                ESTIMATE AVAILABILITY</button>
+            </th>
+            <td *ngIf="feedType.cows.milkers">
+              <span class="fa fa-check"></span>
+            </td>
+            <td *ngIf="feedType.cows.dry">
+              <span class="fa fa-check"></span>
+            </td>
+            <td *ngIf="feedType.cows.transition">
+              <span class="fa fa-check"></span>
+            </td>
+            <td [ngClass]="{'has-cow': cowTypeCount > 2}"></td>
+            <td [ngClass]="{'has-cow': cowTypeCount > 1}"></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </tab>
+</tabset>
+<hr class="primary bottom">
+<div class="fp-footer">
+    <div class="grid-x medium-margin-top-1">
+      <div class="cell small-12">
+        <button class="button radius margin-right-1" (click)="back()"><i class="fa fa-chevron-left"></i> BACK</button>
+        <button class="button radius" (click)="cancel()" tooltip="Close the feed plan. No changes will be saved."
+          tooltip-append-to-body="true">CANCEL</button>
+        <button class="button success radius float-right margin-right-1" (click)="next()"
+          [ngClass]="{ 'hollow': !feedplan.feedplanValue.scenario.valid[2] }">
+          FINISH <i class="fa fa-chevron-right"></i>
+        </button>
+        <button class="save-feed-plan-button button success radius float-right" (click)="saveAndClose()"
+          tooltip="Save your progress and close the feed plan. You can return to this point at any time to continue from where you left off."
+          tooltip-append-to-body="true">SAVE AND CLOSE</button>
+      </div>
+    </div>
+  
+</div>
+<ng-template #editDietDetails>
+  <app-edit-diet-details [selectedCow]="cow" [selectedMonth]="selectedTabIndex">
+  </app-edit-diet-details>
+</ng-template>
+<ng-template #editForageAvailability>
+  <app-edit-forage-availability [selectedMonthAndYear]="selectedTabMonth" [selectedFeedType]="selectedFeedType"
+    [selectedStockIndex]="selectedTabIndex" [selectedDietIndex]="selectedTabIndex">
+  </app-edit-forage-availability>
+</ng-template>
+<ng-template #helpeditdiet>
+  <app-help-edit-diet></app-help-edit-diet>
+</ng-template>

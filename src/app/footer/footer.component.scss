@@ -1,0 +1,20 @@
+.footer {
+  border-top: 1px solid #cacaca;
+
+  > .grid-x {
+    //padding: 0 1rem;
+    padding-top: 2rem;
+  }
+  ul {
+    margin: 0 0 1rem 0;
+    list-style: none;
+    a {
+      color: black;
+      font-size: 0.925rem;
+    }
+  }
+  img {
+    width: 10rem;
+    margin-bottom: 2rem;
+  }
+}

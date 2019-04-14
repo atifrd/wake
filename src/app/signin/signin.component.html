@@ -1,0 +1,31 @@
+<div id="content" class="grid-container">
+  <section class="medium-margin-0">
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+      <div class="grid-x">
+        <div class="cell small-12 medium-8 medium-offset-2 large-6 large-offset-3">
+          <h1>Sign In</h1>
+          <p>Fill in your credentials to sign in to Dairy Feed Tools. If you don't have an account yet, <a
+              routerLink="/register">create one here</a>.</p>
+          <div class="callout secondary radius bordered ">
+            <label ng-if="message != ''" class="invalid-credentials">
+              {{message}}
+            </label>
+            <label>Email
+              <input class="radius" type="email" formControlName="username" />
+            </label>
+            <label>Password
+              <input class="radius" type="password" formControlName="password" />
+            </label>
+            <p>
+              <a (click)="resetPassword()">I forgot my password</a>
+            </p>
+            <button type="submit" class="button radius shadow primary padding-1">SIGN IN</button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </section>
+</div>
+<div>
+  <!-- <app-footer></app-footer> -->
+</div>

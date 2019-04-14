@@ -1,0 +1,44 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "build-dotnet",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "build",
+                "${workspaceFolder}/LeeoeProject.csproj"
+            ],
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "type": "npm",
+            "script": "build-fa",
+            "problemMatcher": []
+        },
+        {
+            "label": "serve-fa",
+            "command": "npm start-fa",
+            "type": "shell",
+            "problemMatcher": "$tsc"
+        },
+        {
+            "label": "build-fa",
+            "command": "npm run build-fa",
+            "type": "shell",
+            "problemMatcher": "$tsc"
+        },
+        {
+            "label": "lint",
+            "command": "npm run lint",
+            "type": "shell",
+            "problemMatcher": "$tsc"
+        },
+        {
+            "label": "e2e",
+            "command": "npm run e2e",
+            "type": "shell",
+            "problemMatcher": "$tsc"
+        }
+    ]
+}

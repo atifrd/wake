@@ -1,0 +1,37 @@
+<div class="modal-header">
+  <ul class="breadcrumbs">
+    <li>Edit Storage Facility Name</li>
+  </ul>
+</div>
+<div class="grid-x collapse feed-plan-setup-modal-content-row">
+  <div class="small-12 cell">
+    <p>Update the storage facility name.</p>
+  </div>
+  <div class="grid-x collapse">
+    <div class="cell">
+      <table class="fp-table">
+      <tbody>
+        <tr>
+          <th>
+            <label for="storage-description">NAME</label>
+          </th>
+          <td>
+            <input type="text" id="storage-name" class="radius" autofocus ng-model="inventory.storageFacilityValue.name" required>
+            <p>Give the storage a descriptive name, for example "Hay shed near dairy", "Silo 1", etc.</p>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+  <hr class="primary bottom">
+  <div class="cell modal-footer medium-margin-top-1">
+    <button class="button radius" (click)="cancel()">CANCEL</button>
+    <!-- <button class="success small radius right" (click)="save()" ng-class="{disabled : inventory.storageFacilityValue.storageFacilityName == ''}">SAVE</button> -->
+
+    <button (click)="save()" class="success button radius float-right" [disabled]="!inventory.storageFacilityValue.name"
+      [ngClass]="{ 'hollow': !inventory.storageFacilityValue.name }">
+      SAVE
+    </button>
+  </div>
+</div>

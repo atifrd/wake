@@ -1,0 +1,376 @@
+<div class="grid-x feed-plan-section-description" *ngIf="feedplan.feedplanValue">
+  <div class="cell medium-cell-block-container">
+    <p>
+      Describe the classes of stock you wish to include for each month of your feed plan. Scroll down to enter all
+      fields.
+    </p>
+  </div>
+  <div class="cell">
+    <button class="button small radius" (click)="openModal(addMonth,'tiny')"
+      [disabled]="feedplan.feedplanValue.scenario.stockDetails.length == 12">ADD MONTH</button>
+  </div>
+</div>
+<tabset class="stock-details tabbable" vertical="true" *ngIf="feedplan.feedplanValue">
+  <tab *ngFor="let tab of feedplan.feedplanValue.scenario.stockDetails; index as $index" active="tab.activeStockDetails"
+    (click)="selectMonth($index)">
+    <ng-template tabHeading>
+      <div class="fa fa-check" *ngIf="tab.valid"></div>
+      <div class="fa fa-exclamation" *ngIf="!tab.valid"></div>
+      <span class="date">{{ tab.date.text.split(" ")[0] }}</span>
+      <small>{{ tab.date.year }}</small>
+      <button class="button tiny alert radius" (click)="removeMonth()"
+        *ngIf="feedplan.feedplanValue.scenario.stockDetails.length > 1 && $index == feedplan.feedplanValue.scenario.stockDetails.length - 1">REMOVE
+        MONTH</button>
+    </ng-template>
+    <div class="table-header-background">
+      <span></span>
+    </div>
+    <div class="form-wrap" *ngIf="stockForm">
+      <form [formGroup]="stockForm">
+        <table class="fp-table">
+          <thead>
+            <tr>
+              <th>
+                <span>                  
+                  {{ tab.date.text.split(" ")[0] }} {{ tab.date.year }}
+                </span>
+              </th>
+              <th *ngIf="feedplan.feedplanValue.scenario.cows.milkers">
+                <span>
+                  Milkers
+                </span>
+              </th>
+              <th *ngIf="feedplan.feedplanValue.scenario.cows.dry">
+                <span>
+                  Early Dry Cows
+                </span>
+              </th>
+              <th *ngIf="feedplan.feedplanValue.scenario.cows.transition">
+                <span>
+                  Transition Cows
+                </span>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th>
+                <label>NUMBER OF ANIMALS</label>
+              </th>
+              <td *ngIf="feedplan.feedplanValue.scenario.cows.milkers">
+                <input type="number" min="1" max="10000" [(ngModel)]="tab.numberOfAnimals.milkers"
+                  formControlName="numberOfMilkers" required>
+              </td>
+              <td *ngIf="feedplan.feedplanValue.scenario.cows.dry">
+                <input type="number" placeholder="" [(ngModel)]="tab.numberOfAnimals.dry" formControlName="numberOfDry"
+                  min="1" max="10000" required>
+              </td>
+              <td *ngIf="feedplan.feedplanValue.scenario.cows.transition">
+                <input type="number" placeholder="" [(ngModel)]="tab.numberOfAnimals.transition"
+                  formControlName="numberOfTransition" min="1" max="10000" required>
+              </td>
+              <td [ngClass]="{'has-cow': cowTypeCount > 2}"></td>
+              <td [ngClass]="{'has-cow': cowTypeCount > 1}"></td>
+            </tr>
+            <tr>
+              <th>
+                <label>AVERAGE LIVEWEIGHT</label> <a (click)="openModal(helpaverageliveweight , '')" tabindex="-1"
+                  class="more-info-button button info tiny radius"
+                  tooltip="Press to learn more about average liveweight" tooltip-append-to-body="true">LEARN MORE</a>
+              </th>
+              <td *ngIf="feedplan.feedplanValue.scenario.cows.milkers">
+                <div class="input-group">
+                  <input type="number" class="input-group-field" placeholder=""
+                    [(ngModel)]="tab.averageLiveWeight.milkers" min="1" formControlName="averageLiveWeightMilkers"
+                    required>
+                  <span class="input-group-label"><small>kg</small></span>
+                </div>
+              </td>
+              <td *ngIf="feedplan.feedplanValue.scenario.cows.dry">
+                <div class="input-group">
+                  <input type="number" class="input-group-field" placeholder="" [(ngModel)]="tab.averageLiveWeight.dry"
+                    min="1" formControlName="averageLiveWeightDry" required>
+                  <span class="input-group-label"><small>kg</small></span>
+                </div>
+              </td>
+              <td *ngIf="feedplan.feedplanValue.scenario.cows.transition">
+                <div class="input-group">
+                  <input type="number" class="input-group-field" placeholder=""
+                    [(ngModel)]="tab.averageLiveWeight.transition" min="1" formControlName="averageLiveWeightTransition"
+                    required>
+                  <span class="input-group-label"><small>kg</small></span>
+                </div>
+              </td>
+              <td [ngClass]="{'has-cow': cowTypeCount > 2}"></td>
+              <td [ngClass]="{'has-cow': cowTypeCount > 1}"></td>
+            </tr>
+            <tr>
+              <th>
+                <label>LIVEWEIGHT CHANGE</label> <a (click)="openModal(helpliveweightchange , '')" tabindex="-1"
+                  class="more-info-button button info tiny radius" tooltip="Press to learn more about liveweight change"
+                  tooltip-append-to-body="true">LEARN MORE</a>
+              </th>
+              <td *ngIf="feedplan.feedplanValue.scenario.cows.milkers">
+                <div class="input-group">
+                  <input type="number" class="input-group-field" placeholder=""
+                    [(ngModel)]="tab.liveweightChange.milkers" formControlName="liveweightChangeMilkers" required
+                    min="-2" max="2" step="0.1">
+                  <span class="input-group-label" data-tooltip tooltip="Kilograms per cow per day">
+                    <small>kg/day</small>
+                  </span>
+                </div>
+              </td>
+              <td *ngIf="feedplan.feedplanValue.scenario.cows.dry">
+                <div class="input-group">
+                  <input type="number" class="input-group-field" placeholder="" [(ngModel)]="tab.liveweightChange.dry"
+                    formControlName="liveweightChangeDry" required min="-2" max="2" step="0.1">
+                  <span class="input-group-label" tooltip="Kilograms per cow per day"><small>kg/day</small></span>
+                </div>
+              </td>
+              <td *ngIf="feedplan.feedplanValue.scenario.cows.transition">
+                <div class="input-group">
+                  <input type="number" class="input-group-field" placeholder=""
+                    [(ngModel)]="tab.liveweightChange.transition" formControlName="liveweightChangeTransition" required
+                    min="-2" max="2" step="0.1">
+                  <span class="input-group-label" tooltip="Kilograms per cow per day"><small>kg/day</small></span>
+                </div>
+              </td>
+              <td [ngClass]="{'has-cow': cowTypeCount > 2}"></td>
+              <td [ngClass]="{'has-cow': cowTypeCount > 1}"></td>
+            </tr>
+            <tr>
+              <th>
+                <label>AVERAGE DISTANCE WALKED PER DAY</label><a (click)="openModal(helpdistancewalked , '')"
+                  tabindex="-1" class="more-info-button button info tiny radius"
+                  tooltip="Press to learn more about average distance walked per day"
+                  tooltip-append-to-body="true">LEARN MORE</a>
+              </th>
+              <td *ngIf="feedplan.feedplanValue.scenario.cows.milkers">
+                <div class="input-group">
+                  <input type="number" class="input-group-field" placeholder=""
+                    [(ngModel)]="tab.averageDistanceWalkedPerDay.milkers" formControlName="averageDistanceMilkers"
+                    required min="0" max="10" step="0.5">
+                  <span class="input-group-label"><small>km</small></span>
+                </div>
+              </td>
+              <td *ngIf="feedplan.feedplanValue.scenario.cows.dry">
+                <div class="input-group">
+                  <input type="number" class="input-group-field" placeholder=""
+                    [(ngModel)]="tab.averageDistanceWalkedPerDay.dry" formControlName="averageDistanceDry" required
+                    step="0.5">
+                  <span class="input-group-label"><small>km</small></span>
+                </div>
+              </td>
+              <td *ngIf="feedplan.feedplanValue.scenario.cows.transition">
+                <div class="input-group">
+                  <input type="number" class="input-group-field" placeholder=""
+                    [(ngModel)]="tab.averageDistanceWalkedPerDay.transition" formControlName="averageDistanceTransition"
+                    required min="0" max="10" step="0.5">
+                  <span class="input-group-label"><small>km</small></span>
+                </div>
+              </td>
+              <td [ngClass]="{'has-cow': cowTypeCount > 2}"></td>
+              <td [ngClass]="{'has-cow': cowTypeCount > 1}"></td>
+            </tr>
+            <tr>
+              <th>
+                <label>TERRAIN</label>
+                <a (click)="openModal(helpterrain , '')" tabindex="-1" class="more-info-button button info tiny radius"
+                  tooltip="Press to learn more about terrain types" tooltip-append-to-body="true">LEARN MORE</a>
+              </th>
+              <td *ngIf="feedplan.feedplanValue.scenario.cows.milkers">
+                <select [(ngModel)]="tab.terrain.milkers" formControlName="terrainMilkers">
+                  <option value="0">Flat</option>
+                  <option value="2">Undulating</option>
+                  <option value="4">Steep</option>
+                </select>
+              </td>
+              <td *ngIf="feedplan.feedplanValue.scenario.cows.dry">
+                <select [(ngModel)]="tab.terrain.dry" formControlName="terrainDry">
+                  <option value="0">Flat</option>
+                  <option value="2">Undulating</option>
+                  <option value="4">Steep</option>
+                </select>
+              </td>
+              <td *ngIf="feedplan.feedplanValue.scenario.cows.transition">
+                <select [(ngModel)]="tab.terrain.transition" formControlName="terrainTransition">
+                  <option value="0">Flat</option>
+                  <option value="2">Undulating</option>
+                  <option value="4">Steep</option>
+                </select>
+              </td>
+              <td [ngClass]="{'has-cow': cowTypeCount > 2}"></td>
+              <td [ngClass]="{'has-cow': cowTypeCount > 1}"></td>
+            </tr>
+            <tr *ngIf="feedplan.feedplanValue.scenario.cows.milkers">
+              <th>
+                <label>AVERAGE DAYS IN MILK</label>
+                <a (click)="openModal(helpaveragedaysinmilk, '')" tabindex="-1"
+                  class="more-info-button button info tiny radius"
+                  tooltip="Press to learn more about average days in milk">LEARN MORE</a>
+              </th>
+              <td>
+                <input type="number" placeholder="" [(ngModel)]="tab.averageDaysInMilk"
+                  formControlName="averageDaysInMilk" min="0" required>
+              </td>
+            </tr>
+            <tr *ngIf="feedplan.feedplanValue.scenario.cows.milkers">
+              <th>
+                <label>AVERAGE DAYS PREGNANT</label>
+                <a (click)="openModal(helpaveragedayspregnant, '')" tabindex="-1"
+                  class="more-info-button button info tiny radius"
+                  tooltip="Press to learn more about average days pregnant">LEARN MORE</a>
+              </th>
+              <td>
+                <input type="number" placeholder="" [(ngModel)]="tab.averageDaysPregnant"
+                  formControlName="averageDaysPregnant" min="0" required>
+              </td>
+            </tr>
+            <tr *ngIf="feedplan.feedplanValue.scenario.cows.milkers">
+              <th>
+                <label>AVERAGE DAILY MILK YIELD</label>
+              </th>
+              <td>
+                <div class="input-group">
+                  <input type="number" class="input-group-field" placeholder="" [(ngModel)]="tab.averageMilkYield"
+                    formControlName="averageMilkYield" required min="0.1" step="0.1">
+                  <span class="input-group-label" tooltip="litres per cow"
+                    tooltip-append-to-body="true"><small>L/cow</small></span>
+                </div>
+              </td>
+            </tr>
+            <tr *ngIf="feedplan.feedplanValue.scenario.cows.milkers">
+              <th>
+                <label>MILK FAT</label>
+                <a (click)="openModal(helpmilkfat, '')" tabindex="-1" class="more-info-button button info tiny radius"
+                  tooltip="Press to learn more about milk fat and protein" tooltip-append-to-body="true">LEARN MORE</a>
+              </th>
+              <td>
+                <div class="input-group">
+                  <input type="number" class="input-group-field" placeholder="" [(ngModel)]="tab.milkFat"
+                    formControlName="milkFat" required min="0.1" max="100" step="0.1">
+                  <span class="input-group-label"><small>%</small></span>
+                </div>
+              </td>
+            </tr>
+            <tr *ngIf="feedplan.feedplanValue.scenario.cows.milkers">
+              <th>
+                <label>MILK PROTEIN</label>
+              </th>
+              <td>
+                <div class="input-group">
+                  <input type="number" class="input-group-field" placeholder="" [(ngModel)]="tab.milkProtein"
+                    formControlName="milkProtein" required min="0.1" max="100" step="0.1">
+                  <span class="input-group-label"><small>%</small></span>
+                </div>
+              </td>
+            </tr>
+            <tr *ngIf="feedplan.feedplanValue.scenario.cows.milkers">
+              <th>
+                <label>PRODUCT PRICING</label>
+              </th>
+              <td>
+                <button type="button" class="button small radius" tabindex="-1" *ngIf="tab.milkPrice==false"
+                  (click)="tab.milkPrice = true">CHANGE TO MILK PRICE</button>
+                <button type="button" class="button small radius" tabindex="-1" *ngIf="tab.milkPrice==true"
+                  (click)="tab.milkPrice = false">CHANGE TO MILK FAT &amp; PROTEIN PRICE</button>
+              </td>
+            </tr>
+            <tr *ngIf="feedplan.feedplanValue.scenario.cows.milkers && tab.milkPrice">
+              <th>
+                <label>MILK PRICE</label>
+              </th>
+              <td>
+                <div class="input-group">
+                  <input type="number" class="input-group-field" placeholder="" [(ngModel)]="tab.centsLitre"
+                    formControlName="centsLitre" required min="1" max="100" step="1">
+                  <span class="input-group-label"><small>¢/litre</small></span>
+                </div>
+              </td>
+            </tr>
+            <tr *ngIf="feedplan.feedplanValue.scenario.cows.milkers && !tab.milkPrice">
+              <th>
+                <label>MILK FAT PRICE</label>
+              </th>
+              <td>
+                <div class="input-group">
+                  <input type="number" class="input-group-field" placeholder="" [(ngModel)]="tab.milkFatPrice"
+                    formControlName="milkFatPrice" required min="0.1" max="15" step="0.1">
+                  <span class="input-group-label"><small>$/kg</small></span>
+                </div>
+              </td>
+            </tr>
+            <tr *ngIf="feedplan.feedplanValue.scenario.cows.milkers && !tab.milkPrice">
+              <th>
+                <label>MILK PROTEIN PRICE</label>
+              </th>
+              <td>
+                <div class="input-group">
+                  <input type="number" class="input-group-field" placeholder="" [(ngModel)]="tab.milkProteinPrice"
+                    formControlName="milkProteinPrice" required min="0.1" max="10" step="0.1">
+                  <span class="input-group-label"><small>$/kg</small></span>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </form>
+    </div>
+  </tab>
+</tabset>
+<hr class="primary bottom">
+<div class="fp-footer">
+  <div class="grid-x medium-margin-top-1">
+    <div class="cell small-12">
+      <div>
+        <button class="button radius" (click)="cancel()" tooltip="Close the feed plan. No changes will be saved."
+          tooltip-append-to-body="true">CANCEL</button>
+        <button class="button success radius float-right" (click)="next()"
+          [ngClass]="{ 'hollow': feedplan.feedplanValue.scenario.valid[0] === false }">
+          NEXT <i class="fa fa-chevron-right"></i>
+        </button>
+        <button class="button save-feed-plan-button success radius float-right" (click)="saveAndClose()"
+          tooltip="Save your progress and close the feed plan. You can return to this point at any time to continue from where you left off."
+          tooltip-append-to-body="true">SAVE AND CLOSE</button>
+      </div>
+    </div>
+  </div>
+</div>
+<ng-template #addMonth>
+  <div class="modal-header">
+    <ul class="breadcrumbs">
+      <li>Add Month</li>
+    </ul>
+  </div>
+  <div class="grix-x feed-plan-setup-modal-content-row collapse">
+    <div class="small-12 cell">
+      <p>Copy details from previous month?</p>
+    </div>
+    <hr class="primary bottom">
+    <div class="cell small-12 text-right modal-footer">
+      <button class="button radius medium-margin-1" (click)="cloneLastMonth()">YES</button>
+      <button class="button radius medium-margin-1" (click)="addNewMonth()">NO</button>
+    </div>
+  </div>
+</ng-template>
+<ng-template #helpaveragedaysinmilk>
+  <app-help-average-days-in-milk></app-help-average-days-in-milk>
+</ng-template>
+<ng-template #helpaveragedayspregnant>
+  <app-help-average-days-pregnant></app-help-average-days-pregnant>
+</ng-template>
+<ng-template #helpaverageliveweight>
+  <app-help-average-liveweight></app-help-average-liveweight>
+</ng-template>
+<ng-template #helpdistancewalked>
+  <app-help-distance-walked></app-help-distance-walked>
+</ng-template>
+<ng-template #helpliveweightchange>
+  <app-help-liveweight-change></app-help-liveweight-change>
+</ng-template>
+<ng-template #helpmilkfat>
+  <app-help-milk-fat></app-help-milk-fat>
+</ng-template>
+<ng-template #helpterrain>
+  <app-help-terrain></app-help-terrain>
+</ng-template>

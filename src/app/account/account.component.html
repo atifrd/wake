@@ -1,0 +1,15 @@
+<div class="grid-container">
+  <div class="grid-x grid-margin-x medium-margin-top-2">
+    <div class="medium-3 cell side-nav-container">
+      <ul class="side-nav">
+        <li><a routerLink="/account/details" routerLinkActive="active">Account Details</a></li>
+        <li class="hidden-feature"><a routerLink="/account/notifications" routerLinkActive="active">Notifications</a>
+        </li>
+      </ul>
+      <button class="button small radius" (click)="signOut()">SIGN OUT</button>
+    </div>
+    <div class="medium-9 cell">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,85 @@
+<div class="modal-header">
+  <ul class="breadcrumbs">
+    <li>Help</li>
+    <li>Feed Wastage</li>
+  </ul>
+</div>
+<div class="grid-x feed-plan-setup-modal-content-row collapse">
+  <div class="small-12 cell full-height-row">
+    <p>
+      Enter expected wastage (%) for each feed, given the feed-out method used. See table below.<br />
+      Note &mdash; A diet formulation is based on quantities of feeds consumed, so wastage does not affect it. However
+      wastage will increase the
+      quantities of feeds that must be fed out.
+    </p>
+    <p><small><b>Table:</b> Feed wastage using different feed-out methods</small></p>
+    <table class="table bordered">
+      <thead>
+        <tr>
+          <th>Feed-out method</th>
+          <th>Minimum</th>
+          <th>Typical</th>
+          <th>Maximum</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>In the dairy at milking</td>
+          <td>0%</td>
+          <td>1%</td>
+          <td>2%</td>
+        </tr>
+        <tr>
+          <td>In grazing paddock, on pasture</td>
+          <td>5%</td>
+          <td>15%</td>
+          <td>25%</td>
+        </tr>
+        <tr>
+          <td>In sacrifice paddock, fed on bare ground, in ring feeders, or under a fence line</td>
+          <td>5%</td>
+          <td>25%</td>
+          <td>35%</td>
+        </tr>
+        <tr>
+          <td>On semi-permanent feed-out facility incorporating a compacted surface and low-cost feed troughing</td>
+          <td>5%</td>
+          <td>10%</td>
+          <td>20%</td>
+        </tr>
+        <tr>
+          <td>On permanent feed pad incorporating a compacted surface and purpose-built feed troughing</td>
+          <td>2%</td>
+          <td>5%</td>
+          <td>10%</td>
+        </tr>
+        <tr>
+          <td>On permanent, fully-developed feed pad with concrete surfaces</td>
+          <td>0%</td>
+          <td>3%</td>
+          <td>5%</td>
+        </tr>
+      </tbody>
+    </table>
+    <br>
+    <div>
+      Note –
+      <ul>
+        <li>These figures are assuming dry conditions. They may not reflect the full range of wastage that might occur
+          under wet conditions.</li>
+        <li> For information on reducing feed wastage, visit 
+          <a href="www.dairyaustralia.com.au/Pastures-and-Feeding/Feeding-systems.aspx"
+            target="_blank">
+            www.dairyaustralia.com.au/Pastures-and-Feeding/Feeding-systems.aspx</a>
+        </li>
+      </ul>
+    </div>
+    <p class="text-right">
+      <small><b>Source:</b> Based on findings of Dairy Australia feed wastage study 2009</small>
+    </p>
+  </div>
+  <hr class="primary bottom">
+  <div class="cell small-12 modal-footer medium-margin-top-1">
+    <button class="button radius float-right" (click)="close()">CLOSE</button>
+  </div>
+</div>

@@ -1,0 +1,46 @@
+#inventory-manager-home {
+  .fa {
+    background: #ffa200;
+    color: #fff;
+    text-align: center;
+    width: 2rem;
+    height: 2rem;
+    line-height: 2rem;
+    display: inline-block;
+    font-size: 1.25rem;
+    border-radius: 3px;
+    float: left;
+    &.fa-check {
+      background: #3fce00;
+    }
+  }
+  .inventory-steps {
+    margin-bottom: 1rem;
+    small, p {
+      margin: 0;
+    }
+    &.with-status {
+      small, p {
+        margin-left: 2.75rem;
+      }
+    }
+  }
+  h2 {
+    margin-bottom: 1rem;
+  }
+  .storage-image {
+    display: block;
+    width: auto;
+    max-height: 250px;
+    margin: 0 auto;
+    margin-bottom: 1rem;
+  }
+}
+.list-item {
+  border-bottom: 1px solid silver;
+  margin-bottom: 1rem;
+  &:last-child {
+    border: none;
+    margin-bottom: 0;
+  }
+}

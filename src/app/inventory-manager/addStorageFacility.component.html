@@ -1,0 +1,743 @@
+<div class="modal-header">
+  <ul class="breadcrumbs">
+    <li>{{task.stepTitle}}</li>
+  </ul>
+</div>
+<div class="grid-x collapse feed-plan-setup-modal-content-row add-feed-type" id="inventory-wizard">
+  <div class="cell small-12">
+    <p>{{task.stepInstruction}}</p>
+  </div>
+  <div class="small-12 cell">
+    <div class="callout secondary radius bordered">
+      <div class="grid-x grid-margin-x">
+        <div class="small-7 cell" *ngIf="task.step === 'setDetails'">
+          <form name="setDetailsForm">
+            <label for="storage-type">STORAGE TYPE</label>
+            <select class="radius no-margin" id="storage-type" name="storage-type" [(ngModel)]="task.storageTypeId"
+              (change)="storageTypeSelected()" autofocus required>
+              <option *ngFor="let item of storageTypeList" value={{item.id}}>
+                {{item.name}}
+              </option>
+            </select>
+            <p><small>Select the storage type that most closely describes your storage facility.</small></p>
+            <label for="storage-name">NAME/DESCRIPTION</label>
+            <input type="text" id="storage-name" class="radius no-margin" (ngModel)="storageFacility.name" required />
+            <p><small>Enter the name of the storage facility or give the storage facility a descriptive name, for
+                example "Hay shed near dairy", "Silo 1", etc.</small></p>
+          </form>
+        </div>
+        <div class="small-7 cell"
+          *ngIf="task.step === 'setCapacity' && storageFacility.storageType.storageShape === 'rectangle'">
+          <form name="setCapacityrectangleForm">
+            <label for="storage-size-diameter">WIDTH</label>
+            <div class="grid-x collapse">
+              <div class="input-group">
+                <input type="number" class="input-group-field" min="1" (ngModel)="storageFacility.dimensions.width"
+                  required formControlName="storageFacilityDimensionswidth" />
+                <span class="input-group-label"><small>metres</small></span>
+              </div>
+            </div>
+            <label for="storage-size-diameter">HEIGHT</label>
+            <div class="grid-x collapse">
+              <div class="input-group">
+                <input type="number" class="input-group-field" min="1" (ngModel)="storageFacility.dimensions.height"
+                  required formControlName="storageFacilityDimensionsHeight" />
+                <span class="input-group-label"><small>metres</small></span>
+              </div>
+            </div>
+            <label for="storage-size-diameter">LENGTH</label>
+            <div class="grid-x collapse">
+              <div class="input-group">
+                <input type="number" class="input-group-field" min="1" (ngModel)="storageFacility.dimensions.length"
+                  required formControlName="storageFacilityDimensionsLength" />
+                <span class="input-group-label"><small>metres</small></span>
+              </div>
+            </div>
+            <br>
+            <a (click)="openModal(helpCapacity)" tabindex="-1" class="more-info-button button info tiny radius"
+              tooltip="Press to learn more about determining storage facility capacity">LEARN MORE ABOUT STORAGE
+              CAPACITY</a>
+          </form>
+        </div>
+        <div class="small-7 cell"
+          *ngIf="task.step === 'setCapacity' && storageFacility.storageType.storageShape === 'cylinder'">
+          <form name="setCapacitycylinderForm">
+            <label for="storage-size-diameter">DIAMETER</label>
+            <div class="grid-x collapse">
+              <div class="input-group">
+                <input type="number" class="input-group-field" min="1" (ngModel)="storageFacility.dimensions.diameter"
+                  required formControlName="storageFacilityDimensionsDiameter" />
+                <span class="input-group-label"><small>metres</small></span>
+              </div>
+            </div>
+            <label for="storage-size-bales">HEIGHT</label>
+            <div class="grid-x collapse">
+              <div class="input-group">
+                <input type="number" class="input-group-field" min="1" (ngModel)="storageFacility.dimensions.height"
+                  required formControlName="storageFacilityDimensionsHeight" />
+                <span class="input-group-label"><small>metres</small></span>
+              </div>
+            </div>
+            <br>
+            <a (click)="openModal(helpCapacity)" tabindex="-1" class="more-info-button button info tiny radius"
+              tooltip="Press to learn more about determining storage facility capacity">LEARN MORE ABOUT STORAGE
+              CAPACITY</a>
+          </form>
+        </div>
+        <div class="small-7 cell"
+          *ngIf="task.step === 'setCapacity' && storageFacility.storageType.storageShape === 'tube'">
+          <form name="setCapacitytubeForm">
+            <label for="storage-size-diameter">DIAMETER</label>
+            <div class="grid-x collapse">
+              <div class="input-group">
+                <input type="number" class="input-group-field" min="1" (ngModel)="storageFacility.dimensions.diameter"
+                  required formControlName="storageFacilityDimensionsDiameter" />
+                <span class="input-group-label"><small>metres</small></span>
+              </div>
+            </div>
+            <label for="storage-size-bales">LENGTH</label>
+            <div class="grid-x collapse">
+              <div class="input-group">
+                <input type="number" class="input-group-field" min="1" (ngModel)="storageFacility.dimensions.length"
+                  required formControlName="storageFacilityDimensionsLength" />
+                <span class="input-group-label"><small>metres</small></span>
+              </div>
+            </div>
+            <br>
+            <a (click)="openModal(helpCapacity)" tabindex="-1" class="more-info-button button info tiny radius"
+              tooltip="Press to learn more about determining storage facility capacity">LEARN MORE ABOUT STORAGE
+              CAPACITY</a>
+          </form>
+        </div>
+        <div class="small-7 cell"
+          *ngIf="task.step === 'setCapacity' && storageFacility.storageType.storageShape === 'bales'">
+          <form name="setCapacitybalesForm">
+            <label for="storage-size-bales">STORAGE CAPACITY</label>
+            <div class="grid-x collapse">
+              <div class="input-group">
+                <input type="number" class="input-group-field no-margin" min="1"
+                  (ngModel)="storageFacility.dimensions.bales" required
+                  formControlName="storageFacilityDimensionsBales" />
+                <span class="input-group-label"><small>bales</small></span>
+              </div>
+            </div>
+            <p><small>The maximum number of bales the facility can hold.</small></p>
+            <br>
+            <a (click)="openModal(helpCapacity)" tabindex="-1" class="more-info-button button info tiny radius"
+              tooltip="Press to learn more about determining storage facility capacity">LEARN MORE ABOUT STORAGE
+              CAPACITY</a>
+          </form>
+        </div>
+        <div class="small-7 cell"
+          *ngIf="task.step === 'setCapacity' && storageFacility.storageType.storageShape === 'coned cylinder'">
+          <form name="setCapacityconedcylinderForm">
+            <label for="storage-size-bales">DIAMETER</label>
+            <div class="grid-x collapse">
+              <div class="input-group">
+                <input type="number" class="input-group-field no-margin" min="1"
+                  (ngModel)="storageFacility.dimensions.diameter" required autofocus
+                  formControlName="storageFacilityDimensionsDiameter" />
+                <span class="input-group-label"><small>metres</small></span>
+              </div>
+            </div>
+            <label for="storage-size-bales">TOTAL HEIGHT</label>
+            <div class="grid-x collapse">
+              <div class="input-group">
+                <input type="number" class="input-group-field no-margin" min="1"
+                  (ngModel)="storageFacility.dimensions.height" required autofocus
+                  formControlName="storageFacilityDimensionsHeight" />
+                <span class="input-group-label"><small>metres</small></span>
+              </div>
+            </div>
+            <p><small>The entire height of the silo, including the height of the cone.</small></p>
+            <label for="storage-size-bales">CONE HEIGHT</label>
+            <div class="grid-x collapse">
+              <div class="input-group">
+                <input type="number" class="input-group-field no-margin" min="1"
+                  (ngModel)="storageFacility.dimensions.coneHeight" required autofocus
+                  formControlName="storageFacilityDimensionsConeHeight" />
+                <span class="input-group-label"><small>metres</small></span>
+              </div>
+            </div>
+            <p><small>The height of the cone only.</small></p>
+            <br>
+            <a (click)="openModal(helpCapacity)" tabindex="-1" class="more-info-button button info tiny radius"
+              tooltip="Press to learn more about determining storage facility capacity">LEARN MORE ABOUT STORAGE
+              CAPACITY</a>
+          </form>
+        </div>
+        <div class="small-7 cell"
+          *ngIf="task.step === 'setCapacity' && storageFacility.storageType.storageShape === 'bags'">
+          <form name="setCapacitybagsForm">
+            <label for="storage-size-bales">STORAGE CAPACITY</label>
+            <div class="grid-x collapse">
+              <div class="input-group">
+                <input type="number" class="input-group-field no-margin" min="1"
+                  (ngModel)="storageFacility.dimensions.bags" required autofocus
+                  formControlName="storageFacilityDimensionsBags" />
+                <span class="input-group-label"><small>bags</small></span>
+              </div>
+            </div>
+            <p><small>The maximum number of bags the facility can hold.</small></p>
+            <br>
+            <a (click)="openModal(helpCapacity)" tabindex="-1" class="more-info-button button info tiny radius"
+              tooltip="Press to learn more about determining storage facility capacity">LEARN MORE ABOUT STORAGE
+              CAPACITY</a>
+          </form>
+        </div>
+        <div class="small-7 cell" *ngIf="task.step === 'setFeedType'">
+          <form name="setFeedTypeForm">
+            <label for="storage-size-capacity">SELECT STORED FEED</label>
+            <ng-container *ngTemplateOutlet="feedpicker"></ng-container>
+          </form>
+        </div>
+        <div class="small-7 cell"
+          *ngIf="task.step === 'setLevel' && storageFacility.storageType.levelMeasurementMethod === 'from back'">
+          <form name="setLevelfrombackForm">
+            <div class="grid-x collapse">
+              <div class="small-6 cell">
+                <label for="storage-size-bales">METRES FROM BACK</label>
+                <div class="grid-x collapse">
+                  <div class="input-group">
+                    <input type="number" class="input-group-field no-margin" min="0" step="1"
+                      max="storageFacility.dimensions.length" (ngModel)="storageFacility.lastStocktake.level" required
+                      autofocus formControlName="storageFacilityLastStocktakeLevel" />
+                    <span class="input-group-label"><small>metres</small></span>
+                  </div>
+                </div>
+                <p><small>Measure the level from the back of the facility. <strong>The facility is
+                      {{ storageFacility.dimensions.length | number: 0 }} metres in length.</strong></small>
+                  <a (click)="helpFeedLevel()" tabindex="-1" class="more-info-button button info tiny radius"
+                    tooltip="Press to learn more about determining the feed level in the storage facility">LEARN
+                    MORE</a>
+                </p>
+                <label for="storage-size-bales">DRY MATTER</label>
+                <div class="grid-x collapse">
+                  <div class="input-group">
+                    <input type="number" class="input-group-field no-margin" min="0" max="100" step="1"
+                      (ngModel)="storageFacility.lastStocktake.dryMatter" required autofocus
+                      formControlName="storageFacilityLastStocktakeDryMatter" />
+                    <span class="input-group-label"><small>%</small></span>
+                  </div>
+                </div>
+                <br>
+                <label for="storage-size-bales">WET DENSITY</label>
+                <div class="grid-x collapse">
+                  <div class="input-group">
+                    <input type="number" class="input-group-field no-margin" min="0"
+                      (ngModel)="storageFacility.lastStocktake.unitWeight" required autofocus
+                      formControlName="storageFacilityLastStocktakeUnitWeight" />
+                    <span class="input-group-label"><small>kg/cubic metre</small></span>
+                  </div>
+                </div>
+                <p>
+                  <small>The wet density of the feed currently in storage. <strong
+                      *ngIf="task.wetDensities.hasValues">The recommended value should be between
+                      {{ task.wetDensities.min }} and {{ task.wetDensities.max }}.</strong></small>
+                  <a href="#" (click)="openModal(helpWetDensity)" tabindex="-1"
+                    class="more-info-button button info tiny radius"
+                    tooltip="Press to learn more about wet density">LEARN MORE</a>
+                </p>
+                <label for="storage-size-bales">CURRENT MARKET VALUE</label>
+                <div class="grid-x collapse">
+                  <div class="input-group">
+                    <span class="input-group-label"><small>$</small></span>
+                    <input type="number" class="input-group-field no-margin" min="0"
+                      (ngModel)="storageFacility.lastStocktake.unitValue" required autofocus
+                      formControlName="storageFacilityLastStocktakeUnitValue" />
+                    <span class="input-group-label"><small>/tonne</small></span>
+                  </div>
+                </div>
+              </div>
+              <div class="small-6 cell">
+                <ng-container *ngTemplateOutlet="discrepancyInfo"></ng-container>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="small-7 cell"
+          *ngIf="task.step === 'setLevel' && storageFacility.storageType.levelMeasurementMethod === 'bags'">
+          <form name="setLevelbagsForm">
+            <div class="grid-x collapse">
+              <div class="small-6 cell">
+                <label for="storage-size-bales">NUMBER OF BAGS</label>
+                <div class="input-group">
+                  <input type="number" class="input-group-field no-margin" placeholder="" min="0" step="1"
+                    max="storageFacility.dimensions.bags" (ngModel)="storageFacility.lastStocktake.level" required>
+                  <span class="input-group-label"><small>bags</small></span>
+                </div>
+                <p><small>Count the number of bags in the facility. <strong>The facility has a capacity of
+                      {{ storageFacility.dimensions.bags | number: 0 }} bags.</strong></small></p>
+                <label for="storage-size-bales">DRY MATTER</label>
+                <div class="input-group">
+                  <input type="number" class="input-group-field no-margin" placeholder="" min="0" max="100" step="1"
+                    (ngModel)="storageFacility.lastStocktake.dryMatter" required>
+
+                  <span class="input-group-label"><small>%</small></span>
+                </div>
+                <br>
+                <label for="storage-size-bales">BAG WEIGHT</label>
+                <div class="input-group">
+                  <input type="number" class="input-group-field no-margin" placeholder="" min="0"
+                    (ngModel)="storageFacility.lastStocktake.unitWeight" required>
+                  <span class="input-group-label"><small>kg/bag</small></span>
+                </div>
+                <p><small>The average weight of each bag.</small></p>
+                <label for="storage-size-bales">CURRENT MARKET VALUE</label>
+                <div class="input-group">
+                  <span class="input-group-label"><small>$</small></span>
+                  <input type="number" class="input-group-field no-margin" placeholder="" min="0"
+                    (ngModel)="storageFacility.lastStocktake.unitValue" required>
+                  <span class="input-group-label"><small>/tonne</small></span>
+                </div>
+              </div>
+              <div class="small-6 cell">
+                <ng-container *ngTemplateOutlet="discrepancyInfo"></ng-container>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="small-7 cell"
+          *ngIf="task.step === 'setLevel' && storageFacility.storageType.levelMeasurementMethod === 'from bottom'">
+          <form name="setLevelfrombottomForm">
+            <div class="grid-x collapse">
+              <div class="small-6 cell">
+                <label for="storage-size-bales">METRES FROM BOTTOM</label>
+                <div class="input-group">
+                  <input type="number" class="input-group-field no-margin" placeholder="" min="0" step="1"
+                    max="storageFacility.dimensions.height" (ngModel)="storageFacility.lastStocktake.level" required>
+                  <span class="input-group-label"><small>metres</small></span>
+                </div>
+                <p><small>Measure the level from the bottom of the facility. <strong>The facility is
+                      {{ storageFacility.dimensions.height | number: 0 }} metres in height.</strong></small>
+                  <a href="#" (click)="helpFeedLevel()" tabindex="-1" class="more-info-button button info tiny radius"
+                    tooltip="Press to learn more about determining the feed level in the storage facility">LEARN
+                    MORE</a>
+                </p>
+                <label for="storage-size-bales">DRY MATTER</label>
+                <div class="input-group">
+                  <input type="number" class="input-group-field no-margin" placeholder="" min="0" max="100" step="1"
+                    (ngModel)="storageFacility.lastStocktake.dryMatter" required>
+                  <span class="input-group-label"><small>%</small></span>
+                </div>
+                <label for="storage-size-bales">WET DENSITY</label>
+                <div class="input-group">
+                  <input type="number" class="input-group-field no-margin" placeholder="" min="0"
+                    [(ngModel)]="storageFacility.lastStocktake.unitWeight" required>
+                  <span class="input-group-label"><small>kg/cubic metre</small></span>
+                </div>
+                <p>
+                  <small>The wet density of the feed currently in storage. <strong
+                      *ngIf="task.wetDensities.hasValues">The recommended value should be between
+                      {{ task.wetDensities.min }} and {{ task.wetDensities.max }}.</strong></small>
+                  <a href="#" (click)="openModal(helpWetDensity)" tabindex="-1"
+                    class="more-info-button button info tiny radius"
+                    tooltip="Press to learn more about wet density">LEARN MORE</a>
+                </p>
+                <label for="storage-size-bales">CURRENT MARKET VALUE</label>
+                <div class="input-group">
+                  <span class="input-group-label"><small>$</small></span>
+                  <input type="number" class="input-group-field no-margin" placeholder="" min="0"
+                    (ngModel)="storageFacility.lastStocktake.unitValue" required>
+                  <span class="input-group-label"><small>/tonne</small></span>
+                </div>
+              </div>
+              <div class="small-6 cell">
+                <ng-container *ngTemplateOutlet="discrepancyInfo"></ng-container>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="small-7 cell"
+          *ngIf="task.step === 'setLevel' && storageFacility.storageType.levelMeasurementMethod === 'bales'">
+          <form name="setLevelbalesForm">
+            <div class="grid-x collapse">
+              <div class="small-6 cell">
+                <label for="storage-size-bales">NUMBER OF BALES</label>
+                <div class="input-group">
+                  <input type="number" class="input-group-field no-margin" placeholder="" min="0" step="1"
+                    max="storageFacility.dimensions.bales" (ngModel)="storageFacility.lastStocktake.level" required>
+                  <span class="input-group-label"><small>bales</small></span>
+                </div>
+                <p><small>Count the number of bales in the facility. <strong>The facility has a capacity of
+                      {{ storageFacility.dimensions.bales | number: 0 }} bales.</strong></small></p>
+                <label for="storage-size-bales">DRY MATTER</label>
+                <div class="input-group">
+                  <input type="number" class="input-group-field no-margin" placeholder="" min="0" max="100" step="1"
+                    (ngModel)="storageFacility.lastStocktake.dryMatter" required>
+                  <span class="input-group-label"><small>%</small></span>
+                </div>
+                <br>
+                <label for="storage-size-bales">BALE WEIGHT</label>
+                <div class="input-group">
+                  <input type="number" class="input-group-field no-margin" placeholder="" min="0"
+                    (ngModel)="storageFacility.lastStocktake.unitWeight" required>
+                  <span class="input-group-label"><small>kg/bale</small></span>
+                </div>
+                <p><a href="#" (click)="helpFeedLevel()" tabindex="-1" class="more-info-button button info tiny radius"
+                    tooltip="Press to learn more about determining bale weight">LEARN MORE</a></p>
+                <label for="storage-size-bales">CURRENT MARKET VALUE</label>
+                <div class="input-group">
+                  <span class="input-group-label"><small>$</small></span>
+                  <input type="number" class="input-group-field no-margin" placeholder="" min="0"
+                    (ngModel)="storageFacility.lastStocktake.unitValue" required>
+                  <span class="input-group-label"><small>/tonne</small></span>
+                </div>
+              </div>
+              <div class="small-6 cell">
+                <ng-container *ngTemplateOutlet="discrepancyInfo"></ng-container>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="small-7 cell"
+          *ngIf="task.step === 'setLevel' && storageFacility.storageType.levelMeasurementMethod === 'from cone bottom'">
+          <form name="setLevelfromconebottomForm">
+            <div class="grid-x collapse">
+              <div class="small-6 cell">
+                <label for="storage-size-bales">METRES FROM BOTTOM</label>
+                <div class="input-group">
+                  <input type="number" class="input-group-field no-margin" placeholder="" min="0" step="0.5"
+                    max="storageFacility.dimensions.height" (ngModel)="storageFacility.lastStocktake.level" required>
+                  <span class="input-group-label"><small>metres</small></span>
+                </div>
+                <p><small>Measure the level from the base of the cone. <strong>The facility has a total height of
+                      {{ storageFacility.dimensions.height | number: 0 }} metres (of which the cone is
+                      {{ storageFacility.dimensions.coneHeight }} metres in height).</strong></small>
+                  <a href="#" (click)="helpFeedLevel()" tabindex="-1" class="more-info-button button info tiny radius"
+                    tooltip="Press to learn more about determining the feed level in the storage facility">LEARN
+                    MORE</a>
+                </p>
+                <label for="storage-size-bales">DRY MATTER</label>
+                <div class="input-group">
+                  <input type="number" class="input-group-field no-margin" placeholder="" min="0" max="100" step="1"
+                    (ngModel)="storageFacility.lastStocktake.dryMatter" required>
+                  <span class="input-group-label"><small>%</small></span>
+                </div>
+                <br>
+                <label for="storage-size-bales">WET DENSITY</label>
+                <div class="input-group">
+                  <input type="number" class="input-group-field no-margin" placeholder="" min="0"
+                    (ngModel)="storageFacility.lastStocktake.unitWeight" required>
+                  <span class="input-group-label"><small>kg/cubic metre</small></span>
+                </div>
+                <p>
+                  <small>The wet density of the feed currently in storage. <strong
+                      *ngIf="task.wetDensities.hasValues">The recommended value should be between
+                      {{ task.wetDensities.min }} and {{ task.wetDensities.max }}.</strong></small>
+                  <a href="#" (click)="openModal(helpWetDensity)" tabindex="-1"
+                    class="more-info-button button info tiny radius"
+                    tooltip="Press to learn more about wet density">LEARN MORE</a>
+                </p>
+                <label for="storage-size-bales">CURRENT MARKET VALUE</label>
+                <div class="input-group">
+                  <span class="input-group-label"><small>$</small></span>
+                  <input type="number" class="input-group-field no-margin" placeholder="" min="0"
+                    (ngModel)="storageFacility.lastStocktake.unitValue" required>
+                  <span class="input-group-label"><small>/tonne</small></span>
+                </div>
+              </div>
+              <div class="small-6 cell">
+                <ng-container *ngTemplateOutlet="discrepancyInfo"></ng-container>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="small-7 cell" *ngIf="task.step === 'setFeedRate'">
+          <form name="setFeedRateForm">
+            <div class="grid-x collapse">
+              <div class="cell small-5 end">
+                <label for="storage-type">CONSUMED QUANTITY</label>
+                <select class="radius no-margin" id="feed-quantified-as"
+                  (ngModel)="storageFacility.feedRates.quantifiedAs" (change)="changeFeedTypesQuantified()" autofocus
+                  required>
+                  <option *ngFor="let item of feedTypesQuantifiedValues" value={{item.value}}>
+                    {{item.label}}
+                  </option>
+                </select>
+                <p><small>Select how consumed amount is measured</small></p>
+              </div>
+            </div>
+            <div class="grid-x collapse">
+              <div class="cell small-12">
+                <label>MILKERS</label>
+              </div>
+            </div>
+            <div class="grid-x collapse feed-rate-cow">
+              <div class="cell small-4 feed-rate-row">
+                <label>NUMBER</label>
+                <div class="input-group">
+                  <input type="number" class="input-group-field no-margin" placeholder="" min="0" step="1"
+                    (ngModel)="storageFacility.feedRates.milkers.number" required>
+                  <span class="input-group-label"><small>cows</small></span>
+                </div>
+              </div>
+              <div class="cell small-5 feed-rate-row">
+                <label>CONSUMED ({{ task.feedRateQuantifiedAs.label }})</label>
+                <div class="input-group">
+                  <input type="number" class="input-group-field no-margin" placeholder="" min="0" step="0.1"
+                    (ngModel)="storageFacility.feedRates.milkers.consumed" required>
+                  <span class="input-group-label"><small>kg/head</small></span>
+                </div>
+              </div>
+              <div class="cell small-3 feed-rate-row">
+                <label>WASTAGE</label>
+                <div class="input-group">
+                  <input type="number" class="input-group-field no-margin" placeholder="" min="0" max="100" step="0.1"
+                    (ngModel)="storageFacility.feedRates.milkers.wastage" required>
+                  <span class="input-group-label"><small>%</small></span>
+                </div>
+              </div>
+            </div>
+            <div class="grid-x collapse">
+              <div class="cell small-12">
+                <label>DRY COWS</label>
+              </div>
+            </div>
+            <div class="grid-x collapse feed-rate-cow">
+              <div class="cell small-4 feed-rate-row">
+                <label>NUMBER</label>
+                <div class="input-group">
+                  <input type="number" class="input-group-field no-margin" placeholder="" min="0" step="1"
+                    (ngModel)="storageFacility.feedRates.dry.number" required>
+                  <span class="input-group-label"><small>cows</small></span>
+                </div>
+              </div>
+              <div class="cell small-5 feed-rate-row">
+                <label>CONSUMED ({{ task.feedRateQuantifiedAs.label }})</label>
+                <div class="input-group">
+                  <input type="number" class="input-group-field no-margin" placeholder="" min="0" step="0.1"
+                    (ngModel)="storageFacility.feedRates.dry.consumed" required>
+                  <span class="input-group-label"><small>kg/head</small></span>
+                </div>
+              </div>
+              <div class="cell small-3 feed-rate-row">
+                <label>WASTAGE</label>
+                <div class="input-group">
+                  <input type="number" class="input-group-field no-margin" placeholder="" min="0" max="100" step="0.1"
+                    (ngModel)="storageFacility.feedRates.dry.wastage" required>
+                  <span class="input-group-label"><small>%</small></span>
+                </div>
+              </div>
+            </div>
+            <div class="grid-x collapse">
+              <div class="cell small-12">
+                <label>TRANSITION COWS</label>
+              </div>
+            </div>
+            <div class="grid-x collapse feed-rate-cow">
+              <div class="cell small-4 feed-rate-row">
+                <label>NUMBER</label>
+                <div class="input-group">
+                  <input type="number" class="input-group-field no-margin" placeholder="" min="0" step="1"
+                    (ngModel)="storageFacility.feedRates.transition.number" required>
+                  <span class="input-group-label"><small>cows</small></span>
+                </div>
+              </div>
+              <div class="cell small-5 feed-rate-row">
+                <label>CONSUMED ({{ task.feedRateQuantifiedAs.label }})</label>
+                <div class="input-group">
+                  <input type="number" class="input-group-field no-margin" placeholder="" min="0" step="0.1"
+                    (ngModel)="storageFacility.feedRates.transition.consumed" required>
+                  <span class="input-group-label"><small>kg/head</small></span>
+                </div>
+              </div>
+              <div class="cell small-3 feed-rate-row">
+                <label>WASTAGE</label>
+                <div class="input-group">
+                  <input type="number" class="input-group-field no-margin" placeholder="" min="0" max="100" step="0.1"
+                    (ngModel)="storageFacility.feedRates.transition.wastage" required>
+                  <span class="input-group-label"><small>%</small></span>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="small-7 cell" *ngIf="task.step === 'setDelivery'">
+          <form name="setDeliveryForm">
+            <label for="storage-size-bales">PRODUCT NAME
+              <input type="text" class="no-margin radius" (ngModel)="storageFacility.lastDelivery.productName" required>
+            </label>
+            <p><small>The name of the product being delivered.</small></p>
+            <div *ngIf="storageFacility.storageType.storageShape === 'bags'">
+              <label for="storage-size-bales">BAGS</label>
+              <div class="input-group">
+                <input type="number" class="input-group-field no-margin" placeholder="" min="1"
+                  (ngModel)="storageFacility.lastDelivery.quantity" required>
+                <span class="input-group-label"><small>bags</small></span>
+              </div>
+              <label for="storage-size-bales">BAG WEIGHT</label>
+              <div class="input-group">
+                <input type="number" class="input-group-field no-margin" placeholder="" min="1"
+                  (ngModel)="storageFacility.lastDelivery.unitWeight" required>
+                <span class="input-group-label"><small>kg/bag</small></span>
+              </div>
+            </div>
+            <div *ngIf="storageFacility.storageType.storageShape === 'bales'">
+              <label for="storage-size-bales">BALES</label>
+              <div class="input-group">
+                <input type="number" class="input-group-field no-margin" placeholder="" min="1"
+                  (ngModel)="storageFacility.lastDelivery.quantity" required>
+                <span class="input-group-label"><small>bales</small></span>
+              </div>
+              <br>
+              <label for="storage-size-bales">BALE WEIGHT</label>
+              <div class="input-group">
+                <input type="number" class="input-group-field no-margin" placeholder="" min="1"
+                  (ngModel)="storageFacility.lastDelivery.unitWeight" required>
+                <span class="input-group-label"><small>kg/bale</small></span>
+              </div>
+            </div>
+            <div
+              *ngIf="storageFacility.storageType.storageShape !== 'bags' && storageFacility.storageType.storageShape !== 'bales'">
+              <label for="storage-size-bales">WEIGHT</label>
+              <div class="input-group">
+                <input type="number" class="input-group-field no-margin" placeholder="" min="1"
+                  (ngModel)="storageFacility.lastDelivery.quantity" required>
+                <span class="input-group-label"><small>tonnes</small></span>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="small-5 cell">
+          <label>STORAGE FACILITY</label>
+          <div class="storage-image">
+            <span class="not-selected" *ngIf="!task.storageTypeId">No storage type selected</span>
+            <!-- <img *ngIf="task.storageTypeId !== null" [src]="{{ task.storageImage }}" > -->
+            <div class="row">
+              <div class="cell small-12">
+                <strong>{{ storageFacility.name }}</strong>
+              </div>
+            </div>
+            <!-- <div class="grid-x metric" *ngIf="task.step === 'setCapacity' || task.step === 'setFeedType' || task.step === 'setLevel' || task.step === 'setFeedRate'">
+                    <div class="cell small-5">
+                      <label>Capacity</label>
+                    </div>
+                    <div class="cell small-7">
+                      {{ storageFacility.metrics.capacity | number: 0 }} {{ storageFacility.storageType.capacityUnitType }}
+                    </div>
+                  </div> -->
+
+            <div class="grid-x metric"
+              *ngIf="task.step === 'setFeedType' || task.step === 'setLevel' || task.step === 'setFeedRate'">
+              <div class="cell small-5">
+                <label>Stored feed</label>
+              </div>
+              <div class="cell small-7">
+                {{ storageFacility.lastStocktake.feed.name }}
+              </div>
+            </div>
+            <div class="grid-x metric" *ngIf="task.step === 'setLevel' || task.step === 'setFeedRate'">
+              <div class="cell small-5">
+                <label>Feed on hand</label>
+              </div>
+              <div class="cell small-7">
+                {{ storageFacility.metrics.lastStocktakeWeightDm | number: 1 }} tonnes DM<br>
+                {{ storageFacility.metrics.lastStocktakeWeightAsFed | number: 1 }} tonnes as fed<br>
+                ({{ storageFacility.metrics.lastStocktakeFeedLevelPercentage | number: 0 }}% of capacity)
+              </div>
+            </div>
+            <div class="grid-x metric" *ngIf="task.step === 'setFeedRate'">
+              <div class="cell small-5">
+                <label>Feed usage</label>
+              </div>
+              <div class="cell small-7">
+                <span *ngIf="storageFacility.metrics.dailyTotalUsageRate > 0">
+                  {{ storageFacility.metrics.dailyTotalUsageRate | number: 1 }} tonnes/day<br>
+                </span>
+                <span *ngIf="storageFacility.metrics.dailyTotalUsageRate == 0">
+                  Feed not in use
+                </span>
+              </div>
+            </div>
+            <div class="grid-x metric"
+              *ngIf="task.step === 'setFeedRate' && storageFacility.metrics.dailyTotalUsageRate > 0">
+              <div class="cell small-5">
+                <label>Runs Out</label>
+              </div>
+              <div class="cell small-7">
+                <div class="fa fa-exclamation" *ngIf="storageFacility.metrics.runoutWarning"></div>
+                <div class="fa fa-check" *ngIf="!storageFacility.metrics.runoutWarning"></div>
+
+                {{ storageFacility.metrics.runoutDaysDescription }}
+                ({{ storageFacility.metrics.runoutDate | date:'d MMM yyyy' }})
+                <strong *ngIf="storageFacility.metrics.runoutWarning"><br>Replenish as soon as possible</strong>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <hr class="primary bottom">
+  <div class="cell small-12 modal-footer medium-margin-top-1">
+    <button class="button radius medium-margin-right-1" (click)="goBack()" *ngIf="!isFirstStep()">
+      <i class="fa fa-chevron-left"></i>
+      BACK</button>
+    <button class="button radius medium-margin-right-1" (click)="close()">CANCEL</button>
+    <button class="button success radius float-right" (click)="goToNextStep()" *ngIf="!isLastStep()"
+      [ngClass]="{ 'hollow': !isStepValid() }" [disabled]="!isStepValid()">
+      NEXT
+      <i class="fa fa-chevron-right"></i>
+    </button>
+    <button class="button success radius float-right" (click)="save()" *ngIf="isLastStep()"
+      [ngClass]="{ 'hollow': !isStepValid() }" [disabled]="!isStepValid()">
+      SAVE
+    </button>
+  </div>
+</div>
+
+<ng-template #discrepancyInfo>
+  <div class="stocktake-discrepancy"
+    ng-if="vm.task.name !== 'setup' && vm.storageFacility.lastStocktake.unitWeight > 0">
+    <div class="fa fa-exclamation" ng-show="vm.storageFacility.metrics.hasStocktakeDiscrepancy"></div>
+    <div class="fa fa-check" ng-show="!vm.storageFacility.metrics.hasStocktakeDiscrepancy"></div>
+    <p>
+      <span ng-if="vm.storageFacility.metrics.hasStocktakeDiscrepancy">
+        Actual feed usage if off track. There is a discrepency of more than 10% between
+        the current feed on hand and the projected feed on hand. Investigate possible causes.
+        <!-- <br>
+              The projected feed on hand before this stocktake was:<br>
+            {{ vm.storageFacility.metrics.feedLevelDiscrepancyAsFed | number: 1 }} tonnes as fed
+            of {{ vm.storageFacility.metrics.feedLevelDiscrepancyAsFed | number: 1 }} tonnes as
+            fed (which is more than 10%). -->
+      </span>
+      <span ng-if="!vm.storageFacility.metrics.hasStocktakeDiscrepancy">Actual feed usage is on track.</span>
+      <a href="#" ng-click="vm.helpFeedDiscrepancy()" tabindex="-1" class="more-info-button button info tiny radius"
+        tooltip="Press to learn more about possible reasons for off track feed usage"
+        tooltip-append-to-body="true">LEARN MORE</a>
+    </p>
+  </div>
+</ng-template>
+<ng-template #feedpicker>
+  <div class="row collapse feed-picker">
+    <div class="small-5 columns">
+      <ul>
+        <li ng-repeat="category in vm.feedCategories">
+          <a class="feed-category" href="#" ng-class="{ 'selected': vm.task.feedCategory === category }"
+            ng-click="vm.feedCategorySelected(category)">
+            {{ category }}
+          </a>
+        </li>
+      </ul>
+    </div>
+    <div class="small-7 columns">
+      <ul>
+        <li ng-repeat="feed in vm.feeds" ng-show="feed.category === vm.task.feedCategory">
+          <a href="#" ng-if="vm.task.name !== 'delivery'" ng-click="vm.feedTypeSelected(feed)"
+            ng-class="{ 'selected': vm.storageFacility.lastStocktake.feed.id === feed.id }">{{ feed.name }}</a>
+
+          <a href="#" ng-if="vm.task.name === 'delivery'" ng-click="vm.feedTypeSelected(feed)"
+            ng-class="{ 'selected': vm.storageFacility.lastDelivery.feed.id === feed.id }">{{ feed.name }}</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #helpWetDensity>
+  <app-help-wet-density></app-help-wet-density>
+</ng-template>
+<ng-template #helpCapacity>
+<app-help-capacity></app-help-capacity>
+</ng-template>

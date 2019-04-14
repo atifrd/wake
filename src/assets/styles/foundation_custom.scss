@@ -1,0 +1,30 @@
+.top-bar {
+    a { color: $topbar-link-color; }
+    h1 {font-size: 1.3rem;font-weight: 500;}
+    @include breakpoint(small){        
+        padding: 0.7rem calc(#{$container-padding-small} / 2);    
+    }
+    @include breakpoint(medium){        
+        padding: 0.7rem calc(#{$container-padding-medium} / 2);    
+    }
+    @include breakpoint(large){        
+        padding: 0.7rem calc(#{$container-padding-large} / 2);    
+    }
+}
+
+.feed-plan-setup-content-row hr.bottom {
+    @include breakpoint(small){        
+        margin: auto calc(-1 * calc(#{$container-padding-small} / 2)) !important;    
+    }
+    @include breakpoint(medium){        
+        margin: auto calc(-1 * calc(#{$container-padding-medium} / 2)) !important;    
+    }
+    @include breakpoint(large){        
+        margin: auto calc(-1 * calc(#{$container-padding-large} / 2)) !important;    
+    }
+}
+
+
+
+
+

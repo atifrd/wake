@@ -1,0 +1,75 @@
+#storage-details {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-flex: 1;
+    -webkit-flex-grow: 1;
+    -ms-flex-positive: 1;
+    flex-grow: 1;
+    width: 100%;
+    position: relative;
+    min-height: 1px;
+    flex-direction: column;
+    margin: 2rem 0;
+  
+    > .grid-x {
+      padding: 0 1rem;
+    }
+  
+    .button, button {
+      width: 100%;
+      &.more-info-button {
+        padding: 0.15rem 0.65rem;
+        margin: 0;
+        line-height: 1rem;
+        display: inline-block;
+        clear: both;
+        width: auto;
+      }
+    }
+  
+    .fa {
+      background: #ffa200;
+      color: #fff;
+      text-align: center;
+      width: 2rem;
+      height: 2rem;
+      line-height: 2rem;
+      display: inline-block;
+      font-size: 1.25rem;
+      border-radius: 3px;
+      float: left;
+      &.fa-check {
+        background: #3fce00;
+      }
+    }
+    .inventory-steps {
+      margin-bottom: 1rem;
+      small, p {
+        margin: 0;
+      }
+      &.with-status {
+        small, p {
+          margin-left: 2.75rem;
+        }
+      }
+    }
+    h2 {
+      margin-bottom: 1rem;
+    }
+    .storage-image {
+      display: inline-block;
+      width: auto;
+      max-height: 300px;
+    }
+  }
+  .list-item {
+    border-bottom: 1px solid silver;
+    margin-bottom: 1rem;
+    &:last-child {
+      border: none;
+      margin-bottom: 0;
+    }
+  }
+  

@@ -1,0 +1,20 @@
+<div class="row collapse feed-picker">
+    <div class="small-5 columns">
+        <ul>
+        <li ng-repeat="category in vm.feedCategories">
+            <a class="feed-category" href="#" ng-class="{ 'selected': vm.task.feedCategory === category }" ng-click="vm.feedCategorySelected(category)">
+            {{ category }}
+            </a>
+        </li>
+        </ul>
+    </div>
+    <div class="small-7 columns">
+        <ul>
+        <li ng-repeat="feed in vm.feeds" ng-show="feed.category === vm.task.feedCategory">
+            <a href="#" ng-if="vm.task.name !== 'delivery'" ng-click="vm.feedTypeSelected(feed)" ng-class="{ 'selected': vm.storageFacility.lastStocktake.feed.id === feed.id }">{{ feed.name }}</a>
+
+            <a href="#" ng-if="vm.task.name === 'delivery'" ng-click="vm.feedTypeSelected(feed)" ng-class="{ 'selected': vm.storageFacility.lastDelivery.feed.id === feed.id }">{{ feed.name }}</a>
+        </li>
+        </ul>
+    </div>
+</div>

@@ -1,0 +1,241 @@
+{
+    "Id": "ecffd27e-b5a3-4708-82e5-e3eadc48e38a",
+    "CreatedBy": {
+      "DocumentId": "users/03315aac-a691-4f88-b1f8-06a88bd4d297",
+      "Id": "03315aac-a691-4f88-b1f8-06a88bd4d297"
+    },
+    "Farm": {
+      "DocumentId": "farms/1e37a3f2-540b-429a-a08f-8bca3945d0e1",
+      "Id": "1e37a3f2-540b-429a-a08f-8bca3945d0e1"
+    },
+    "Scenario": {
+      "Name": "Feed plan for October 2018",
+      "Valid": [
+        true,
+        true,
+        true
+      ],
+      "Cows": {
+        "Milkers": true,
+        "Dry": false,
+        "Transition": false
+      },
+      "Date": {
+        "Month": 9,
+        "Year": 2018
+      },
+      "FeedTypes": [
+        {
+          "Id": "71849e32-7c7c-41e1-a9f4-d1e82d4e58ea",
+          "Name": "Ryegrass - Dryland - Perennial",
+          "Category": "Pastures",
+          "Type": "Forage",
+          "FeedCode": "other forage",
+          "WetDensity": null,
+          "MaxFeedingRate": null,
+          "Comment": "",
+          "DM": 181.0,
+          "ME": 11.3,
+          "CP": 187.0,
+          "NDF": 521.0,
+          "Starch": 24.0,
+          "An": 0.3,
+          "Bn": 0.62,
+          "Cn": 0.09,
+          "Ee": 30.0,
+          "Adin": 1.3,
+          "Active": false,
+          "FeedingArea": "Milking area",
+          "FeedDescription": "Pasture",
+          "MarketPrice": 12.0,
+          "AsFedOrDM": "dm",
+          "Cows": {
+            "Milkers": true,
+            "Dry": false,
+            "Transition": false
+          }
+        },
+        {
+          "Id": "38501c27-90fd-43f9-a7cb-42134f767f93",
+          "Name": "Grain Mix",
+          "Category": "Grains and concentrates",
+          "Type": "Concentrate",
+          "FeedCode": "other non forage",
+          "WetDensity": 650.0,
+          "MaxFeedingRate": 40.0,
+          "Comment": "Ruminal acidosis risk (risk level depends on many herd | feed and feeding management factors)",
+          "DM": 890.0,
+          "ME": 12.5,
+          "CP": 160.0,
+          "NDF": 200.0,
+          "Starch": 406.0,
+          "An": 0.37,
+          "Bn": 0.55,
+          "Cn": 0.2,
+          "Ee": 38.0,
+          "Adin": 0.7,
+          "Active": true,
+          "FeedingArea": "Purchased",
+          "FeedDescription": "RSF Grain",
+          "MarketPrice": 442.0,
+          "AsFedOrDM": "asFed",
+          "Cows": {
+            "Milkers": true,
+            "Dry": false,
+            "Transition": false
+          }
+        }
+      ],
+      "StockDetails": [
+        {
+          "Month": "October 2018",
+          "MilkPrice": true,
+          "NumberOfAnimals": {
+            "Milkers": 410.0,
+            "Dry": 0.0,
+            "Transition": 0.0
+          },
+          "AverageLiveWeight": {
+            "Milkers": 500.0,
+            "Dry": 0.0,
+            "Transition": 0.0
+          },
+          "AverageDaysInMilk": 100,
+          "AverageDaysPregnant": 20,
+          "AverageMilkYield": 26.0,
+          "MilkFat": 4.8,
+          "MilkProtein": 3.6,
+          "LiveweightChange": {
+            "Milkers": 0.5,
+            "Dry": 0.0,
+            "Transition": 0.0
+          },
+          "CentsLitre": 48,
+          "MilkProteinPrice": 0.0,
+          "MilkFatPrice": 0.0,
+          "AverageDistanceWalkedPerDay": {
+            "Milkers": 3.0,
+            "Dry": 0.0,
+            "Transition": 0.0
+          },
+          "Terrain": {
+            "Milkers": 0.0,
+            "Dry": 0.0,
+            "Transition": 0.0
+          },
+          "Diet": [
+            {
+              "GrazableForage": {
+                "GrowthRate": 60.0,
+                "Hectare": 220.0,
+                "Utilisation": 70.0,
+                "Available": 9240.0,
+                "CustomRate": false
+              },
+              "Milkers": {
+                "Consumed": 15.0,
+                "Wastage": 0.0,
+                "Comment": null,
+                "Calc": {
+                  "Dm": 15.0,
+                  "Me": 169.5,
+                  "Cp": 2805.0,
+                  "Ndf": 7815.0,
+                  "Starch": 360.0,
+                  "Cost": 0.18
+                }
+              },
+              "Dry": {
+                "Consumed": 0.0,
+                "Wastage": 0.0,
+                "Comment": null,
+                "Calc": {
+                  "Dm": 0.0,
+                  "Me": 0.0,
+                  "Cp": 0.0,
+                  "Ndf": 0.0,
+                  "Starch": 0.0,
+                  "Cost": 0.0
+                }
+              },
+              "Transition": {
+                "Consumed": 0.0,
+                "Wastage": 0.0,
+                "Comment": null,
+                "Calc": {
+                  "Dm": 0.0,
+                  "Me": 0.0,
+                  "Cp": 0.0,
+                  "Ndf": 0.0,
+                  "Starch": 0.0,
+                  "Cost": 0.0
+                }
+              }
+            },
+            {
+              "GrazableForage": {
+                "GrowthRate": 0.0,
+                "Hectare": 0.0,
+                "Utilisation": 0.0,
+                "Available": 0.0,
+                "CustomRate": false
+              },
+              "Milkers": {
+                "Consumed": 6.0,
+                "Wastage": 0.0,
+                "Comment": null,
+                "Calc": {
+                  "Dm": 5.34,
+                  "Me": 75.0,
+                  "Cp": 854.4,
+                  "Ndf": 1068.0,
+                  "Starch": 2168.04,
+                  "Cost": 2.652
+                }
+              },
+              "Dry": {
+                "Consumed": 0.0,
+                "Wastage": 0.0,
+                "Comment": null,
+                "Calc": {
+                  "Dm": 0.0,
+                  "Me": 0.0,
+                  "Cp": 0.0,
+                  "Ndf": 0.0,
+                  "Starch": 0.0,
+                  "Cost": 0.0
+                }
+              },
+              "Transition": {
+                "Consumed": 0.0,
+                "Wastage": 0.0,
+                "Comment": null,
+                "Calc": {
+                  "Dm": 0.0,
+                  "Me": 0.0,
+                  "Cp": 0.0,
+                  "Ndf": 0.0,
+                  "Starch": 0.0,
+                  "Cost": 0.0
+                }
+              }
+            }
+          ],
+          "DietValidation": {
+            "Milkers": true,
+            "Dry": true,
+            "Transition": true
+          },
+          "ActiveDiet": true,
+          "ActiveStockDetails": true,
+          "FeedInstructionNames": {
+            "Milkers": "",
+            "Dry": "",
+            "Transition": ""
+          }
+        }
+      ]
+    },
+    "Created": "2018-10-08T21:45:21.7412611Z",
+    "Updated": "2018-10-08T23:28:28.9885524Z"
+  }

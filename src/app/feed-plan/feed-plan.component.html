@@ -1,0 +1,248 @@
+<div class="grid-container">
+  <section class="feed-plan-home medium-margin-top-2" *ngIf="!loadingFeedplan">
+    <div class="grid-x grid-margin-x">
+      <div class="cell small-12">
+        <h1>Feed Plan</h1>
+        <p>A dairy feed plan will help you to manage your feed requirements.</p>
+      </div>
+      <div class="cell medium-7">
+        <div class="callout secondary radius bordered">
+          <div class="grid-x">
+            <div class="cell small-12 feed-plan-name" *ngIf="hasFeedplan && feedplan.feedplanValue.scenario">
+              <h2 *ngIf="!editName">{{feedplan.feedplanValue.scenario.name}} <i (click)="editName = true" class="fa fa-pencil"></i>
+              </h2>
+              <div class="grid-x collapse" *ngIf="editName">
+                <div class="cell small-10">
+                  <input class="edit-feed-plan-name medium-padding-right-3 medium-padding-left-3" [(ngModel)]="feedplan.feedplanValue.scenario.name">
+                </div>
+                <div class="cell small-2">
+                  <button (click)="renameFeedPlan()" class="button postfix success">SAVE</button>
+                </div>
+              </div>
+            </div>
+            <div class="cell small-12 feed-plan-name" *ngIf="hasFeedplan != true">
+              <h2>Your Feed Plan</h2>
+            </div>
+            <div class="cell small-12 feed-plan-status" *ngIf="hasFeedplan == false">
+              <p>In order to create a feed plan, you will need some detailed information about your farm, stock and
+                available feed.</p>
+              <p>There is no need to have all this information on hand right now. You can save your progress and return
+                here as you gather the required information.</p>
+              <p>Press <em>start new feed plan</em> to get started now.</p>
+            </div>
+            <div class="cell small-12 feed-plan-status"
+              *ngIf="hasFeedplan && (!feedplan.feedplanValue.scenario.valid[0] || !feedplan.feedplanValue.scenario.valid[1] || !feedplan.feedplanValue.scenario.valid[2])">
+              <div class="grid-x">
+                <div class="cell small-12 feed-plan-steps">
+                  <div class="fa fa-check" *ngIf="feedplan.feedplanValue.scenario.valid[0]"></div>
+                  <div class="fa fa-exclamation" *ngIf="!feedplan.feedplanValue.scenario.valid[0]"></div>
+                  Stock details
+                </div>
+                <div class="cell small-12 feed-plan-steps">
+                  <div class="fa fa-check" *ngIf="feedplan.feedplanValue.scenario.valid[1]"></div>
+                  <div class="fa fa-exclamation" *ngIf="!feedplan.feedplanValue.scenario.valid[1]"></div>
+                  Feed details
+                </div>
+                <div class="cell small-12 feed-plan-steps">
+                  <div class="fa fa-check" *ngIf="feedplan.feedplanValue.scenario.valid[2]"></div>
+                  <div class="fa fa-exclamation" *ngIf="!feedplan.feedplanValue.scenario.valid[2]"></div>
+                  Diet details
+                </div>
+              </div>
+              <p style="margin: 1rem 0 0 0;">
+                Your feed plan requires some more information before it is ready to be implemented. Press
+                <em>continue</em> to start from where you left off last.
+                Alternatively, <em>start a new feed plan</em>.
+              </p>
+            </div>
+            <div class="cell small-12 feed-plan-status"
+              *ngIf="hasFeedplan && feedplan.feedplanValue.scenario.valid[0] == true && feedplan.feedplanValue.scenario.valid[1] == true && feedplan.feedplanValue.scenario.valid[2] == true">
+              <div class="grid-x">
+                <div class="cell small-12 feed-plan-steps">
+                  <div class="fa fa-check left" *ngIf="!feedplan.feedplanValue.scenarioNeedsReview"></div>
+                  <div class="fa fa-exclamation left" *ngIf="feedplan.feedplanValue.scenarioNeedsReview"></div>
+                  <p>Your feed plan is complete. You can view the budget report and use the stock feeding instructions
+                    to implement your feed plan.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="grid-x feed-plan-actions grid-margin-x">
+            <div class="cell small-12 medium-6">
+              <button (click)="openModal(startAgain)" class="button radius">
+                START NEW FEED PLAN
+              </button>
+            </div>
+            <div class="cell small-12 medium-6">
+              <button *ngIf="hasFeedplan && !feedplan.feedplanValue.scenario.valid[0]" 
+                (click)="editFeedplan('stock')"
+                class="button  warning radius">CONTINUE 
+                <i class="fa fa-chevron-right"></i>
+              </button>
+              <button *ngIf="hasFeedplan && feedplan.feedplanValue.scenario.valid[0] && !feedplan.feedplanValue.scenario.valid[1]"
+                (click)="editFeedplan('feed')" 
+                class="button small warning radius">CONTINUE
+                <i class="fa fa-chevron-right"></i>
+              </button>
+              <button
+                *ngIf="hasFeedplan && feedplan.feedplanValue.scenario.valid[0] && feedplan.feedplanValue.scenario.valid[1] && !feedplan.feedplanValue.scenario.valid[2]"
+                (click)="editFeedplan('diet')" 
+                class="button small warning radius">CONTINUE
+                <i class="fa fa-chevron-right"></i></button>
+              <button
+                *ngIf="hasFeedplan && feedplan.feedplanValue.scenario.valid[0] && feedplan.feedplanValue.scenario.valid[1] && feedplan.feedplanValue.scenario.valid[2]"
+                (click)="editFeedplan('stock')" 
+                class="button small radius">EDIT</button>
+            </div>
+            <div class="cell">
+              <small
+                *ngIf="hasFeedplan && feedplan.feedplanValue.scenario.valid[0] == true && feedplan.feedplanValue.scenario.valid[1] == true && feedplan.feedplanValue.scenario.valid[2] == true">Note
+                &mdash; Be sure to view and print reports before starting a new feed plan.</small>
+            </div>
+            <!-- <div class="cell">
+              <p><br>
+                <small>
+                  <span>
+                    The following farm feed plan settings are configured:<br>
+                    <span ng-repeat="item in vm.notificationsMessageTypes">- {{ item }}<br></span>
+                  </span>
+                  <a routerLink="/farms/{{currentUser.farm.id}}/settings">Manage feed plan settings</a>
+                </small>
+              </p>
+            </div> -->
+          </div>
+        </div>
+      </div>
+      <div class="cell medium-5">
+        <h2>Implement Your Feed Plan</h2>
+        <ul class="feed-plan-list"
+          [ngClass]="{ 'not-active': hasFeedplan == false || feedplan.feedplanValue.scenario.valid[0] != true || feedplan.feedplanValue.scenario.valid[1] != true || feedplan.feedplanValue.scenario.valid[2] != true }">
+          <li>
+            <span>
+              <b>Budget Report</b>
+              <br>
+              <button (click)="showFeedPlanBudgetReport()" class="button primary radius float-right"
+                [ngClass]="{ 'hollow': hasFeedplan == false || feedplan.feedplanValue.scenario.valid[0] != true || feedplan.feedplanValue.scenario.valid[1] != true || feedplan.feedplanValue.scenario.valid[2] != true }">
+                VIEW
+              </button>
+              <p>Use this report to budget for expected feed costs and quantities.</p>
+            </span>
+
+          </li>
+          <li>
+            <span>
+              <b>Stock Feeding Instructions</b>
+              <br>
+              <button (click)="openModal(selectStockFeedingInstructions)" class="button primary radius float-right"
+                [ngClass]="{ 'hollow': hasFeedplan == false || feedplan.feedplanValue.scenario.valid[0] != true || feedplan.feedplanValue.scenario.valid[1] != true || feedplan.feedplanValue.scenario.valid[2] != true }">
+                VIEW
+              </button>
+              <p>This report is for use by the farm/herd manager and staff responsible for implementing the feeding
+                plan.</p>
+            </span>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </section>
+</div>
+<!-- <ng-template #startAgain>
+  <div class="modal-header">
+    <ul class="breadcrumbs">
+      <li>Start New Feed Plan</li>
+    </ul>
+  </div>
+  <div class="row collapse feed-plan-setup-modal-content-row start-feed-plan">
+    <p>Fill in the following details to start your feed plan.</p>
+    <div class="medium-12 columns fields">
+      <div class="panel">
+        <label>
+          START DATE OF YOUR FEED PLAN
+          <select [(ngModel)]="startMonth">
+            <option *ngFor="let month of months" [ngValue]="month"
+              [attr.selected]="month.text==startMonth.Text ? true : null">
+              {{month.text}}
+            </option>
+          </select>
+        </label>
+        <br />
+        <label>CLASSES OF STOCK TO PLAN FOR</label>
+        <div>
+          <input id="milkers" class="checkbox-custom" name="milkers" type="checkbox" [(ngModel)]="cows.milkers">
+          <label for="milkers" class="checkbox-custom-label">Milkers</label>
+        </div>
+        <div>
+          <input id="dry" class="checkbox-custom" name="dry" type="checkbox" [(ngModel)]="cows.dry">
+          <label for="dry" class="checkbox-custom-label">Early Dry Cows</label>
+        </div>
+        <div>
+          <input id="transition" class="checkbox-custom" name="transition" type="checkbox"
+            [(ngModel)]="cows.transition">
+          <label for="transition" class="checkbox-custom-label">Transition Cows</label>
+        </div>
+      </div>
+    </div>
+    <hr class="primary bottom">
+    <div class="medium-12 columns modal-footer">
+      <button class="button small radius" (click)="close()">CANCEL</button>
+
+      <button (click)="goToStockDetails()" class="button success small radius float-right"
+        ng-disabled="!cows.milkers && !cows.dry && !cows.transition"
+        [ngClass]="{ 'hollow': !cows.milkers && !cows.dry && !cows.transition }">
+        NEXT <i class="fa fa-chevron-right"></i>
+      </button>
+    </div>
+  </div>
+</ng-template> -->
+<ng-template #startAgain>
+    <div class="modal-header">
+      <ul class="breadcrumbs">
+        <li>Start New Feed Plan</li>
+      </ul>
+    </div>
+    <div class="grid-x collapse feed-plan-setup-modal-content-row start-feed-plan">
+      <div class="medium-12 cell">
+        <p>Fill in the following details to start your feed plan.</p>
+      </div>
+      <div class="medium-12 cell fields">
+        <div class="callout secondary radius bordered margin-0">
+          <label>
+            START DATE OF YOUR FEED PLAN
+            <select [(ngModel)]="startMonth">
+              <option *ngFor="let month of months" [ngValue]="month"
+                [attr.selected]="month.text==startMonth.Text ? true : null">
+                {{month.text}}
+              </option>
+            </select>
+          </label>
+          <br />
+          <label>CLASSES OF STOCK TO PLAN FOR</label>
+          <div>
+            <input id="milkers" class="checkbox-custom" name="milkers" type="checkbox" [(ngModel)]="cows.milkers">
+            <label for="milkers" class="checkbox-custom-label">Milkers</label>
+          </div>
+          <div>
+            <input id="dry" class="checkbox-custom" name="dry" type="checkbox" [(ngModel)]="cows.dry">
+            <label for="dry" class="checkbox-custom-label">Early Dry Cows</label>
+          </div>
+          <div>
+            <input id="transition" class="checkbox-custom" name="transition" type="checkbox"
+              [(ngModel)]="cows.transition">
+            <label for="transition" class="checkbox-custom-label">Transition Cows</label>
+          </div>
+        </div>
+      </div>
+      <!-- <hr class="primary bottom"> -->
+      <div class="medium-12 cell modal-footer">
+        <button class="button radius" (click)="close()">CANCEL</button>
+        <button (click)="goToStockDetails()" class="button success radius float-right"
+          ng-disabled="!cows.milkers && !cows.dry && !cows.transition"
+          [ngClass]="{ 'hollow': !cows.milkers && !cows.dry && !cows.transition }">
+          NEXT <i class="fa fa-chevron-right"></i>
+        </button>
+      </div>
+    </div>
+  </ng-template>
+  <ng-template #selectStockFeedingInstructions>
+    <app-stock-feeding-instructions-select></app-stock-feeding-instructions-select>
+  </ng-template>

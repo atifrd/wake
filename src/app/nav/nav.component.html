@@ -1,0 +1,41 @@
+<div data-sticky-container data-sticky-on="small">
+  <div class="title-bar" data-responsive-toggle="main-menu-top-bar" data-hide-for="medium">
+    <button class="menu-icon" type="button" data-toggle="main-menu-top-bar"></button>
+    <div class="title-bar-title">Menu</div>
+  </div>
+  <div class="top-bar" id="main-menu-top-bar" data-sticky data-options="marginTop:0;" style="width:100%">
+    <div class="top-bar-left">
+      <ul class="menu">
+        <li>
+          <h1><a routerLink="home">{{title}}</a></h1>
+        </li>
+      </ul>
+    </div>
+    <div class="top-bar-right">
+      <ul class="menu">
+        <li *ngIf="isAuthenticated">
+          <a routerLink="home" class="farm-name">{{account.sessionValue.farm.farmName}}</a>
+        </li>
+        <li *ngIf="isAuthenticated && isAuthorisedForRole('feed-planning')">
+          <a routerLink="/farms/{{account.sessionValue.farm.id}}/feed-plan">Feed Plan</a>
+        </li>
+        <li *ngIf="isAuthenticated && isAuthorisedForRole('feed-supply')">
+          <a routerLink="/farms/{{account.sessionValue.farm.id}}/inventory">Inventory</a>
+        </li>
+        <li *ngIf="isAuthenticated && isAuthorisedForRole('administrator')">
+          <a routerLink="/farms/{{account.sessionValue.farm.id}}/details">Farm</a>
+        </li>
+        <li *ngIf="isAuthenticated">
+          <a routerLink="account/details">Account</a>
+        </li>
+        <li *ngIf="!isAuthenticated">
+          <a routerLink="register">Create Account</a>
+        </li>
+        <li *ngIf="!isAuthenticated">
+          <a routerLink="signin">Sign In</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+<app-alert></app-alert>

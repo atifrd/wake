@@ -1,0 +1,192 @@
+<div class="modal-header">
+  <ul class="breadcrumbs">
+    <li>Feed Usage</li>
+  </ul>
+</div>
+<div class="grid-x collapse feed-plan-setup-modal-content-row start-feed-plan" id="inventory-wizard" *ngIf="inventory.storageFacilityValue">
+  <form name="editFeedUsage">
+    <p>Edit your animal's feed rates to reflect feed usage.</p>
+    <div class="callout secondary radius">
+      <div class="grid-x">
+        <div class="cell small-12 medium-10 large-8">
+          <div class="grid-x collapse">
+            <div class="cell small-5 end">
+              <label for="storage-type">CONSUMED QUANTITY
+                <select class="radius no-margin" id="feed-quantified-as"
+                  [(ngModel)]="inventory.storageFacilityValue.feedRates.quantifiedAs"
+                  (change)="feedTypesQuantifiedAsSelected()" 
+                  autofocus 
+                  name="quantifiedAs"
+                  required>
+                  <option *ngFor="let item of feedTypesQuantifiedValues" value={{item.value}}>
+                    {{item.label}}
+                  </option>
+                </select>
+              </label>
+              <p><small>Select how consumed amount is measured</small></p>
+            </div>
+          </div>
+          <div class="grid-x collapse">
+            <div class="cell small-12">
+              <label>MILKERS</label>
+            </div>
+          </div>
+          <div class="grid-x collapse feed-rate-cow">
+            <div class="cell small-4 feed-rate-row">
+              <label>NUMBER</label>
+              <div class="input-group">
+                <input type="number" 
+                  class="input-group-field no-margin" 
+                  placeholder="" 
+                  min="0" 
+                  step="1"
+                  name="milkers-number"
+                  [(ngModel)]="inventory.storageFacilityValue.feedRates.milkers.number" required>
+                <span class="input-group-label"><small>cows</small></span>
+              </div>
+            </div>
+            <div class="columns small-5 feed-rate-row">
+              <label>CONSUMED ({{ feedRateQuantifiedAs.label }})</label>
+              <div class="input-group">
+                <input type="number" 
+                  class="input-group-field no-margin" 
+                  placeholder="" 
+                  min="0" 
+                  step="0.1"
+                  [(ngModel)]="inventory.storageFacilityValue.feedRates.milkers.consumed" 
+                  name="milkers-consumed"
+                  required>
+                <span class="input-group-label"><small>kg/head</small></span>
+              </div>
+            </div>
+            <div class="columns small-3 feed-rate-row">
+              <label>WASTAGE</label>
+              <div class="input-group">
+                <input type="number" 
+                  class="input-group-field no-margin" 
+                  placeholder=""
+                  name="milkers-wastage" 
+                  min="0" 
+                  max="100" 
+                  step="0.1"
+                  [(ngModel)]="inventory.storageFacilityValue.feedRates.milkers.wastage" 
+                  required>
+                <span class="input-group-label"><small>%</small></span>
+              </div>
+            </div>
+          </div>
+
+          <div class="grid-x collapse">
+            <div class="cell small-12">
+              <label>DRY COWS</label>
+            </div>
+          </div>
+          <div class="grid-x collapse feed-rate-cow">
+            <div class="cell small-4 feed-rate-row">
+              <label>NUMBER</label>
+              <div class="input-group">
+                <input type="number" 
+                  class="input-group-field no-margin" 
+                  placeholder="" 
+                  min="0" 
+                  step="1"
+                  name="dry-number"
+                  [(ngModel)]="inventory.storageFacilityValue.feedRates.dry.number" 
+                  required>
+                <span class="input-group-label"><small>cows</small></span>
+              </div>
+            </div>
+            <div class="cell small-5 feed-rate-row">
+              <label>CONSUMED ({{ feedRateQuantifiedAs.label }})</label>
+              <div class="input-group">
+                <input type="number" 
+                  class="input-group-field no-margin" 
+                  placeholder="" 
+                  min="0" 
+                  step="0.1"
+                  [(ngModel)]="inventory.storageFacilityValue.feedRates.dry.consumed" 
+                  name="dry-consumed"
+                  required>
+                <span class="input-group-label"><small>kg/head</small></span>
+              </div>
+            </div>
+            <div class="cell small-3 feed-rate-row">
+              <label>WASTAGE</label>
+              <div class="input-group">
+                <input type="number" 
+                  class="input-group-field no-margin" 
+                  placeholder="" 
+                  min="0" 
+                  max="100" 
+                  step="0.1"
+                  name="dry-wastage"
+                  [(ngModel)]="inventory.storageFacilityValue.feedRates.dry.wastage" 
+                  required>
+                <span class="input-group-label"><small>%</small></span>
+              </div>
+            </div>
+          </div>
+          <div class="grid-x collapse">
+            <div class="cell small-12">
+              <label>TRANSITION COWS</label>
+            </div>
+          </div>
+          <div class="grid-x collapse feed-rate-cow">
+            <div class="cell small-4 feed-rate-row">
+              <label>NUMBER</label>
+              <div class="input-group">
+                <input type="number" 
+                  class="input-group-field no-margin" 
+                  placeholder="" 
+                  min="0" 
+                  step="1"
+                  [(ngModel)]="inventory.storageFacilityValue.feedRates.transition.number" 
+                  name="transition-number"
+                  required>
+                <span class="input-group-label"><small>cows</small></span>
+              </div>
+            </div>
+            <div class="cell small-5 feed-rate-row">
+              <label>CONSUMED ({{ feedRateQuantifiedAs.label }})</label>
+              <div class="input-group">
+                <input type="number" 
+                  class="input-group-field no-margin" 
+                  placeholder="" 
+                  min="0" 
+                  step="0.1"
+                  [(ngModel)]="inventory.storageFacilityValue.feedRates.transition.consumed" 
+                  name="transition-consumed"
+                  required>
+                <span class="input-group-label"><small>kg/head</small></span>
+              </div>
+            </div>
+            <div class="cell small-3 feed-rate-row">
+              <label>WASTAGE</label>
+              <div class="input-group">
+                <input type="number" 
+                  class="input-group-field no-margin" 
+                  placeholder="" 
+                  min="0"
+                   max="100" 
+                   step="0.1"
+                  [(ngModel)]="inventory.storageFacilityValue.feedRates.transition.wastage" 
+                  name="transition-wastage"
+                  required>
+                <span class="input-group-label"><small>%</small></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+  <hr class="primary bottom">
+  <div class="medium-12 cell modal-footer medium-margin-top-1">      
+    <button class="button radius" (click)="cancel()">CANCEL</button>
+    <!-- <button (click)="save()" class="success small radius right" ng-disabled="!editFeedUsage.$valid">SAVE</button> -->
+    <button (click)="save()" class="button success radius float-right" [disabled]="!editFeedUsage.$valid"
+      [ngClass]="{ 'hollow': !editFeedUsage.$valid }">
+      SAVE
+    </button>
+  </div>
+</div>
